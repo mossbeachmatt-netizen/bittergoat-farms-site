@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #1c3550 0%, #2b516f 30%, #efe5d0 100%);
+}
+
+.bgf-header {
+  background: rgba(24, 57, 91, 0.9);
+  padding: 20px;
+  text-align: center;
+}
+
+.bgf-logo {
+  height: 100px;
+}
+
+.bgf-nav {
+  margin-top: 10px;
+}
+
+.bgf-nav a {
+  color: white;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+.bgf-section {
+  padding: 30px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.bgf-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.bgf-game-icon {
+  font-size: 40px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.btn {
+  background: #18395b;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #102a43;
+}
+
+.bgf-footer {
+  text-align: center;
+  padding: 20px;
+  background: #102a43;
+  color: white;
+}

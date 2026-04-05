@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cocaine Bear in Russia</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { overflow: hidden; background: #000; font-family: 'Georgia', serif; }
+  canvas { display: block; }
+
+  /* ── Intro video screen ── */
+  #intro-screen {
+    position: fixed; inset: 0; background: #000;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+  }
+  #intro-video {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    background: #000;
+  }
+
+  /* ── Start screen ── */
+  #start-screen {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, #1a0a00 0%, #000 100%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+    text-align: center;
+    gap: 28px;
+  }
+  #start-screen .welcome {
+    font-size: 1.1rem;
+    letter-spacing: 6px;
+    color: #c8a060;
+    text-transform: uppercase;
+  }
+  #start-screen h1 {
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    letter-spacing: 4px;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(255,120,0,0.7), 0 4px 12px rgba(0,0,0,0.9);
+    line-height: 1.15;
+  }
+  #start-screen h1 span {
+    color: #f5c842;
+    display: block;
+  }
+  #start-screen .subtitle {
+    font-size: 1rem;
+    color: #888;
+    letter-spacing: 3px;
+  }
+  #start-screen .press-key {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #fff;
+    letter-spacing: 4px;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.2; }
+  }
+  #start-screen .paw {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 0 16px rgba(255,100,0,0.6));
+  }
+
+  /* ── Game HUD — hidden until game starts ── */
+  #ui {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    text-align: center;
+    pointer-events: none;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    display: none;
+  }
+  #ui h1 { font-size: 1.8rem; letter-spacing: 3px; color: #f5c842; }
+  #ui p { font-size: 0.85rem; color: #ccc; margin-top: 4px; letter-spacing: 1px; }
+  #zone-indicator {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    pointer-events: none;
+    transition: opacity 0.5s;
+    display: none;
+  }
+  #speed-indicator {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #f5c842;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    pointer-events: none;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Intro video ── -->
+<div id="intro-screen">
+  <video id="intro-video" autoplay playsinline>
+    <source src="Cocaine_bear_slides__202603262236.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- ── Start screen ── -->
+<div id="start-screen">
+  <div class="paw">🐻</div>
+  <div class="welcome">Welcome to</div>
+  <h1>COCAINE BEAR<span>IN RUSSIA</span></h1>
+  <div class="subtitle">A bear. A town. No survivors.</div>
+  <div class="press-key">PRESS ANY KEY TO CONTINUE</div>
+</div>
+<div id="ui">
+  <h1>🐻 BEAR GAME</h1>
+  <p>WASD / Arrows · SHIFT run · SPACE/RMB swipe · E bite (hold to grab) · LMB drag camera · SCROLL zoom</p>
+</div>
+<div id="speed-indicator">WALKING</div>
+<div id="zone-indicator">🏙️ TOWN</div>
+<div id="swipe-flash" style="
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; opacity:0;
+  background: radial-gradient(ellipse at center, rgba(255,80,0,0.18) 0%, transparent 70%);
+  transition: opacity 0.08s;
+"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ─── SCENE SETUP ───────────────────────────────────────────────────────────
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x87ceeb, 40, 120);
+scene.background = new THREE.Color(0x87ceeb);
+
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 200);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+// ─── LIGHTS ────────────────────────────────────────────────────────────────
+const sun = new THREE.DirectionalLight(0xfff5e0, 1.2);
+sun.position.set(30, 60, 20);
+sun.castShadow = true;
+sun.shadow.mapSize.width = 2048;
+sun.shadow.mapSize.height = 2048;
+sun.shadow.camera.near = 1;
+sun.shadow.camera.far = 200;
+sun.shadow.camera.left = -80;
+sun.shadow.camera.right = 80;
+sun.shadow.camera.top = 80;
+sun.shadow.camera.bottom = -80;
+scene.add(sun);
+scene.add(new THREE.AmbientLight(0x88aacc, 0.6));
+
+// ─── COLLIDERS ─────────────────────────────────────────────────────────────
+// Each entry: { type:'box', x, z, hw, hd }  or  { type:'circle', x, z, r }
+const colliders = [];
+
+// ─── GROUND ────────────────────────────────────────────────────────────────
+// Town ground (grey)
+const townGeo = new THREE.PlaneGeometry(80, 80);
+const townMat = new THREE.MeshLambertMaterial({ color: 0x999988 });
+const townGround = new THREE.Mesh(townGeo, townMat);
+townGround.rotation.x = -Math.PI / 2;
+townGround.position.set(-20, 0, 0);
+townGround.receiveShadow = true;
+scene.add(townGround);
+
+// Forest ground (green)
+const forestGeo = new THREE.PlaneGeometry(80, 80);
+const forestMat = new THREE.MeshLambertMaterial({ color: 0x4a7c3f });
+const forestGround = new THREE.Mesh(forestGeo, forestMat);
+forestGround.rotation.x = -Math.PI / 2;
+forestGround.position.set(60, 0, 0);
+forestGround.receiveShadow = true;
+scene.add(forestGround);
+
+// Transition strip (dirt path)
+const pathGeo = new THREE.PlaneGeometry(8, 80);
+const pathMat = new THREE.MeshLambertMaterial({ color: 0xb8935a });
+const path = new THREE.Mesh(pathGeo, pathMat);
+path.rotation.x = -Math.PI / 2;
+path.position.set(20, 0.01, 0);
+path.receiveShadow = true;
+scene.add(path);
+
+// ─── ROAD (Town) ───────────────────────────────────────────────────────────
+function makeRoad(x, z, w, d) {
+  const g = new THREE.PlaneGeometry(w, d);
+  const m = new THREE.MeshLambertMaterial({ color: 0x555566 });
+  const mesh = new THREE.Mesh(g, m);
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.position.set(x, 0.02, z);
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+}
+makeRoad(-20, 0, 6, 70);   // main street
+makeRoad(-20, 0, 70, 6);   // cross street
+
+// ─── BUILDINGS (Town) ──────────────────────────────────────────────────────
+function makeBuilding(x, z, w, h, d, color) {
+  const group = new THREE.Group();
+
+  const bodyGeo = new THREE.BoxGeometry(w, h, d);
+  const bodyMat = new THREE.MeshLambertMaterial({ color });
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  body.position.y = h / 2;
+  body.castShadow = true;
+  body.receiveShadow = true;
+  group.add(body);
+
+  // Roof
+  const roofGeo = new THREE.BoxGeometry(w + 0.4, 0.4, d + 0.4);
+  const roofMat = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+  const roof = new THREE.Mesh(roofGeo, roofMat);
+  roof.position.y = h + 0.2;
+  roof.castShadow = true;
+  group.add(roof);
+
+  // Windows
+  const winMat = new THREE.MeshLambertMaterial({ color: 0xaaddff, emissive: 0x334455 });
+  for (let row = 0; row < Math.floor(h / 2.5); row++) {
+    for (let col = 0; col < Math.max(1, Math.floor(w / 2.5)); col++) {
+      const winGeo = new THREE.BoxGeometry(0.6, 0.7, 0.1);
+      const win = new THREE.Mesh(winGeo, winMat);
+      win.position.set(
+        -w / 2 + 1.2 + col * 2.2,
+        1.2 + row * 2.5,
+        d / 2 + 0.05
+      );
+      group.add(win);
+    }
+  }
+
+  group.position.set(x, 0, z);
+  scene.add(group);
+  // Register box collider (half-extents with small padding)
+  colliders.push({ type: 'box', x, z, hw: w / 2 + 0.3, hd: d / 2 + 0.3 });
+}
+
+makeBuilding(-38, -20, 8, 10, 7, 0xcc9966);
+makeBuilding(-28, -28, 6, 7, 6, 0x99aabb);
+makeBuilding(-38, 10, 10, 12, 8, 0xddbb99);
+makeBuilding(-10, -22, 5, 8, 5, 0xbb9988);
+makeBuilding(-48, -5, 7, 6, 6, 0xaabb99);
+makeBuilding(-30, 20, 8, 9, 7, 0xcc8877);
+makeBuilding(-12, 18, 6, 14, 6, 0xbbaa88);
+makeBuilding(-50, 20, 9, 7, 8, 0x99bbcc);
+
+// ─── HAMMER & SICKLE ROOFTOP LOGOS ────────────────────────────────────────
+const hammerImg = new Image();
+hammerImg.src = '1293577124.png';
+hammerImg.onload = () => {
+  const hammerTex = new THREE.Texture(hammerImg);
+  hammerTex.needsUpdate = true;
+  // Transparent background — use the red logo directly
+  const logoMat = new THREE.MeshBasicMaterial({
+    map: hammerTex,
+    transparent: true,
+    alphaTest: 0.05,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  });
+
+  // Each entry: [x, z, h, size] — h is building height, size is logo plane size
+  const logoPlacements = [
+    { x: -38, z:  10, h: 12.45, sx: 4.5, sz: 4.5 }, // tallest building
+    { x: -12, z:  18, h: 14.45, sx: 4.0, sz: 4.0 }, // second tallest
+    { x: -38, z: -20, h: 10.45, sx: 3.8, sz: 3.8 }, // third
+  ];
+
+  logoPlacements.forEach(p => {
+    const geo = new THREE.PlaneGeometry(p.sx, p.sz);
+    const mesh = new THREE.Mesh(geo, logoMat);
+    mesh.rotation.x = -Math.PI / 2;  // lay flat on roof
+    mesh.position.set(p.x, p.h, p.z);
+    scene.add(mesh);
+  });
+};
+
+// ─── TREES (Forest) ────────────────────────────────────────────────────────
+function makeTree(x, z, scale = 1) {
+  const group = new THREE.Group();
+
+  const trunkGeo = new THREE.CylinderGeometry(0.25 * scale, 0.35 * scale, 2 * scale, 8);
+  const trunkMat = new THREE.MeshLambertMaterial({ color: 0x6b3a2a });
+  const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+  trunk.position.y = scale;
+  trunk.castShadow = true;
+  group.add(trunk);
+
+  const foliageColors = [0x2d6a2d, 0x3a7a3a, 0x1f5c1f, 0x4a8a4a];
+  const col = foliageColors[Math.floor(Math.random() * foliageColors.length)];
+  const foliageMat = new THREE.MeshLambertMaterial({ color: col });
+
+  // Multi-layer foliage
+  const layers = [
+    { r: 2.2 * scale, h: 3 * scale, y: 2 * scale },
+    { r: 1.8 * scale, h: 2.5 * scale, y: 3.5 * scale },
+    { r: 1.2 * scale, h: 2 * scale, y: 4.8 * scale },
+  ];
+  layers.forEach(l => {
+    const geo = new THREE.ConeGeometry(l.r, l.h, 8);
+    const mesh = new THREE.Mesh(geo, foliageMat);
+    mesh.position.y = l.y;
+    mesh.castShadow = true;
+    group.add(mesh);
+  });
+
+  group.position.set(x, 0, z);
+  scene.add(group);
+  // Register circle collider using trunk base radius + padding
+  colliders.push({ type: 'circle', x, z, r: 0.5 * scale + 0.2 });
+}
+
+// Scatter trees in forest zone
+const treePositions = [
+  [32,  -25], [38, -15], [45, -30], [55, -20], [65, -10],
+  [50,  -35], [70, -25], [80, -15], [75, -35], [60, -40],
+  [35,   5],  [48,  15], [62,  10], [72,   5], [55,  25],
+  [40,  30],  [68,  30], [80,  20], [85,   0], [90, -10],
+  [42, -10],  [58,  -5], [73, -18], [88, -28], [95,  15],
+  [33, -38],  [78,  35], [92,  28], [65,  40], [50, -48],
+];
+treePositions.forEach(([x, z]) => {
+  const s = 0.7 + Math.random() * 0.8;
+  makeTree(x, z, s);
+});
+
+// Some trees near path edge
+[[24, -10],[25, 8],[26, -22],[27, 18],[23, 2]].forEach(([x,z]) => makeTree(x, z, 0.8));
+
+// ─── BEAR CHARACTER ────────────────────────────────────────────────────────
+const bear = new THREE.Group();
+
+const furDark = new THREE.MeshLambertMaterial({ color: 0x3d2b1f });
+const furMid  = new THREE.MeshLambertMaterial({ color: 0x5a3e2b });
+const furLight= new THREE.MeshLambertMaterial({ color: 0x8b6914 });
+const noseMat = new THREE.MeshLambertMaterial({ color: 0x1a1a1a });
+const eyeMat  = new THREE.MeshLambertMaterial({ color: 0x111111 });
+
+// Body
+const bodyGeo = new THREE.SphereGeometry(0.75, 12, 10);
+bodyGeo.scale(1, 0.9, 1.2);
+const body = new THREE.Mesh(bodyGeo, furDark);
+body.position.y = 1.1;
+body.castShadow = true;
+bear.add(body);
+
+// Head
+const headGeo = new THREE.SphereGeometry(0.52, 12, 10);
+const head = new THREE.Mesh(headGeo, furDark);
+head.position.set(0, 1.85, 0.55);
+head.castShadow = true;
+bear.add(head);
+
+// Snout
+const snoutGeo = new THREE.SphereGeometry(0.25, 8, 8);
+snoutGeo.scale(1.1, 0.7, 0.9);
+const snout = new THREE.Mesh(snoutGeo, furMid);
+snout.position.set(0, 1.75, 1.0);
+bear.add(snout);
+
+// Nose
+const noseGeo = new THREE.SphereGeometry(0.09, 8, 8);
+const nose = new THREE.Mesh(noseGeo, noseMat);
+nose.position.set(0, 1.82, 1.22);
+bear.add(nose);
+
+// Eyes
+[-0.2, 0.2].forEach(side => {
+  const eyeGeo = new THREE.SphereGeometry(0.07, 8, 8);
+  const eye = new THREE.Mesh(eyeGeo, eyeMat);
+  eye.position.set(side, 1.98, 0.93);
+  bear.add(eye);
+});
+
+// Ears
+[-0.35, 0.35].forEach(side => {
+  const earGeo = new THREE.SphereGeometry(0.18, 8, 8);
+  const ear = new THREE.Mesh(earGeo, furDark);
+  ear.position.set(side, 2.28, 0.42);
+  bear.add(ear);
+  const innerEarGeo = new THREE.SphereGeometry(0.1, 8, 8);
+  const innerEar = new THREE.Mesh(innerEarGeo, furMid);
+  innerEar.position.set(side, 2.28, 0.5);
+  bear.add(innerEar);
+});
+
+// Belly patch
+const bellyGeo = new THREE.SphereGeometry(0.42, 8, 8);
+bellyGeo.scale(0.9, 0.7, 0.5);
+const belly = new THREE.Mesh(bellyGeo, furLight);
+belly.position.set(0, 0.95, 0.8);
+bear.add(belly);
+
+// Legs — stored for walk animation (back legs + front legs)
+const legs = [];
+const legPositions = [
+  { x: -0.38, side: 'FL' }, { x:  0.38, side: 'FR' },
+  { x: -0.35, side: 'BL' }, { x:  0.35, side: 'BR' },
+];
+const legZOffsets = [0.35, 0.35, -0.35, -0.35];
+
+legPositions.forEach((lp, i) => {
+  const legGroup = new THREE.Group();
+  const upperGeo = new THREE.CylinderGeometry(0.16, 0.14, 0.5, 8);
+  const upper = new THREE.Mesh(upperGeo, furDark);
+  upper.position.y = -0.25;
+  legGroup.add(upper);
+
+  const lowerGeo = new THREE.CylinderGeometry(0.13, 0.16, 0.5, 8);
+  const lower = new THREE.Mesh(lowerGeo, furDark);
+  lower.position.y = -0.72;
+  legGroup.add(lower);
+
+  const pawGeo = new THREE.SphereGeometry(0.18, 8, 8);
+  pawGeo.scale(1.1, 0.6, 1.3);
+  const paw = new THREE.Mesh(pawGeo, furMid);
+  paw.position.y = -1.0;
+  legGroup.add(paw);
+
+  legGroup.position.set(lp.x, 0.85, legZOffsets[i]);
+  bear.add(legGroup);
+  legs.push(legGroup);
+});
+
+// Tail
+const tailGeo = new THREE.SphereGeometry(0.15, 8, 8);
+const tail = new THREE.Mesh(tailGeo, furMid);
+tail.position.set(0, 1.1, -0.85);
+bear.add(tail);
+
+bear.position.set(0, 0, 0);
+scene.add(bear);
+
+// ─── HIPPIE CHARACTER ──────────────────────────────────────────────────────
+const hippie = new THREE.Group();
+
+const skinMat   = new THREE.MeshLambertMaterial({ color: 0xf4c28a });
+const hairMat   = new THREE.MeshLambertMaterial({ color: 0x5a3310 });
+const shirtMat  = new THREE.MeshLambertMaterial({ color: 0xd45f2a }); // tie-dye orange
+const jeansMat  = new THREE.MeshLambertMaterial({ color: 0x3a5f8a }); // faded blue
+const shoesMat  = new THREE.MeshLambertMaterial({ color: 0x4a3020 });
+
+// Legs
+const hipLegs = [];
+[{ x: -0.15 }, { x: 0.15 }].forEach((lp, i) => {
+  const lg = new THREE.Group();
+  const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.09, 0.55, 8), jeansMat);
+  upper.position.y = -0.28;
+  lg.add(upper);
+  const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.09, 0.5, 8), jeansMat);
+  lower.position.y = -0.78;
+  lg.add(lower);
+  const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.1, 0.28), shoesMat);
+  shoe.position.set(0, -1.06, 0.06);
+  lg.add(shoe);
+  lg.position.set(lp.x, 0.95, 0);
+  hippie.add(lg);
+  hipLegs.push(lg);
+});
+
+// Torso — slightly baggy shirt
+const torsoGeo = new THREE.BoxGeometry(0.48, 0.58, 0.3);
+const torso = new THREE.Mesh(torsoGeo, shirtMat);
+torso.position.y = 1.38;
+torso.castShadow = true;
+hippie.add(torso);
+
+// Arms (hanging at sides)
+const hipArms = [];
+[{ x: -0.3 }, { x: 0.3 }].forEach(ap => {
+  const ag = new THREE.Group();
+  const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.065, 0.42, 8), shirtMat);
+  upper.position.y = -0.21;
+  ag.add(upper);
+  const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.065, 0.38, 8), skinMat);
+  lower.position.y = -0.6;
+  ag.add(lower);
+  const hand = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 8), skinMat);
+  hand.position.y = -0.82;
+  ag.add(hand);
+  ag.position.set(ap.x, 1.6, 0);
+  hippie.add(ag);
+  hipArms.push(ag);
+});
+
+// Head
+const headMesh = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 10), skinMat);
+headMesh.position.y = 1.92;
+headMesh.castShadow = true;
+hippie.add(headMesh);
+
+// Long hair — a slightly larger dark dome sitting on head
+const hairGeo = new THREE.SphereGeometry(0.25, 12, 10);
+const hair = new THREE.Mesh(hairGeo, hairMat);
+hair.position.set(0, 1.96, -0.04);
+hair.scale.set(1, 0.85, 1.1);
+hippie.add(hair);
+
+// Hair flowing down the back
+const flowGeo = new THREE.CylinderGeometry(0.1, 0.05, 0.45, 8);
+const flow = new THREE.Mesh(flowGeo, hairMat);
+flow.position.set(0, 1.72, -0.2);
+flow.rotation.x = 0.3;
+hippie.add(flow);
+
+// Headband
+const bandGeo = new THREE.TorusGeometry(0.23, 0.03, 6, 16);
+const bandMat = new THREE.MeshLambertMaterial({ color: 0xcc2222 });
+const band = new THREE.Mesh(bandGeo, bandMat);
+band.position.set(0, 1.94, 0);
+band.rotation.x = Math.PI / 2;
+hippie.add(band);
+
+// Eyes
+[-0.08, 0.08].forEach(side => {
+  const eye = new THREE.Mesh(new THREE.SphereGeometry(0.03, 6, 6),
+    new THREE.MeshLambertMaterial({ color: 0x222222 }));
+  eye.position.set(side, 1.93, 0.2);
+  hippie.add(eye);
+});
+
+// Place hippie in town, facing a direction
+hippie.position.set(-5, 0, 5);
+hippie.rotation.y = Math.random() * Math.PI * 2;
+scene.add(hippie);
+
+// ─── HIPPIE AI ─────────────────────────────────────────────────────────────
+const HIPPIE_WALK_SPEED  = 1.8;
+const HIPPIE_FLEE_SPEED  = 6.5;
+const HIPPIE_SIGHT_DIST  = 12;   // how far he can see
+const HIPPIE_SIGHT_FOV   = 0.72; // dot product threshold (~44° each side = ~88° total FOV)
+const HIPPIE_WANDER_RANGE = 22;  // how far from spawn he wanders
+
+let hippieState    = 'WANDER';   // 'WANDER'|'FLEE'|'LAUNCHED'|'DOWNED'|'BITTEN'|'GRABBED'
+const hippieVel    = new THREE.Vector3(); // launch velocity
+let hippieDownTimer = 0;                 // how long to stay downed
+let hippieHitThisSwipe = false;          // prevent multi-hit per swipe
+let hippieWalkTime = 0;
+let hippieAngle    = hippie.rotation.y;
+let hippieWaypoint = new THREE.Vector3(-5 + (Math.random()-0.5)*10, 0, 5 + (Math.random()-0.5)*10);
+let hippieWaypointTimer = 0;     // pick new waypoint after this reaches 0
+
+// Exclamation mark sprite shown when hippie spots bear
+const exclamCanvas = document.createElement('canvas');
+exclamCanvas.width = 64; exclamCanvas.height = 64;
+const exclamCtx = exclamCanvas.getContext('2d');
+exclamCtx.fillStyle = '#ff3300';
+exclamCtx.font = 'bold 52px Arial';
+exclamCtx.textAlign = 'center';
+exclamCtx.fillText('!', 32, 52);
+const exclamTex = new THREE.CanvasTexture(exclamCanvas);
+const exclamMat = new THREE.SpriteMaterial({ map: exclamTex, transparent: true, opacity: 0 });
+const exclamSprite = new THREE.Sprite(exclamMat);
+exclamSprite.scale.set(0.6, 0.6, 0.6);
+exclamSprite.position.set(0, 2.5, 0);
+hippie.add(exclamSprite);
+let exclamTimer = 0;
+const keys = {};
+window.addEventListener('keydown', e => { keys[e.code] = true; });
+window.addEventListener('keyup',   e => { keys[e.code] = false; });
+
+// ─── ATTACK STATE ──────────────────────────────────────────────────────────
+let isAttacking = false;
+let attackTimer  = 0;
+const ATTACK_DURATION = 0.45;
+const swipeFlash = document.getElementById('swipe-flash');
+
+function triggerAttack() {
+  if (isAttacking) return;
+  isAttacking = true;
+  attackTimer = 0;
+  swipeFlash.style.opacity = '1';
+  setTimeout(() => { swipeFlash.style.opacity = '0'; }, 80);
+}
+
+window.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); triggerAttack(); }
+});
+window.addEventListener('mousedown', e => {
+  if (e.button === 2) triggerAttack();
+});
+
+// ─── BITE STATE ────────────────────────────────────────────────────────────
+// 'NONE' → press E near hippie → 'CHOMPING' (head lunges, hippie downed)
+// hold E                        → 'GRABBING' (head shakes, hippie in mouth)
+// release E while grabbing     → hippie launches, back to 'NONE'
+const BITE_RANGE   = 2.4;
+let biteState      = 'NONE';   // 'NONE' | 'CHOMPING' | 'GRABBING'
+let biteTimer      = 0;        // drives chew oscillation
+let headBaseY      = 1.85;     // head rest Y in bear-local space
+let headBaseZ      = 0.55;     // head rest Z in bear-local space
+let headLungeT     = 0;        // 0→1 lunge progress
+
+window.addEventListener('keyup', e => {
+  if (e.code === 'KeyE' && biteState === 'GRABBING') {
+    // Release — fling hippie forward
+    biteState = 'NONE';
+    headLungeT = 0;
+    head.position.y = headBaseY;
+    head.position.z = headBaseZ;
+    head.rotation.x = 0;
+    hippieState = 'LAUNCHED';
+    // Launch strongly in bear's forward direction + upward arc
+    const fwdX = Math.sin(bearAngle);
+    const fwdZ = Math.cos(bearAngle);
+    hippieVel.set(fwdX * 18, 9, fwdZ * 18);
+    hippie.rotation.x = 0;
+    hippie.rotation.z = 0;
+  }
+});
+
+// ─── CAMERA STATE ──────────────────────────────────────────────────────────
+let camYaw   = Math.PI;   // horizontal orbit angle (start behind bear)
+let camPitch = 0.38;      // vertical tilt (radians, clamped)
+const CAM_DIST   = 9;
+const CAM_HEIGHT = 1.2;   // look-at height above bear origin
+
+// Left-click drag to orbit
+let rightDragging = false;
+window.addEventListener('mousedown', e => {
+  if (e.button === 0) { rightDragging = true; e.preventDefault(); }
+});
+window.addEventListener('mouseup',   e => { if (e.button === 0) rightDragging = false; });
+window.addEventListener('contextmenu', e => e.preventDefault());
+window.addEventListener('mousemove', e => {
+  if (!rightDragging) return;
+  camYaw   -= e.movementX * 0.005;
+  camPitch -= e.movementY * 0.005;
+  camPitch  = Math.max(0.1, Math.min(1.1, camPitch)); // clamp vertical
+});
+
+// Mouse wheel to zoom
+window.addEventListener('wheel', e => {
+  camDist = Math.max(4, Math.min(18, camDist + e.deltaY * 0.02));
+}, { passive: true });
+let camDist = CAM_DIST;
+
+let camSmooth     = new THREE.Vector3();
+let camSmoothLook = new THREE.Vector3();
+
+// ─── ANIMATION LOOP ────────────────────────────────────────────────────────
+const clock = new THREE.Clock();
+let bearAngle = 0;        // current facing direction
+let targetAngle = 0;
+let walkTime = 0;
+let isMoving = false;
+let isRunning = false;
+
+const zoneIndicator = document.getElementById('zone-indicator');
+const speedIndicator = document.getElementById('speed-indicator');
+let lastZone = 'town';
+
+function getBearZone() {
+  const x = bear.position.x;
+  if (x < 18) return 'town';
+  if (x < 24) return 'path';
+  return 'forest';
+}
+
+function animate() {
+  if (!gameStarted) return;
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.05);
+
+  // Input
+  const moving = keys['ArrowUp']    || keys['KeyW'] ||
+                 keys['ArrowDown']  || keys['KeyS'] ||
+                 keys['ArrowLeft']  || keys['KeyA'] ||
+                 keys['ArrowRight'] || keys['KeyD'];
+  const running = moving && (keys['ShiftLeft'] || keys['ShiftRight']);
+
+  isMoving  = moving;
+  isRunning = running;
+
+  const speed = running ? 18 : 4;
+
+  // Direction relative to camera
+  const forward = new THREE.Vector3();
+  camera.getWorldDirection(forward);
+  forward.y = 0;
+  forward.normalize();
+  const right = new THREE.Vector3().crossVectors(forward, new THREE.Vector3(0,1,0)).normalize();
+
+  const moveDir = new THREE.Vector3();
+  if (keys['ArrowUp']    || keys['KeyW']) moveDir.add(forward);
+  if (keys['ArrowDown']  || keys['KeyS']) moveDir.sub(forward);
+  if (keys['ArrowRight'] || keys['KeyD']) moveDir.add(right);
+  if (keys['ArrowLeft']  || keys['KeyA']) moveDir.sub(right);
+
+  if (moveDir.lengthSq() > 0) {
+    moveDir.normalize();
+    bear.position.addScaledVector(moveDir, speed * dt);
+
+    // Clamp to world bounds
+    bear.position.x = Math.max(-58, Math.min(100, bear.position.x));
+    bear.position.z = Math.max(-50, Math.min(50, bear.position.z));
+
+    // ── Collision resolution ──
+    const BEAR_RADIUS = 0.75;
+    for (const c of colliders) {
+      if (c.type === 'box') {
+        // AABB push-out
+        const dx = bear.position.x - c.x;
+        const dz = bear.position.z - c.z;
+        const overlapX = (c.hw + BEAR_RADIUS) - Math.abs(dx);
+        const overlapZ = (c.hd + BEAR_RADIUS) - Math.abs(dz);
+        if (overlapX > 0 && overlapZ > 0) {
+          // Push out along smallest overlap axis
+          if (overlapX < overlapZ) {
+            bear.position.x += overlapX * Math.sign(dx);
+          } else {
+            bear.position.z += overlapZ * Math.sign(dz);
+          }
+        }
+      } else if (c.type === 'circle') {
+        // Circle push-out
+        const dx = bear.position.x - c.x;
+        const dz = bear.position.z - c.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+        const minDist = c.r + BEAR_RADIUS;
+        if (dist < minDist && dist > 0.001) {
+          const push = (minDist - dist) / dist;
+          bear.position.x += dx * push;
+          bear.position.z += dz * push;
+        }
+      }
+    }
+
+    targetAngle = Math.atan2(moveDir.x, moveDir.z);
+
+    // Smooth rotation
+    let da = targetAngle - bearAngle;
+    while (da >  Math.PI) da -= Math.PI * 2;
+    while (da < -Math.PI) da += Math.PI * 2;
+    bearAngle += da * Math.min(1, 12 * dt);
+    bear.rotation.y = bearAngle;
+  }
+
+  // ── Attack animation — front-right leg (legs[1]) swipes forward and across ──
+  if (isAttacking) {
+    attackTimer += dt / ATTACK_DURATION;
+    if (attackTimer >= 1) {
+      attackTimer = 1;
+      isAttacking = false;
+      hippieHitThisSwipe = false; // reset for next swipe
+    }
+    const t = attackTimer;
+
+    // ── Hit detection: contact window is t=0.38 to t=0.72 (paw sweeping forward)
+    if (t >= 0.38 && t <= 0.72 && !hippieHitThisSwipe
+        && hippieState !== 'LAUNCHED' && hippieState !== 'DOWNED') {
+      const hx = hippie.position.x - bear.position.x;
+      const hz = hippie.position.z - bear.position.z;
+      const hitDist = Math.sqrt(hx*hx + hz*hz);
+      if (hitDist < 2.8) {
+        hippieHitThisSwipe = true;
+        hippieState = 'LAUNCHED';
+        exclamTimer = 0;
+        exclamSprite.material.opacity = 0;
+
+        // Launch direction: away from bear, slightly biased by swipe direction (bear's right)
+        const bearFwdX = Math.sin(bearAngle);
+        const bearFwdZ = Math.cos(bearAngle);
+        const bearRtX  =  bearFwdZ;  // right = rotate fwd 90°
+        const bearRtZ  = -bearFwdX;
+
+        // Normalize away-from-bear vector then blend with bear's right for sideways arc
+        const awayLen = hitDist || 1;
+        const launchX = (hx / awayLen) * 0.5 + bearRtX * 0.5;
+        const launchZ = (hz / awayLen) * 0.5 + bearRtZ * 0.5;
+        const launchSpeed = 14;
+        hippieVel.set(launchX * launchSpeed, 7, launchZ * launchSpeed);
+      }
+    }
+
+    if (t < 0.25) {
+      const wb = t / 0.25;
+      legs[1].rotation.x = -1.8 * wb;
+      legs[1].rotation.z = -0.5 * wb;
+    } else {
+      const sf = (t - 0.25) / 0.75;
+      const ease = sf < 0.5 ? 2*sf*sf : -1+(4-2*sf)*sf;
+      legs[1].rotation.x = -1.8 + 3.2 * ease;
+      legs[1].rotation.z = -0.5 + 1.2 * ease;
+    }
+  } else {
+    legs[1].rotation.x *= 0.8;
+    legs[1].rotation.z *= 0.8;
+  }
+
+  // ── Bite attack (E key) ──
+  {
+    const hx = hippie.position.x - bear.position.x;
+    const hz = hippie.position.z - bear.position.z;
+    const distToHippie = Math.sqrt(hx*hx + hz*hz);
+    const biteKeyDown = keys['KeyE'];
+
+    // Initiate bite if E pressed, close enough, hippie not already flying/grabbed
+    if (biteKeyDown && biteState === 'NONE'
+        && distToHippie < BITE_RANGE
+        && hippieState !== 'LAUNCHED' && hippieState !== 'GRABBED') {
+      biteState = 'CHOMPING';
+      biteTimer = 0;
+      headLungeT = 0;
+      // Knock hippie flat immediately
+      hippieState = 'BITTEN';
+      hippieVel.set(0, 0, 0);
+      hippie.position.y = 0;
+    }
+
+    if (biteState === 'CHOMPING') {
+      biteTimer += dt;
+
+      // Lunge head forward and down over 0.25s
+      headLungeT = Math.min(1, biteTimer / 0.25);
+      const ease = headLungeT < 0.5 ? 2*headLungeT*headLungeT : -1+(4-2*headLungeT)*headLungeT;
+      head.position.y = headBaseY - ease * 0.55;   // dip down
+      head.position.z = headBaseZ + ease * 0.45;   // push forward into bite
+      head.rotation.x = ease * 0.7;                 // tilt snout down
+
+      // After lunge, chew — oscillate head
+      if (biteTimer > 0.25) {
+        const chew = Math.sin((biteTimer - 0.25) * 14) * 0.12;
+        head.position.y = (headBaseY - 0.55) + chew;
+      }
+
+      // Transition to GRABBING if player still holds E after lunge lands
+      if (biteTimer > 0.35 && biteKeyDown) {
+        biteState = 'GRABBING';
+        hippieState = 'GRABBED';
+      }
+
+      // If player released E during chomp — just stay BITTEN/DOWNED
+      if (!biteKeyDown && biteTimer > 0.15) {
+        biteState = 'NONE';
+        // Return head smoothly (handled below)
+        hippieState = 'DOWNED';
+        hippieDownTimer = 2.5;
+      }
+    }
+
+    if (biteState === 'GRABBING') {
+      biteTimer += dt;
+
+      // Keep head lunged forward
+      head.position.y = headBaseY - 0.55;
+      head.position.z = headBaseZ + 0.45;
+      head.rotation.x = 0.7;
+
+      // Shake bear's whole front end side to side
+      const shake = Math.sin(biteTimer * 22) * 0.28;
+      bear.rotation.z = shake;  // full body wobble
+      head.rotation.z = shake * 0.5;
+
+      // Hippie locked to bear's mouth — follows the shake
+      const mouthFwdX = Math.sin(bearAngle);
+      const mouthFwdZ = Math.cos(bearAngle);
+      hippie.position.x = bear.position.x + mouthFwdX * 1.4 + Math.cos(bearAngle) * shake * 0.6;
+      hippie.position.y = 0.5;
+      hippie.position.z = bear.position.z + mouthFwdZ * 1.4 - Math.sin(bearAngle) * shake * 0.6;
+      hippie.rotation.x = 0.9;                   // limp, hanging
+      hippie.rotation.z = shake * 2.0;            // flopping with shake
+      hippie.rotation.y = bearAngle + Math.PI;    // face same direction as bear
+
+      // If E released — handled by keyup listener above
+    }
+
+    // Smoothly return head to rest when not biting
+    if (biteState === 'NONE') {
+      head.position.y += (headBaseY - head.position.y) * Math.min(1, 10 * dt);
+      head.position.z += (headBaseZ - head.position.z) * Math.min(1, 10 * dt);
+      head.rotation.x *= 0.85;
+      head.rotation.z *= 0.85;
+      bear.rotation.z *= 0.85;
+    }
+  }
+
+  if (isMoving) {
+    walkTime += dt * (isRunning ? 11 : 5);
+
+    if (isRunning) {
+      // ── GALLOP gait ──
+      // Front pair (FL, FR) and back pair (BL, BR) move together,
+      // offset by half a cycle — like a real quadruped bounding gallop
+      const frontSwing = Math.sin(walkTime)           * 0.85;  // front pair
+      const backSwing  = Math.sin(walkTime + Math.PI) * 0.85;  // back pair, opposite phase
+
+      legs[0].rotation.x =  frontSwing;                         // FL
+      if (!isAttacking) legs[1].rotation.x = frontSwing;        // FR (same as FL)
+      legs[2].rotation.x =  backSwing;                          // BL
+      legs[3].rotation.x =  backSwing;                          // BR (same as BL)
+
+      // Body bounds up and pitches forward/back with the gallop
+      const bound = Math.abs(Math.sin(walkTime)) * 0.18;        // always positive — bounding up
+      bear.position.y = bound;
+      body.rotation.x = Math.sin(walkTime) * 0.18;              // pitch forward on extension
+      head.position.y = headBaseY - Math.sin(walkTime) * 0.1;   // head nods with stride
+    } else {
+      // ── WALK gait — diagonal pairs ──
+      const swing = Math.sin(walkTime) * 0.35;
+      legs[0].rotation.x =  swing;                               // FL
+      if (!isAttacking) legs[1].rotation.x = -swing;             // FR
+      legs[2].rotation.x = -swing;                               // BL
+      legs[3].rotation.x =  swing;                               // BR
+
+      bear.position.y = Math.sin(walkTime) * 0.06;
+      body.rotation.x *= 0.85;                                   // ensure no residual pitch
+    }
+  } else {
+    // Idle breath
+    walkTime += dt * 1.5;
+    bear.position.y = Math.sin(walkTime * 0.8) * 0.02;
+    body.rotation.x *= 0.85;
+    legs.forEach(l => { l.rotation.x *= 0.85; });
+  }
+
+  // ── Hippie AI + Physics ──
+  {
+    const hp = hippie.position;
+    const bp = bear.position;
+    const dx = bp.x - hp.x;
+    const dz = bp.z - hp.z;
+    const distToBear = Math.sqrt(dx*dx + dz*dz);
+    const HIPPIE_RADIUS = 0.35;
+    const GRAVITY = -18;
+
+    if (hippieState === 'BITTEN') {
+      // Knocked flat — lie still, position locked near bear mouth
+      const tiltTarget = Math.PI / 2;
+      hippie.rotation.x += (tiltTarget - hippie.rotation.x) * Math.min(1, 10 * dt);
+      hippie.rotation.z *= 0.9;
+      hp.y = 0;
+      // Slide toward bite contact point
+      const fwdX = Math.sin(bearAngle);
+      const fwdZ = Math.cos(bearAngle);
+      hp.x += (bear.position.x + fwdX * 1.2 - hp.x) * Math.min(1, 8 * dt);
+      hp.z += (bear.position.z + fwdZ * 1.2 - hp.z) * Math.min(1, 8 * dt);
+
+    } else if (hippieState === 'GRABBED') {
+      // Fully controlled by bite block above — nothing to do here
+
+    } else if (hippieState === 'LAUNCHED') {
+      // Apply gravity
+      hippieVel.y += GRAVITY * dt;
+
+      // Move hippie by velocity
+      hp.x += hippieVel.x * dt;
+      hp.y += hippieVel.y * dt;
+      hp.z += hippieVel.z * dt;
+
+      // Tumble visually
+      hippie.rotation.x += hippieVel.x * dt * 0.6;
+      hippie.rotation.z -= hippieVel.z * dt * 0.6;
+
+      // Ground bounce
+      if (hp.y <= 0) {
+        hp.y = 0;
+        hippieVel.y *= -0.45;   // bounce with energy loss
+        hippieVel.x *=  0.55;
+        hippieVel.z *=  0.55;
+        // If barely moving vertically, switch to DOWNED
+        if (Math.abs(hippieVel.y) < 1.0) {
+          hippieVel.set(0, 0, 0);
+          hippieState = 'DOWNED';
+          hippieDownTimer = 3.0; // lie on ground for 3 seconds
+        }
+      }
+
+      // Building collision while flying — bounce off walls
+      for (const c of colliders) {
+        if (c.type === 'box') {
+          const cdx = hp.x - c.x;
+          const cdz = hp.z - c.z;
+          const ox = (c.hw + HIPPIE_RADIUS) - Math.abs(cdx);
+          const oz = (c.hd + HIPPIE_RADIUS) - Math.abs(cdz);
+          if (ox > 0 && oz > 0) {
+            if (ox < oz) {
+              hp.x += ox * Math.sign(cdx);
+              hippieVel.x *= -0.6;  // bounce & lose energy
+              hippieVel.z *=  0.7;
+            } else {
+              hp.z += oz * Math.sign(cdz);
+              hippieVel.z *= -0.6;
+              hippieVel.x *=  0.7;
+            }
+          }
+        }
+      }
+
+      // World bounds
+      hp.x = Math.max(-58, Math.min(15, hp.x));
+      hp.z = Math.max(-48, Math.min(48, hp.z));
+
+    } else if (hippieState === 'DOWNED') {
+      // Lie flat on the ground, slowly get up
+      hippieDownTimer -= dt;
+      // Tilt him onto his side
+      const tiltTarget = Math.PI / 2;
+      hippie.rotation.x += (tiltTarget - hippie.rotation.x) * Math.min(1, 8 * dt);
+      hippie.rotation.z *= 0.9;
+      hp.y = 0;
+
+      if (hippieDownTimer <= 0) {
+        // Get back up — reset rotation and go back to fleeing
+        hippie.rotation.x = 0;
+        hippie.rotation.z = 0;
+        hippieState = 'FLEE';
+        exclamTimer = 0.6;
+      }
+
+    } else {
+      // ── Normal AI (WANDER / FLEE) ──
+      hippie.rotation.x *= 0.9; // ensure upright
+      hippie.rotation.z *= 0.9;
+      hp.y = 0;
+
+      // Line-of-sight check
+      const hipFwdX = Math.sin(hippieAngle);
+      const hipFwdZ = Math.cos(hippieAngle);
+      const toBearX = dx / (distToBear || 1);
+      const toBearZ = dz / (distToBear || 1);
+      const dotFwd  = hipFwdX * toBearX + hipFwdZ * toBearZ;
+      const canSeeBear = distToBear < HIPPIE_SIGHT_DIST && dotFwd > HIPPIE_SIGHT_FOV;
+
+      if (canSeeBear && hippieState !== 'FLEE') {
+        hippieState = 'FLEE';
+        exclamTimer = 1.2;
+      }
+      if (hippieState === 'FLEE' && distToBear > HIPPIE_SIGHT_DIST * 1.6) {
+        hippieState = 'WANDER';
+      }
+
+      let hippieSpeed = 0;
+
+      if (hippieState === 'FLEE') {
+        const fleeAngle = Math.atan2(-dx, -dz);
+        let da = fleeAngle - hippieAngle;
+        while (da >  Math.PI) da -= Math.PI * 2;
+        while (da < -Math.PI) da += Math.PI * 2;
+        hippieAngle += da * Math.min(1, 14 * dt);
+        hippieSpeed  = HIPPIE_FLEE_SPEED;
+      } else {
+        hippieWaypointTimer -= dt;
+        const wpDx = hippieWaypoint.x - hp.x;
+        const wpDz = hippieWaypoint.z - hp.z;
+        const wpDist = Math.sqrt(wpDx*wpDx + wpDz*wpDz);
+        if (wpDist < 1.2 || hippieWaypointTimer <= 0) {
+          hippieWaypoint.set(
+            -5  + (Math.random() - 0.5) * HIPPIE_WANDER_RANGE,
+            0,
+             5  + (Math.random() - 0.5) * HIPPIE_WANDER_RANGE
+          );
+          hippieWaypoint.x = Math.max(-55, Math.min(15, hippieWaypoint.x));
+          hippieWaypoint.z = Math.max(-45, Math.min(45, hippieWaypoint.z));
+          hippieWaypointTimer = 4 + Math.random() * 4;
+        }
+        const targetAngleH = Math.atan2(wpDx, wpDz);
+        let da = targetAngleH - hippieAngle;
+        while (da >  Math.PI) da -= Math.PI * 2;
+        while (da < -Math.PI) da += Math.PI * 2;
+        hippieAngle += da * Math.min(1, 4 * dt);
+        hippieSpeed  = HIPPIE_WALK_SPEED;
+      }
+
+      // Move hippie
+      hp.x += Math.sin(hippieAngle) * hippieSpeed * dt;
+      hp.z += Math.cos(hippieAngle) * hippieSpeed * dt;
+
+      // Building collision for hippie while walking/fleeing
+      for (const c of colliders) {
+        if (c.type === 'box') {
+          const cdx = hp.x - c.x;
+          const cdz = hp.z - c.z;
+          const ox = (c.hw + HIPPIE_RADIUS) - Math.abs(cdx);
+          const oz = (c.hd + HIPPIE_RADIUS) - Math.abs(cdz);
+          if (ox > 0 && oz > 0) {
+            if (ox < oz) hp.x += ox * Math.sign(cdx);
+            else         hp.z += oz * Math.sign(cdz);
+          }
+        }
+      }
+
+      hp.x = Math.max(-58, Math.min(15, hp.x));
+      hp.z = Math.max(-48, Math.min(48, hp.z));
+      hippie.rotation.y = hippieAngle;
+
+      // Walk animation
+      hippieWalkTime += dt * (hippieState === 'FLEE' ? 10 : 5);
+      const hSwing = Math.sin(hippieWalkTime) * (hippieState === 'FLEE' ? 0.6 : 0.4);
+      hipLegs[0].rotation.x =  hSwing;
+      hipLegs[1].rotation.x = -hSwing;
+      hipArms[0].rotation.x = -hSwing * 0.5;
+      hipArms[1].rotation.x =  hSwing * 0.5;
+    }
+
+    // Exclamation mark
+    if (exclamTimer > 0) {
+      exclamTimer -= dt;
+      exclamSprite.material.opacity = Math.min(1, exclamTimer * 2);
+    } else {
+      exclamSprite.material.opacity = 0;
+    }
+  }
+
+  // ── Camera orbit ──
+  const bearWorld = new THREE.Vector3();
+  bear.getWorldPosition(bearWorld);
+
+  // Compute camera position from yaw + pitch around the bear
+  const camX = bearWorld.x + camDist * Math.sin(camYaw) * Math.cos(camPitch);
+  const camY = bearWorld.y + CAM_HEIGHT + camDist * Math.sin(camPitch);
+  const camZ = bearWorld.z + camDist * Math.cos(camYaw) * Math.cos(camPitch);
+  const desiredCamPos = new THREE.Vector3(camX, camY, camZ);
+
+  if (camSmooth.lengthSq() === 0) camSmooth.copy(desiredCamPos);
+  camSmooth.lerp(desiredCamPos, Math.min(1, 10 * dt));
+  camera.position.copy(camSmooth);
+
+  // Always look at the bear
+  const lookAt = bearWorld.clone().add(new THREE.Vector3(0, CAM_HEIGHT, 0));
+  if (camSmoothLook.lengthSq() === 0) camSmoothLook.copy(lookAt);
+  camSmoothLook.lerp(lookAt, Math.min(1, 12 * dt));
+  camera.lookAt(camSmoothLook);
+
+  // ── Zone indicator ──
+  const zone = getBearZone();
+  if (zone !== lastZone) {
+    lastZone = zone;
+    if (zone === 'town')   zoneIndicator.textContent = '🏙️ TOWN';
+    if (zone === 'path')   zoneIndicator.textContent = '🌿 ENTERING FOREST...';
+    if (zone === 'forest') zoneIndicator.textContent = '🌲 FOREST';
+  }
+
+  speedIndicator.textContent = biteState === 'GRABBING' ? '🐻 SHAKING!' : biteState === 'CHOMPING' ? '🐻 BITE!' : isAttacking ? '🐾 SWIPE!' : isRunning ? '🐾 RUNNING' : isMoving ? '🐾 WALKING' : '';
+
+  renderer.render(scene, camera);
+}
+
+// ─── INTRO / START SCREEN FLOW ─────────────────────────────────────────────
+let gameStarted = false;
+
+function startGame() {
+  if (gameStarted) return;
+  gameStarted = true;
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('ui').style.display = 'block';
+  document.getElementById('speed-indicator').style.display = 'block';
+  document.getElementById('zone-indicator').style.display = 'block';
+  animate();
+}
+
+function showStartScreen() {
+  document.getElementById('intro-screen').style.display = 'none';
+  const ss = document.getElementById('start-screen');
+  ss.style.display = 'flex';
+  // Any key or click advances to game
+  const onKey = () => { startGame(); cleanup(); };
+  const onMouse = () => { startGame(); cleanup(); };
+  const cleanup = () => {
+    window.removeEventListener('keydown', onKey);
+    window.removeEventListener('mousedown', onMouse);
+  };
+  window.addEventListener('keydown', onKey);
+  window.addEventListener('mousedown', onMouse);
+}
+
+const introVideo = document.getElementById('intro-video');
+introVideo.addEventListener('ended', showStartScreen);
+// If video fails to load or play, skip straight to start screen
+introVideo.addEventListener('error', showStartScreen);
+// Also allow skipping the video with any key/click
+const skipVideo = (e) => {
+  // Don't trigger on the very first user interaction that might auto-play the video
+  introVideo.removeEventListener('ended', showStartScreen);
+  introVideo.pause();
+  showStartScreen();
+  window.removeEventListener('keydown', skipVideo);
+  window.removeEventListener('mousedown', skipVideo);
+};
+// Small delay before skip is allowed so video has time to start
+setTimeout(() => {
+  window.addEventListener('keydown', skipVideo);
+  window.addEventListener('mousedown', skipVideo);
+}, 1500);
+</script>
+</body>
+</html>
