@@ -139,16 +139,18 @@ function canPlace(col,row){
 
 // ── Enemy Definitions ──
 const EDEFS = {
-  protester:{ name:'Protester',  hp:80,  spd:55,  reward:10, r:13, col:'#FF6B35', rageR:0.25 },
-  agitator: { name:'Agitator',   hp:55,  spd:100, reward:15, r:11, col:'#E91E63', rageR:0.5  },
-  bloc:     { name:'Black Bloc', hp:140, spd:62,  reward:20, r:15, col:'#424242', rageR:0.35 },
-  tanker:   { name:'Tank',       hp:320, spd:32,  reward:45, r:20, col:'#BF360C', rageR:0.15 },
+  protester:{ name:'Protester',       hp:80,  spd:55,  reward:10, r:13, col:'#FF6B35', rageR:0.25 },
+  agitator: { name:'Agitator',        hp:55,  spd:100, reward:15, r:11, col:'#E91E63', rageR:0.5  },
+  bloc:     { name:'Black Bloc',      hp:140, spd:62,  reward:20, r:15, col:'#424242', rageR:0.35 },
+  tanker:   { name:'Tank',            hp:320, spd:32,  reward:45, r:20, col:'#BF360C', rageR:0.15 },
+  molotov:  { name:'Molotov Thrower', hp:65,  spd:50,  reward:30, r:12, col:'#FF8F00', rageR:0.2,
+              attackRange:90, attackCd:2.0, dmgTower:1, dmgSquad:1 },
 };
 
 // ── Tower Definitions ──
 const TDEFS = {
   squad:    { name:'Police Squad',   cost:50,  dmg:15, range:2.5, rof:1.5, col:'#1565C0', ico:'👮', desc:'Cheap & versatile' },
-  tower:    { name:'Police Tower',   cost:100, dmg:28, range:3.5, rof:1.0, col:'#0D47A1', ico:'🗼', desc:'Long range DPS' },
+  tower:    { name:'Police Tower',   cost:100, dmg:28, range:3.5, rof:1.0, col:'#0D47A1', ico:'🏰', desc:'Long range DPS' },
   barricade:{ name:'Barricade',      cost:30,  dmg:0,  range:1.5, rof:0,   col:'#5D4037', ico:'🚧', desc:'Slows enemies' },
   horse:    { name:'Horse Unit',     cost:80,  dmg:22, range:2.2, rof:0.9, col:'#6A1B9A', ico:'🐎', desc:'AoE pushback' },
 };
@@ -161,11 +163,11 @@ const WAVES = [
   { name:'Tension Rising', sub:'Voices are getting louder.',          nightMod:0.12,
     spawns:[{t:'protester',n:7,iv:3,p:0},{t:'agitator',n:3,iv:5,p:2},{t:'protester',n:6,iv:3,p:1}] },
   { name:'Unrest',         sub:'First bottles fly.',                  nightMod:0.28,
-    spawns:[{t:'agitator',n:5,iv:3,p:0},{t:'bloc',n:3,iv:5,p:1},{t:'agitator',n:4,iv:3,p:2},{t:'protester',n:6,iv:2.5,p:0}] },
+    spawns:[{t:'agitator',n:5,iv:3,p:0},{t:'bloc',n:3,iv:5,p:1},{t:'molotov',n:3,iv:6,p:2},{t:'protester',n:6,iv:2.5,p:0}] },
   { name:'Escalation',     sub:'This is getting out of hand.',        nightMod:0.48,
-    spawns:[{t:'bloc',n:4,iv:3,p:0},{t:'agitator',n:6,iv:2,p:1},{t:'tanker',n:1,iv:9,p:2},{t:'bloc',n:4,iv:3,p:2}] },
+    spawns:[{t:'bloc',n:4,iv:3,p:0},{t:'molotov',n:4,iv:4,p:1},{t:'tanker',n:1,iv:9,p:2},{t:'molotov',n:3,iv:5,p:0}] },
   { name:'Full Riot',      sub:'Total chaos. Hold the line!',         nightMod:0.75,
-    spawns:[{t:'tanker',n:2,iv:5,p:0},{t:'bloc',n:6,iv:2,p:1},{t:'agitator',n:8,iv:1.5,p:2},{t:'tanker',n:2,iv:6,p:2},{t:'protester',n:10,iv:1,p:1}] },
+    spawns:[{t:'tanker',n:2,iv:5,p:0},{t:'molotov',n:5,iv:3,p:1},{t:'agitator',n:8,iv:1.5,p:2},{t:'tanker',n:2,iv:6,p:2},{t:'molotov',n:4,iv:2.5,p:0}] },
 ];
 
 // ── Ability Definitions ──
@@ -204,6 +206,13 @@ class Enemy {
     this.dist  = 0;  // progress along path (for tower targeting)
     this._killCounted = false;
     this.animT = 0;  // pixel art animation timer
+    // Molotov thrower attack state
+    if(type==='molotov'){
+      this.attackTarget = null;  // tower being attacked
+      this.attackTimer  = 0;
+      this.throwing     = false; // arm-raised animation state
+      this.throwT       = 0;
+    }
   }
 
   update(dt){
@@ -212,8 +221,37 @@ class Enemy {
     this.flash = Math.max(0, this.flash - dt*6);
     this.slowT = Math.max(0, this.slowT - dt);
 
+    // ── MOLOTOV THROWER: stop and attack nearby towers/squads ──
+    if(this.type==='molotov'){
+      const d = EDEFS.molotov;
+      // Find closest alive tower (squad or police tower) in attack range
+      const target = G.towers.find(t=>
+        !t.dead && (t.type==='tower'||t.type==='squad') &&
+        Math.hypot(t.x-this.x, t.y-this.y) <= d.attackRange
+      );
+      if(target){
+        this.attackTarget = target;
+        this.throwing = true;
+        // Face the target
+        this.ang = Math.atan2(target.y-this.y, target.x-this.x);
+        this.attackTimer -= dt;
+        this.throwT = Math.max(0, this.throwT - dt);
+        if(this.attackTimer<=0){
+          this.attackTimer = d.attackCd;
+          this.throwT = 0.35; // arm-raised duration
+          // Launch a molotov projectile
+          G.mprojs.push(new MolotovProjectile(this.x, this.y, target));
+        }
+        return; // don't move while attacking
+      } else {
+        this.attackTarget = null;
+        this.throwing = false;
+      }
+    }
+
+    // ── Normal movement ──
     const spd = this.spd * (this.raging?1.5:1) * (this.slowT>0?0.4:1);
-    this.animT += spd * dt * 0.07; // drive animation from movement speed
+    this.animT += spd * dt * 0.07;
     const wp  = this.path[this.pidx];
     const dx  = wp.x - this.x, dy = wp.y - this.y;
     const dd  = Math.hypot(dx,dy);
@@ -258,16 +296,52 @@ class Tower {
     this.ang   = 0;
     this.muzz  = 0;
     this.col2  = d.col;
+    // HP: tower=4 hits, squad=2 hits, others=999
+    this.maxHP = type==='tower' ? 4 : type==='squad' ? 2 : 999;
+    this.hp    = this.maxHP;
+    this.hitFlash = 0;
+    this.dead  = false;
   }
 
   update(dt, enemies){
-    this.cd   = Math.max(0, this.cd-dt);
-    this.muzz = Math.max(0, this.muzz-dt*10);
+    this.cd      = Math.max(0, this.cd-dt);
+    this.muzz    = Math.max(0, this.muzz-dt*10);
+    this.hitFlash= Math.max(0, (this.hitFlash||0)-dt*5);
 
     if(this.type==='barricade'){
       for(const e of enemies){
         if(e.dead||e.escaped) continue;
         if(Math.hypot(e.x-this.x,e.y-this.y)<this.range) e.slowT=0.5;
+      }
+      return null;
+    }
+
+    // Water Cannon beam (Lv3)
+    if(this.waterCannon){
+      this.beamCd = Math.max(0, this.beamCd-dt);
+      if(this.beamActive){
+        this.beamTimer -= dt;
+        if(!this.beamTarget||this.beamTarget.dead||this.beamTarget.escaped){
+          this.beamActive=false; this.beamTarget=null;
+        } else {
+          this.beamTarget.slowT = 0.2; // keep refreshing slow
+          this.ang = Math.atan2(this.beamTarget.y-this.y, this.beamTarget.x-this.x);
+        }
+        if(this.beamTimer<=0){ this.beamActive=false; this.beamTarget=null; }
+      }
+      if(!this.beamActive && this.beamCd<=0){
+        // Find closest enemy in range
+        let best=null, bestD=Infinity;
+        for(const e of enemies){
+          if(e.dead||e.escaped) continue;
+          const d=Math.hypot(e.x-this.x,e.y-this.y);
+          if(d<=this.range && d<bestD){ best=e; bestD=d; }
+        }
+        if(best){
+          this.beamActive=true; this.beamTarget=best;
+          this.beamTimer=3; this.beamCd=5;
+          this.ang=Math.atan2(best.y-this.y, best.x-this.x);
+        }
       }
       return null;
     }
@@ -292,14 +366,36 @@ class Tower {
     return null;
   }
 
-  upgCost(){ return [0,65,110][this.lv-1]; }
+  // Upgrade names by level-after-upgrade
+  upgName(){ return ['Live Rounds','Water Cannon'][this.lv-1] || null; }
+  upgCost(){ return [120, 200][this.lv-1] || 0; }
+  repairCost(){
+    if(this.hp>=this.maxHP) return 0;
+    return Math.ceil((this.maxHP-this.hp) * (this.type==='tower'?25:20));
+  }
+
+  hitByMolotov(){
+    const dmg = EDEFS.molotov[this.type==='tower'?'dmgTower':'dmgSquad'] || 1;
+    this.hp -= dmg;
+    this.hitFlash = 1;
+    if(this.hp<=0){ this.dead=true; addMsg('💥 Destroyed!', this.x, this.y-20, '#FF5722'); }
+  }
 
   upgrade(){
     if(this.lv>=3) return false;
     this.lv++;
-    this.dmg   = Math.round(this.dmg*1.4);
-    this.range *= 1.15;
-    this.rof   *= 1.2;
+    if(this.lv===2){
+      // Live Rounds: +50% rate of fire, +30% damage
+      this.rof *= 1.5;
+      this.dmg = Math.round(this.dmg*1.3);
+    } else if(this.lv===3){
+      // Water Cannon: replaces shooting with a slow beam
+      this.waterCannon = true;
+      this.beamCd      = 0;
+      this.beamActive  = false;
+      this.beamTarget  = null;
+      this.beamTimer   = 0;
+    }
     return true;
   }
 }
@@ -349,6 +445,57 @@ class Particle {
   }
 }
 
+// ── Molotov projectile — arcs from thrower to tower ──
+class MolotovProjectile {
+  constructor(sx,sy,target){
+    this.x=sx; this.y=sy;
+    this.sx=sx; this.sy=sy;
+    this.target=target;
+    this.tx=target.x; this.ty=target.y;
+    this.t=0;        // 0→1 progress
+    this.dur=0.7;    // flight time seconds
+    this.done=false;
+    this.rot=0;
+  }
+  update(dt){
+    if(this.done) return;
+    // Re-acquire target position if tower moved (it won't, but guards dead check)
+    if(this.target.dead){ this.done=true; return; }
+    this.t = Math.min(1, this.t + dt/this.dur);
+    this.rot += dt*8;
+    const u=this.t;
+    // Lerp x linearly, arc y with a parabola
+    this.x = this.sx + (this.tx-this.sx)*u;
+    const arcH = 55;
+    this.y = this.sy + (this.ty-this.sy)*u - arcH*Math.sin(Math.PI*u);
+    if(this.t>=1){
+      this.done=true;
+      // Damage the tower
+      if(!this.target.dead) this.target.hitByMolotov();
+      // Spawn fire zone
+      G.fires.push(new FireZone(this.tx, this.ty));
+      // Spawn fire particles
+      for(let i=0;i<14;i++) G.parts.push(new Particle(this.tx,this.ty,'#FF6D00',true));
+    }
+  }
+}
+
+// ── Fire zone — lingers on the ground after a molotov hits ──
+class FireZone {
+  constructor(x,y){
+    this.x=x; this.y=y;
+    this.r=20;
+    this.life=4.0; this.ml=4.0;
+    this.done=false;
+    this.flicker=0;
+  }
+  update(dt){
+    this.life-=dt;
+    this.flicker+=dt*12;
+    if(this.life<=0) this.done=true;
+  }
+}
+
 // ══════════════════════════════
 //  GAME STATE
 // ══════════════════════════════
@@ -365,6 +512,8 @@ const G = {
   enemies:[],
   towers:[],
   projs:[],
+  mprojs:[],
+  fires:[],
   parts:[],
   selUnit:'squad',
   selTower:null,
@@ -386,7 +535,7 @@ function resetGame(){
   G.state='title'; G.currency=150; G.stability=100;
   G.waveIdx=0; G.waveTimer=0;
   G.interWave=true; G.interTimer=5;
-  G.enemies=[]; G.towers=[]; G.projs=[]; G.parts=[];
+  G.enemies=[]; G.towers=[]; G.projs=[]; G.mprojs=[]; G.fires=[]; G.parts=[];
   G.selUnit='squad'; G.selTower=null; G.hoverCell=null;
   G.abilities={ flashbang:{cd:0,max:20}, chopper:{cd:0,max:35} };
   G.spawnQ=[]; G.nightLvl=0; G.escapedTotal=0; G.kills=0;
@@ -399,11 +548,19 @@ function startGame(){ G.state='playing'; G.interWave=true; G.interTimer=5; }
 function initWave(idx){
   const wv = WAVES[idx];
   G.spawnQ=[];
+  // Wave 1 = base count. Each subsequent wave doubles the enemy count.
+  // Spawn interval shrinks proportionally so wave duration stays manageable.
+  const mult   = Math.pow(2, idx);          // 1× / 2× / 4× / 8× / 16×
+  const ivScale= Math.max(0.35, 1/mult);   // interval shrinks but floors at 0.35s
   let t=0.5;
   for(const sp of wv.spawns){
-    for(let i=0;i<sp.n;i++){
-      G.spawnQ.push({ timer:t, type:sp.t, path:sp.p });
-      t += sp.iv + (Math.random()-.5)*0.6;
+    const count = sp.n * mult;
+    const iv    = Math.max(0.35, sp.iv * ivScale);
+    for(let i=0;i<count;i++){
+      // Distribute across all 3 paths evenly when counts are large
+      const path = (sp.p + Math.floor(i * 3 / count)) % 3;
+      G.spawnQ.push({ timer:t, type:sp.t, path });
+      t += iv + (Math.random()-.5)*0.3;
     }
   }
   G.spawnQ.sort((a,b)=>a.timer-b.timer);
@@ -495,13 +652,27 @@ function update(dt){
     if(G.stability<=0){ endGame(false); return; }
   }
 
-  // Towers
+  // Towers — update and cull destroyed ones
   for(const t of G.towers){
     const shot=t.update(dt,G.enemies);
     if(shot){ G.projs.push(new Projectile(shot.x,shot.y,shot.target,shot.dmg,shot.ttype)); AUDIO.play(); }
   }
+  G.towers = G.towers.filter(t=>!t.dead);
 
-  // Projectiles
+  // Molotov projectiles
+  for(const mp of G.mprojs) mp.update(dt);
+  G.mprojs = G.mprojs.filter(mp=>!mp.done);
+
+  // Fire zones (visual + slow any enemy inside)
+  for(const f of G.fires){
+    f.update(dt);
+    for(const e of G.enemies){
+      if(!e.dead&&!e.escaped&&Math.hypot(e.x-f.x,e.y-f.y)<f.r) e.slowT=0.4;
+    }
+  }
+  G.fires = G.fires.filter(f=>!f.done);
+
+  // Regular projectiles
   for(const p of G.projs){
     const hit=p.update(dt);
     if(hit&&hit.hit){
@@ -955,13 +1126,115 @@ function drawExitMarker(col,row){
 //  ENTITY DRAWING
 // ══════════════════════════════
 
+function drawPoliceTower(t){
+  const x = t.col*TILE, y = HUD_TOP+t.row*TILE;
+  const cx = x+TILE/2, cy = y+TILE/2;
+  const lv = t.lv;
+
+  // ── Colour palette (darkens slightly at higher levels) ──
+  const stone  = lv===3 ? '#78909C' : lv===2 ? '#8DA0AA' : '#90A4AE';
+  const dark   = lv===3 ? '#455A64' : lv===2 ? '#546E7A' : '#607D8B';
+  const accent = lv===3 ? '#FFD740' : lv===2 ? '#90CAF9' : '#B0BEC5';
+
+  // ── Base platform ──
+  ctx.fillStyle=dark;
+  ctx.fillRect(x+4,  y+TILE-10, TILE-8, 10);
+  ctx.fillStyle=stone;
+  ctx.fillRect(x+6,  y+TILE-12, TILE-12, 4);
+
+  // ── Tower body ──
+  const bodyX=x+10, bodyW=TILE-20, bodyY=y+18, bodyH=TILE-28;
+  ctx.fillStyle=stone;
+  ctx.fillRect(bodyX, bodyY, bodyW, bodyH);
+
+  // Stone block texture — horizontal courses
+  ctx.strokeStyle='rgba(0,0,0,0.18)'; ctx.lineWidth=0.5;
+  [bodyY+8, bodyY+16, bodyY+24].forEach(ly=>{
+    if(ly < bodyY+bodyH){
+      ctx.beginPath(); ctx.moveTo(bodyX+1,ly); ctx.lineTo(bodyX+bodyW-1,ly); ctx.stroke();
+    }
+  });
+  // Vertical block joints (staggered rows)
+  [[bodyY,bodyY+8],[bodyY+8,bodyY+16],[bodyY+16,bodyY+24],[bodyY+24,bodyY+bodyH]]
+    .forEach(([ry1,ry2],ri)=>{
+      const off = ri%2 ? 0 : 7;
+      for(let jx=bodyX+off; jx<bodyX+bodyW; jx+=14){
+        ctx.beginPath(); ctx.moveTo(jx,ry1+1); ctx.lineTo(jx,ry2-1); ctx.stroke();
+      }
+    });
+
+  // ── Battlements (merlons) ──
+  const mW=6, mH=8, mGap=5;
+  const mCount=3;
+  const mTotalW=mCount*mW+(mCount-1)*mGap;
+  const mStartX=cx-mTotalW/2;
+  const mY=y+10;
+  // Fill the crenel gaps (walkway between merlons)
+  ctx.fillStyle=dark;
+  ctx.fillRect(mStartX-1, mY+mH, mTotalW+2, 8);
+  // Draw merlons
+  ctx.fillStyle=stone;
+  for(let m=0;m<mCount;m++){
+    const mx=mStartX+m*(mW+mGap);
+    ctx.fillRect(mx, mY, mW, mH);
+    // Darker top lip
+    ctx.fillStyle=accent==='#B0BEC5'?'rgba(0,0,0,0.12)':'rgba(255,255,255,0.1)';
+    ctx.fillRect(mx, mY, mW, 2);
+    ctx.fillStyle=stone;
+  }
+  // Battlement base bar
+  ctx.fillStyle=dark;
+  ctx.fillRect(bodyX, mY+mH+8, bodyW, 4);
+
+  // ── Arrow slit (decorative) ──
+  ctx.fillStyle='rgba(0,0,0,0.45)';
+  ctx.fillRect(cx-1, bodyY+4, 2, 10);
+  ctx.fillRect(cx-3, bodyY+7, 6, 3);
+
+  // ── Rotating cannon barrel ──
+  ctx.save();
+  ctx.translate(cx, cy-2);
+  ctx.rotate(t.ang);
+  // Barrel body
+  ctx.fillStyle=dark;
+  ctx.beginPath(); ctx.roundRect(4, -2.5, TILE/2-6, 5, 2); ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,0.15)'; ctx.lineWidth=0.5; ctx.stroke();
+  // Barrel highlight stripe
+  ctx.fillStyle='rgba(255,255,255,0.12)';
+  ctx.fillRect(5, -2, TILE/2-8, 1.5);
+  // Muzzle flash
+  if(t.muzz>0){
+    const a = t.muzz;
+    ctx.fillStyle=`rgba(255,200,60,${a*0.95})`;
+    ctx.beginPath(); ctx.arc(TILE/2-5, 0, 5+a*3, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle=`rgba(255,255,180,${a*0.7})`;
+    ctx.beginPath(); ctx.arc(TILE/2-5, 0, 2+a*1.5, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.restore();
+
+  // ── Level indicator pips ──
+  if(t.lv>1){
+    for(let l=0;l<t.lv-1;l++){
+      ctx.beginPath(); ctx.arc(cx-5+l*10, y+TILE-4, 2.5, 0, Math.PI*2);
+      ctx.fillStyle='#FFD740'; ctx.fill();
+    }
+  }
+
+  // ── Selected highlight ──
+  if(G.selTower===t){
+    ctx.strokeStyle='#FFD740'; ctx.lineWidth=2;
+    ctx.setLineDash([4,4]);
+    ctx.strokeRect(x+2, y+2, TILE-4, TILE-4);
+    ctx.setLineDash([]);
+  }
+}
+
 function drawTower(t){
   const x=t.col*TILE, y=HUD_TOP+t.row*TILE;
   const cx=x+TILE/2, cy=y+TILE/2;
   const def=TDEFS[t.type];
 
   if(t.type==='barricade'){
-    // Diagonal stripe barricade
     rr(x+4,cy-9,TILE-8,18,3,'#5D4037','#3E2723',2);
     ctx.save();
     ctx.beginPath(); ctx.roundRect(x+4,cy-9,TILE-8,18,3); ctx.clip();
@@ -973,12 +1246,16 @@ function drawTower(t){
     return;
   }
 
-  // Base circle
+  if(t.type==='tower'){
+    drawPoliceTower(t);
+    return;
+  }
+
+  // ── All other unit types: circle + icon ──
   ctx.beginPath(); ctx.arc(cx,cy,TILE/2-3,0,Math.PI*2);
   ctx.fillStyle=def.col; ctx.fill();
   ctx.strokeStyle='rgba(255,255,255,0.8)'; ctx.lineWidth=2; ctx.stroke();
 
-  // Barrel
   if(t.type!=='horse'){
     ctx.save(); ctx.translate(cx,cy); ctx.rotate(t.ang);
     rr(2,-3,TILE/2-4,6,2, t.muzz>0?'#FFD740':'rgba(255,255,255,0.6)', null);
@@ -989,11 +1266,9 @@ function drawTower(t){
     ctx.restore();
   }
 
-  // Icon
   ctx.font='16px serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
   ctx.fillText(def.ico,cx,cy);
 
-  // Level pips
   if(t.lv>1){
     for(let l=0;l<t.lv-1;l++){
       ctx.beginPath(); ctx.arc(cx-5+l*10,cy+TILE/2-7,3,0,Math.PI*2);
@@ -1001,7 +1276,6 @@ function drawTower(t){
     }
   }
 
-  // Selected highlight
   if(G.selTower===t){
     ctx.beginPath(); ctx.arc(cx,cy,TILE/2-1,0,Math.PI*2);
     ctx.strokeStyle='#FFD740'; ctx.lineWidth=3;
@@ -1111,6 +1385,124 @@ function lerpColor(hex1, hex2, t) {
 }
 
 
+// ══════════════════════════════
+//  PIXEL ART: MOLOTOV THROWER
+// ══════════════════════════════
+
+function drawMolotovThrower(cx, cy, faceRight, throwing, hitFlash) {
+  const s = 2;
+
+  const skin   = '#FFCBA4';
+  const hair   = '#1A1A1A';   // long dark hair
+  const mask   = '#2E2E2E';   // dark bandana mask
+  const shirt  = '#FF8F00';   // orange jacket
+  const pants  = '#4E342E';   // dark brown
+  const shoe   = '#111';
+  const bottle = '#88CC44';   // green bottle
+  const flame  = '#FF6D00';
+
+  const B = [];
+  const a = (x,y,w,h,c) => B.push([x,y,w,h,c]);
+
+  // ── Hair (long, hangs behind) ──
+  a(-2,-6, 4,1, hair);     // top
+  a(-2,-5, 5,2, hair);     // sides wide
+  a( 3,-3, 2,6, hair);     // right flowing tail
+  a(-3,-3, 1,5, hair);     // left strand
+
+  // ── Face / mask ──
+  a(-2,-5, 4,3, skin);     // forehead + eyes area
+  a(-1,-4, 1,1, '#222');   // left eye
+  a( 1,-4, 1,1, '#222');   // right eye
+  a(-2,-2, 4,2, mask);     // bandana covers nose/mouth
+
+  // ── Torso ──
+  a(-3, 0, 6,3, shirt);
+
+  // ── Throwing arm (raised when throwing, down otherwise) ──
+  if(throwing){
+    // Arm raised overhead holding bottle
+    a( 3,-3, 1,3, skin);   // arm up
+    a( 3,-5, 2,3, bottle); // bottle
+    // Flame on bottle top
+    a( 3,-7, 2,2, flame);
+    a( 4,-8, 1,1, '#FFD740');
+    // Other arm out for balance
+    a(-4, 1, 1,2, skin);
+  } else {
+    // Arm at side
+    a( 3, 0, 1,2, skin);
+    a(-4, 0, 1,2, skin);
+  }
+
+  // ── Legs (simple stance — thrower is stopped) ──
+  a(-2, 3, 2,3, pants);
+  a( 1, 3, 2,3, pants);
+  a(-2, 6, 2,1, shoe);
+  a( 1, 6, 2,1, shoe);
+
+  // Draw outline pass then color pass
+  ctx.save();
+  ctx.translate(Math.round(cx), Math.round(cy));
+  if(!faceRight) ctx.scale(-1,1);
+
+  ctx.fillStyle='#1A0800';
+  for(const [x,y,w,h] of B)
+    ctx.fillRect(x*s-1, y*s-1, w*s+2, h*s+2);
+
+  for(const [x,y,w,h,c] of B){
+    ctx.fillStyle = hitFlash>0 ? lerpColor(c,'#FFFFFF',hitFlash*0.75) : c;
+    ctx.fillRect(x*s, y*s, w*s, h*s);
+  }
+  ctx.restore();
+}
+
+// ── Fire zone (lingering after molotov impact) ──
+function drawFireZone(f){
+  const a = Math.min(1, f.life/f.ml);
+  const flicker = 0.7 + 0.3*Math.sin(f.flicker);
+  // Scorched ground ring
+  ctx.beginPath(); ctx.arc(f.x, f.y, f.r*0.9, 0, Math.PI*2);
+  ctx.fillStyle=`rgba(30,10,0,${a*0.35})`; ctx.fill();
+  // Outer flame ring
+  ctx.beginPath(); ctx.arc(f.x, f.y, f.r*flicker, 0, Math.PI*2);
+  ctx.fillStyle=`rgba(255,80,0,${a*0.28})`; ctx.fill();
+  // Inner hot core
+  ctx.beginPath(); ctx.arc(f.x, f.y, f.r*0.45*flicker, 0, Math.PI*2);
+  ctx.fillStyle=`rgba(255,210,50,${a*0.55})`; ctx.fill();
+  // Small flame spikes
+  for(let i=0;i<5;i++){
+    const ang = f.flicker*0.7 + i*(Math.PI*2/5);
+    const fr = f.r*(0.5+0.3*Math.sin(f.flicker+i));
+    const fx2 = f.x + Math.cos(ang)*fr*0.7;
+    const fy2 = f.y + Math.sin(ang)*fr*0.7 - 4*a;
+    ctx.beginPath();
+    ctx.moveTo(fx2-3,fy2+5); ctx.lineTo(fx2,fy2-6*a); ctx.lineTo(fx2+3,fy2+5);
+    ctx.fillStyle=`rgba(255,140,0,${a*0.7})`; ctx.fill();
+  }
+}
+
+// ── Molotov projectile in flight ──
+function drawMolotovProjectile(mp){
+  ctx.save();
+  ctx.translate(mp.x, mp.y);
+  ctx.rotate(mp.rot);
+  // Bottle body
+  ctx.fillStyle='#88CC44';
+  ctx.beginPath(); ctx.roundRect(-3,-7,6,10,2); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,0.3)'; ctx.lineWidth=0.5; ctx.stroke();
+  // Neck
+  ctx.fillStyle='#6AAA30';
+  ctx.fillRect(-1.5,-10,3,4);
+  // Rag/flame
+  ctx.fillStyle='#FF6D00';
+  ctx.beginPath(); ctx.arc(0,-11,3,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#FFD740';
+  ctx.beginPath(); ctx.arc(0,-11,1.5,0,Math.PI*2); ctx.fill();
+  // Arc trail
+  ctx.restore();
+}
+
 function drawEnemy(e){
   if(e.dead||e.escaped) return;
   const {x,y,r}=e;
@@ -1132,6 +1524,11 @@ function drawEnemy(e){
       ctx.fillStyle=grd; ctx.fill();
     }
     drawRunningProtester(x, y, frame, faceRight, e.raging, e.flash);
+
+  } else if (e.type === 'molotov') {
+    // ── PIXEL ART MOLOTOV THROWER ────────────────────────
+    const faceRight = Math.cos(e.ang) >= 0;
+    drawMolotovThrower(x, y, faceRight, e.throwing, e.flash);
 
   } else {
     // ── CIRCLE ENEMIES (other types) ────────────────────
@@ -1163,7 +1560,7 @@ function drawEnemy(e){
   }
 
   // ── HP BAR (all types) ────────────────────────────────
-  const topY = e.type==='protester' ? y-12 : y-r;
+  const topY = (e.type==='protester'||e.type==='molotov') ? y-14 : y-r;
   const barY = topY - 7;
   const bw=r*2.2, bx=x-r*1.1, bh=4;
   rr(bx,barY,bw,bh,2,'#1a1a1a',null);
@@ -1294,7 +1691,7 @@ function drawBottomHUD(){
     ctx.fillText(def.ico,bx+bw/2,by+5);
 
     // Name
-    const shortName=def.name.split(' ')[0];
+    const shortName = key==='tower' ? 'Tower' : def.name.split(' ')[0];
     txt(shortName,bx+bw/2,by+30,'700 7.5px Nunito',sel?'#FFD740':canAff?'#E8EAF6':'#546E7A');
 
     // Cost badge
@@ -1364,35 +1761,139 @@ function drawSelectedTowerRange(){
   ctx.fillStyle='rgba(255,215,64,0.06)'; ctx.fill();
 }
 
+// ── Submenu geometry helper (shared between draw and tap) ──
+function panelGeom(t){
+  const pw=200, ph=148;
+  let bx=t.col*TILE+(TILE-pw)/2;
+  bx=Math.max(2, Math.min(bx, W-pw-2));
+  let by=HUD_TOP+t.row*TILE-ph-8;
+  if(by<HUD_TOP+2) by=HUD_TOP+t.row*TILE+TILE+4;
+  by=Math.min(by, HUD_TOP+ROWS*TILE-ph-4);
+  return {px:bx, py:by, pw, ph};
+}
+
 function drawUpgradePanel(){
   if(!G.selTower) return;
   const t=G.selTower;
-  if(t.type==='barricade') return;
   const def=TDEFS[t.type];
-  const pw=168, ph=76;
-  let px=t.col*TILE-4, py=HUD_TOP+t.row*TILE-ph-6;
-  px=Math.max(2,Math.min(px,W-pw-2));
-  py=Math.max(HUD_TOP+2,py);
+  const {px,py,pw,ph}=panelGeom(t);
 
-  rr(px,py,pw,ph,8,'#0D1B5E','#5C6BC0',2);
+  // Panel shadow + background
+  ctx.save(); ctx.shadowColor='rgba(0,0,0,0.6)'; ctx.shadowBlur=14;
+  rr(px,py,pw,ph,10,'#0A1540','#3949AB',2);
+  ctx.restore();
 
-  // Title
-  txt(`${def.ico} ${def.name} Lv${t.lv}`,px+pw/2,py+13,'700 11px Nunito','#fff');
-  txt(`DMG:${t.dmg} RNG:${(t.range/TILE).toFixed(1)} RoF:${t.rof.toFixed(1)}/s`,
-    px+pw/2,py+29,'600 8.5px Nunito','#90CAF9');
+  // ── Title ──────────────────────────────────────────────
+  const ico = t.type==='tower'?'🏰':'👮';
+  const lvLabel = t.waterCannon?'Water Cannon':t.lv===2?'Live Rounds':'Standard';
+  txt(`${ico} ${def.name}`, px+pw/2, py+14, '700 11px Nunito', '#E8EAF6');
+  txt(lvLabel, px+pw/2, py+27, '600 8px Nunito',
+    t.waterCannon?'#64B5F6':t.lv===2?'#FFCDD2':'#90CAF9');
 
-  if(t.lv<3){
-    const cost=t.upgCost(), canAff=G.currency>=cost;
-    rr(px+8,py+38,pw-16,24,5,canAff?'#1B5E20':'#7f1d1d',canAff?'#43A047':'#ef5350',1.5);
-    txt(`⬆ Upgrade  $${cost}`,px+pw/2,py+50,'700 10px Nunito','#fff');
-  } else {
-    txt('★ MAX LEVEL ★',px+pw/2,py+50,'700 10px Nunito','#FFD740');
+  // HP pips
+  if(t.maxHP<999){
+    const pipW=10, pipGap=4;
+    const totalW=t.maxHP*(pipW+pipGap)-pipGap;
+    let pipX=px+pw/2-totalW/2;
+    for(let i=0;i<t.maxHP;i++){
+      rr(pipX+i*(pipW+pipGap), py+36, pipW, 6, 2,
+        i<t.hp?'#43A047':'#1a1a1a', null);
+    }
   }
 
-  // Sell btn
-  const sv=Math.floor(TDEFS[t.type].cost*0.6);
-  rr(px+pw-38,py+4,34,16,3,'#7f1d1d',null);
-  txt(`💰${sv}`,px+pw-21,py+12,'700 7px Nunito','#ffb4ab');
+  // Button layout — must match handleTap exactly
+  const btnH=28, btnW=pw-16, btnX=px+8, gap=5;
+  const repY  = py+50;
+  const upgY  = repY+btnH+gap;
+  const remY  = upgY+btnH+gap;
+
+  // ── REPAIR ──
+  const rc=t.repairCost();
+  const needsRepair = rc>0;
+  const canRepair   = needsRepair && G.currency>=rc;
+  rr(btnX, repY, btnW, btnH, 6,
+    !needsRepair?'#1C2833': canRepair?'#1B5E20':'#37474F',
+    !needsRepair?'#2E4057': canRepair?'#43A047':'#546E7A', 1.5);
+  txt(!needsRepair?'✓ Full Health':`🔧 Repair  $${rc}`,
+    px+pw/2, repY+btnH/2, '700 9.5px Nunito',
+    !needsRepair?'#4CAF50': canRepair?'#fff':'#78909C');
+
+  // ── UPGRADE ──
+  if(t.type==='barricade'){
+    rr(btnX, upgY, btnW, btnH, 6, '#1A1A2E','#283593',1.5);
+    txt('No upgrades', px+pw/2, upgY+btnH/2, '700 9.5px Nunito','#5C6BC0');
+  } else if(t.lv<3){
+    const uc=t.upgCost(), canUpg=G.currency>=uc;
+    rr(btnX, upgY, btnW, btnH, 6,
+      canUpg?'#0D3B6E':'#1A237E', canUpg?'#1565C0':'#283593', 1.5);
+    txt(`⬆ ${t.upgName()}  $${uc}`, px+pw/2, upgY+btnH/2,
+      '700 9.5px Nunito', canUpg?'#fff':'#5C6BC0');
+  } else {
+    rr(btnX, upgY, btnW, btnH, 6,'rgba(255,215,64,0.08)','#FFD740',1.5);
+    txt('★ MAX LEVEL', px+pw/2, upgY+btnH/2, '700 9.5px Nunito','#FFD740');
+  }
+
+  // ── REMOVE ──
+  const sv=Math.floor(TDEFS[t.type].cost*0.4 + (t.lv-1)*20);
+  rr(btnX, remY, btnW, btnH, 6,'#2a1010','#7f1d1d',1.5);
+  txt(`🗑 Remove  +$${sv}`, px+pw/2, remY+btnH/2,'700 9.5px Nunito','#EF9A9A');
+}
+
+// ── Water Cannon beam drawing ──
+function drawWaterBeams(){
+  for(const t of G.towers){
+    if(!t.waterCannon||!t.beamActive||!t.beamTarget) continue;
+    if(t.beamTarget.dead||t.beamTarget.escaped) continue;
+    const tx=t.beamTarget.x, ty=t.beamTarget.y;
+    const dx=tx-t.x, dy=ty-t.y, dd=Math.hypot(dx,dy);
+    const nx=dy/dd, ny=-dx/dd;
+    const wave=Math.sin(G.pulseT*14)*3;
+
+    // Outer glow
+    ctx.save();
+    ctx.globalAlpha=0.25;
+    ctx.strokeStyle='#90CAF9'; ctx.lineWidth=10; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(tx,ty); ctx.stroke();
+
+    // Mid beam
+    ctx.globalAlpha=0.55;
+    ctx.strokeStyle='#42A5F5'; ctx.lineWidth=5;
+    ctx.beginPath();
+    ctx.moveTo(t.x+nx*wave,t.y+ny*wave);
+    ctx.quadraticCurveTo(
+      t.x+dx*0.5+nx*wave*2, t.y+dy*0.5+ny*wave*2,
+      tx, ty
+    );
+    ctx.stroke();
+
+    // Bright core
+    ctx.globalAlpha=0.9;
+    ctx.strokeStyle='#E3F2FD'; ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(t.x+nx*wave*0.5,t.y+ny*wave*0.5);
+    ctx.quadraticCurveTo(
+      t.x+dx*0.5+nx*wave, t.y+dy*0.5+ny*wave,
+      tx, ty
+    );
+    ctx.stroke();
+
+    // Splash at impact
+    const sp=0.5+0.5*Math.sin(G.pulseT*18);
+    ctx.globalAlpha=0.7*sp;
+    ctx.fillStyle='#90CAF9';
+    ctx.beginPath(); ctx.arc(tx,ty,6+sp*4,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=1;
+    ctx.restore();
+
+    // Water droplets
+    for(let i=0;i<3;i++){
+      const dp=(G.pulseT*0.8+i*0.33)%1;
+      const wx=t.x+dx*dp+nx*(Math.sin(dp*Math.PI*4+i)*5);
+      const wy=t.y+dy*dp+ny*(Math.sin(dp*Math.PI*4+i)*5);
+      ctx.beginPath(); ctx.arc(wx,wy,2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(144,202,249,${0.8*(1-dp)})`; ctx.fill();
+    }
+  }
 }
 
 // ══════════════════════════════
@@ -1451,15 +1952,22 @@ function drawWaveBanner(){
   if(G.waveTrans<=0) return;
   const a=Math.min(1,G.waveTrans);
   const wave=WAVES[G.waveIdx];
+  const mult=Math.pow(2,G.waveIdx);
   const cy=HUD_TOP+ROWS*TILE*0.42;
   ctx.globalAlpha=a;
   ctx.fillStyle='rgba(13,27,94,0.9)';
-  ctx.fillRect(0,cy-36,W,72);
+  ctx.fillRect(0,cy-40,W,80);
   ctx.fillStyle='rgba(255,215,64,0.3)';
-  ctx.fillRect(0,cy-36,W,2);
-  ctx.fillRect(0,cy+34,W,2);
-  txtOut(wave.name.toUpperCase(),W/2,cy-8,'bold 38px Bangers','#FFD740','#000',5);
-  txt(wave.sub,W/2,cy+18,'600 11px Nunito','#90CAF9');
+  ctx.fillRect(0,cy-40,W,2);
+  ctx.fillRect(0,cy+38,W,2);
+  txtOut(wave.name.toUpperCase(),W/2,cy-10,'bold 38px Bangers','#FFD740','#000',5);
+  txt(wave.sub,W/2,cy+12,'600 11px Nunito','#90CAF9');
+  // Multiplier badge
+  if(mult>1){
+    const tag=`${mult}× ENEMIES`;
+    const tagCol=mult>=8?'#FF1744':mult>=4?'#FF6D00':'#FFB300';
+    txtOut(tag,W/2,cy+28,'700 10px Nunito',tagCol,'#000',3);
+  }
   ctx.globalAlpha=1;
 }
 
@@ -1537,8 +2045,27 @@ function render(){
   drawHoverCell();
   drawSelectedTowerRange();
 
+  // Fire zones (behind towers and enemies)
+  for(const f of G.fires) drawFireZone(f);
+
   for(const t of G.towers) drawTower(t);
+  // Tower HP bars
+  for(const t of G.towers){
+    if(t.maxHP>=999||t.hp===t.maxHP) continue;
+    const bw=TILE-8, bx=t.col*TILE+4, by=HUD_TOP+t.row*TILE+2, bh=4;
+    rr(bx,by,bw,bh,2,'#1a1a1a',null);
+    const hp=t.hp/t.maxHP;
+    rr(bx,by,bw*hp,bh,2,hp>0.5?'#43A047':'#E53935',null);
+    if(t.hitFlash>0){
+      ctx.fillStyle=`rgba(255,80,0,${t.hitFlash*0.5})`;
+      ctx.fillRect(t.col*TILE,HUD_TOP+t.row*TILE,TILE,TILE);
+    }
+  }
+
+  drawWaterBeams();
+
   for(const e of G.enemies) drawEnemy(e);
+  for(const mp of G.mprojs) drawMolotovProjectile(mp);
   for(const p of G.projs) drawProjectile(p);
   for(const p of G.parts) drawParticle(p);
 
@@ -1606,29 +2133,46 @@ function handleTap(px,py){
     return;
   }
 
-  // Upgrade panel tap
+  // ── Tower submenu taps ──
   if(G.selTower){
     const t=G.selTower;
-    if(t.type!=='barricade'){
-      const pw=168,ph=76;
-      let ppx=t.col*TILE-4;
-      ppx=Math.max(2,Math.min(ppx,W-pw-2));
-      let ppy=HUD_TOP+t.row*TILE-ph-6;
-      ppy=Math.max(HUD_TOP+2,ppy);
-      // Upgrade btn
-      if(px>=ppx+8&&px<=ppx+pw-8&&py>=ppy+38&&py<=ppy+62){
-        if(t.lv<3&&G.currency>=t.upgCost()){ G.currency-=t.upgCost(); t.upgrade(); }
+    const {px:mpx, py:mpy, pw:mpw, ph:mph}=panelGeom(t);
+    // Check tap is inside panel
+    if(px>=mpx && px<=mpx+mpw && py>=mpy && py<=mpy+mph){
+      const btnH=28, btnW=mpw-16, btnX=mpx+8, gap=5;
+      const repY = mpy+50;
+      const upgY = repY+btnH+gap;
+      const remY = upgY+btnH+gap;
+
+      // Repair
+      if(py>=repY && py<=repY+btnH){
+        const rc=t.repairCost();
+        if(rc>0 && G.currency>=rc){
+          G.currency-=rc; t.hp=t.maxHP;
+          addMsg('🔧 Repaired!', t.x, t.y-28, '#A5D6A7');
+        }
         return;
       }
-      // Sell btn
-      if(px>=ppx+pw-38&&px<=ppx+pw-4&&py>=ppy+4&&py<=ppy+20){
-        const sv=Math.floor(TDEFS[t.type].cost*0.6);
+      // Upgrade
+      if(py>=upgY && py<=upgY+btnH){
+        if(t.type!=='barricade' && t.lv<3 && G.currency>=t.upgCost()){
+          G.currency-=t.upgCost();
+          const name=t.upgName();
+          t.upgrade();
+          addMsg(`⬆ ${name}!`, t.x, t.y-28, '#C8E6C9');
+        }
+        return;
+      }
+      // Remove
+      if(py>=remY && py<=remY+btnH){
+        const sv=Math.floor(TDEFS[t.type].cost*0.4 + (t.lv-1)*20);
         G.currency+=sv;
         G.towers=G.towers.filter(tw=>tw!==t);
         G.selTower=null;
-        addMsg(`Sold +$${sv}`,px,py-20,'#FFD740');
+        addMsg(`Removed +$${sv}`, px, py-20, '#FFD740');
         return;
       }
+      return; // tapped panel but not a button — consume event, don't deselect
     }
   }
 
