@@ -14,6 +14,7 @@ export default function BittergoatFarmsHomepage() {
     { title: "Cocaine Bear", category: "Arcade" },
     { title: "Mostly Peaceful", category: "Arcade" },
     { title: "Golden Farms", category: "Casino" },
+    { title: "Rocket", category: "Casino" },
   ];
 
   const gameUrl = (title) => {
@@ -28,6 +29,8 @@ export default function BittergoatFarmsHomepage() {
         return "/games/cocaine-bear/index.html";
       default:
         return "/games/mostly-peaceful/index.html";
+      case "Rocket":
+        return "/games/rocket/index.html";
     }
   };
 
