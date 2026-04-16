@@ -1,0 +1,13 @@
+const ffmpeg = require('ffmpeg-static');
+const {spawnSync} = require('child_process');
+const path = require('path');
+const inFile = 'C:\\Users\\mossb\\Downloads\\Man_running_with_202604111319.mp4';
+const outFile = 'C:\\Users\\mossb\\Downloads\\protester_frame.png';
+console.log('ffmpeg path', ffmpeg);
+const args = ['-y','-ss','0.15','-i', inFile, '-frames:v', '1', outFile];
+const res = spawnSync(ffmpeg, args, {encoding:'utf8'});
+console.log('status', res.status);
+console.log('stdout', res.stdout);
+console.log('stderr', res.stderr);
+if(res.status !== 0) process.exit(res.status);
+console.log('wrote', outFile);

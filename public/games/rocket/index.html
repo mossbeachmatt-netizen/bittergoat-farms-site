@@ -1,32 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stellar Jackpot</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<style>
-#sg{font-family:var(--font-sans);max-width:580px;margin:1rem auto 0}
-#sg-scene{height:320px;border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0;overflow:hidden;background:#000}
-#sg-canvas{display:block;width:100%;height:100%}
-#sg-mid{background:#06061a;border-left:.5px solid #14144a;border-right:.5px solid #14144a;padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-#sg-mult{font-size:50px;font-weight:500;color:#5fcfa0;line-height:1;flex-shrink:0}
-#sg-phase{font-size:12px;color:#4466cc;text-align:right;line-height:1.55;max-width:220px}
-#sg-ctrl{background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-top:none;border-radius:0 0 var(--border-radius-lg) var(--border-radius-lg);padding:12px 16px}
-.sg-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-#sg-bet{width:68px;flex:none}
-#sg-btn{flex:1;padding:9px;font-size:15px;font-weight:500;border-radius:var(--border-radius-md);border:.5px solid;cursor:pointer}
-#sg-btn.go{background:rgba(20,55,20,.6);color:#5fcfa0;border-color:#2a5a30}
-#sg-btn.co{background:rgba(70,44,5,.6);color:#f4c775;border-color:#7a5010}
-#sg-btn.wt{background:rgba(20,20,55,.5);color:#5577cc;border-color:#223366}
-#sg-btn:disabled{opacity:.38;cursor:default;animation:none!important}
-.sg-info{display:flex;justify-content:space-between;font-size:13px;color:var(--color-text-secondary)}
-#sg-stat{text-align:center;font-size:13px;font-weight:500;min-height:18px;margin-top:8px}
-#sg-hist{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;border-top:.5px solid var(--color-border-tertiary);padding-top:10px}
-.hb{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;white-space:nowrap}
-.hb-c{background:rgba(226,75,74,.15);color:#e24b4a;border:.5px solid rgba(226,75,74,.3)}
-.hb-w{background:rgba(95,207,160,.15);color:#5fcfa0;border:.5px solid rgba(95,207,160,.3)}
-.hb-j{background:rgba(244,164,64,.15);color:#e8a040;border:.5px solid rgba(244,164,64,.35)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.pulse{animation:pulse .65s infinite}
-</style>
+    body {
+      background: #010108;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 24px 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    #sg {
+      width: 100%;
+      max-width: 580px;
+    }
+
+    #sg-scene {
+      height: 320px;
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #sg-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #sg-mid {
+      background: #06061a;
+      border-left: 0.5px solid #1a1a3a;
+      border-right: 0.5px solid #1a1a3a;
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #sg-mult {
+      font-size: 50px;
+      font-weight: 500;
+      color: #5fcfa0;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.25s;
+    }
+
+    #sg-phase {
+      font-size: 12px;
+      color: #6688dd;
+      text-align: right;
+      line-height: 1.55;
+      max-width: 220px;
+    }
+
+    #sg-ctrl {
+      position: relative;
+      border: 0.5px solid #1a1a3a;
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      padding: 12px 16px;
+      overflow: hidden;
+      background-color: #060612;
+      background-image:
+        radial-gradient(1.5px 1.5px at  4%  18%, rgba(255,255,255,.85), transparent),
+        radial-gradient(1px   1px   at 11%  72%, rgba(255,255,255,.6),  transparent),
+        radial-gradient(2px   2px   at 17%  38%, rgba(255,255,255,.9),  transparent),
+        radial-gradient(1px   1px   at 23%  88%, rgba(255,255,255,.5),  transparent),
+        radial-gradient(1.5px 1.5px at 29%   8%, rgba(255,255,255,.75), transparent),
+        radial-gradient(1px   1px   at 35%  55%, rgba(255,255,255,.6),  transparent),
+        radial-gradient(2px   2px   at 41%  82%, rgba(255,255,255,.45), transparent),
+        radial-gradient(1px   1px   at 47%  24%, rgba(255,255,255,.8),  transparent),
+        radial-gradient(1.5px 1.5px at 53%  66%, rgba(255,255,255,.65), transparent),
+        radial-gradient(1px   1px   at 59%  11%, rgba(255,255,255,.55), transparent),
+        radial-gradient(2px   2px   at 65%  44%, rgba(255,255,255,.9),  transparent),
+        radial-gradient(1px   1px   at 71%  78%, rgba(255,255,255,.5),  transparent),
+        radial-gradient(1.5px 1.5px at 77%  30%, rgba(255,255,255,.7),  transparent),
+        radial-gradient(1px   1px   at 83%  91%, rgba(255,255,255,.6),  transparent),
+        radial-gradient(2px   2px   at 89%  15%, rgba(255,255,255,.85), transparent),
+        radial-gradient(1px   1px   at 95%  58%, rgba(255,255,255,.55), transparent),
+        radial-gradient(1.5px 1.5px at  7%  50%, rgba(255,255,255,.65), transparent),
+        radial-gradient(1px   1px   at 14%  95%, rgba(255,255,255,.4),  transparent),
+        radial-gradient(2px   2px   at 20%  62%, rgba(255,255,255,.75), transparent),
+        radial-gradient(1px   1px   at 32%  33%, rgba(255,255,255,.5),  transparent),
+        radial-gradient(1.5px 1.5px at 44%   5%, rgba(255,255,255,.8),  transparent),
+        radial-gradient(1px   1px   at 56%  97%, rgba(255,255,255,.45), transparent),
+        radial-gradient(2px   2px   at 62%  47%, rgba(255,255,255,.7),  transparent),
+        radial-gradient(1px   1px   at 74%  20%, rgba(255,255,255,.6),  transparent),
+        radial-gradient(1.5px 1.5px at 86%  73%, rgba(255,255,255,.8),  transparent),
+        radial-gradient(1px   1px   at 92%  35%, rgba(255,255,255,.5),  transparent),
+        radial-gradient(2px   2px   at 38%  14%, rgba(255,220,100,.6),  transparent),
+        radial-gradient(1.5px 1.5px at 69%  84%, rgba(255,200,80,.5),   transparent),
+        radial-gradient(2px   2px   at 88%  52%, rgba(200,180,255,.5),  transparent),
+        radial-gradient(1.5px 1.5px at 15%  27%, rgba(180,200,255,.55), transparent);
+    }
+
+    .sg-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .sg-label { font-size: 13px; color: #8899cc; }
+
+    .sg-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #8899cc;
+    }
+
+    .sg-info span span { color: #ccdeff; font-weight: 500; }
+
+    #sg-bet {
+      width: 68px;
+      flex: none;
+      background: #0d0d28;
+      color: #ccdeff;
+      border: 0.5px solid #2a2a5a;
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 14px;
+    }
+
+    #sg-bet:focus { outline: none; border-color: #4455aa; }
+
+    #sg-btn {
+      flex: 1;
+      padding: 9px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+    }
+
+    #sg-stat {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      min-height: 18px;
+      margin-top: 8px;
+      color: #8899cc;
+    }
+
+    #sg-hist {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      border-top: 0.5px solid #1a1a3a;
+      padding-top: 10px;
+      min-height: 0;
+    }
+
+    .hb {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .hb-c { background: rgba(226,75,74,.18);  color: #e24b4a; border: 0.5px solid rgba(226,75,74,.35); }
+    .hb-w { background: rgba(95,207,160,.18); color: #5fcfa0; border: 0.5px solid rgba(95,207,160,.35); }
+    .hb-j { background: rgba(244,164,64,.18); color: #e8a040; border: 0.5px solid rgba(244,164,64,.4); }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  </style>
+</head>
+<body>
 
 <div id="sg">
-  <h2 class="sr-only">Stellar Jackpot — pixel art rocket ships alternating each launch</h2>
   <div id="sg-scene"><canvas id="sg-canvas"></canvas></div>
   <div id="sg-mid">
     <div id="sg-mult">1.00x</div>
@@ -34,9 +189,9 @@
   </div>
   <div id="sg-ctrl">
     <div class="sg-row">
-      <span style="font-size:13px;color:var(--color-text-secondary)">Bet $</span>
+      <span class="sg-label">Bet $</span>
       <input type="number" id="sg-bet" value="10" min="1" max="500" step="1">
-      <button id="sg-btn" class="go" onclick="sgAct()">Launch</button>
+      <button id="sg-btn" onclick="sgAct()">Launch</button>
     </div>
     <div class="sg-info">
       <span>Balance: $<span id="sg-bal">1000.00</span></span>
@@ -49,498 +204,500 @@
 
 <script>
 (function(){
-  const LAND=30, ARATE=0.028, DRATE=0.016;
-  const cv=document.getElementById('sg-canvas');
-  const c=cv.getContext('2d');
-  const sc=document.getElementById('sg-scene');
+  // ── Constants ─────────────────────────────────────────────────
+  const LAND  = 30;      // jackpot threshold multiplier
+  const ARATE = 0.028;   // ascent  growth per tick (math unchanged)
+  const DRATE = 0.016;   // descent growth per tick (math unchanged)
+  const A_MS  = 200;     // ascent  tick ms  (half speed = 200)
+  const D_MS  = 300;     // descent tick ms  (half speed = 300)
 
-  let gs='IDLE', mult=1, crashPt=0;
-  let bal=1000, bet=10;
-  let cashedOut=false, coMult=0, coX=0, coY=0;
-  let stars=[], parts=[], trail=[], clouds=[], lRing=0;
-  let lsx=0, lsy=0, ex=0, ey=0;
-  let history=[], ivl, cdVal=3;
-  let launchCount=0;  // alternates ship each launch
+  // ── Canvas setup ─────────────────────────────────────────────
+  const cv = document.getElementById('sg-canvas');
+  const c  = cv.getContext('2d');
+  const sc = document.getElementById('sg-scene');
 
-  function genCrash(){
-    const u=Math.random();
-    return u<0.04 ? 0 : 0.96/(1-u);
+  // ── State ────────────────────────────────────────────────────
+  let gs = 'IDLE', mult = 1, crashPt = 0;
+  let bal = 1000, bet = 10;
+  let cashedOut = false, coMult = 0, coX = 0, coY = 0;
+  let stars = [], parts = [], trail = [], clouds = [], lRing = 0;
+  let lsx = 0, lsy = 0, ex = 0, ey = 0;
+  let history = [], ivl, cdVal = 3;
+  let launchCount = 0; // incremented at round END so idle ship = next ship
+
+  // ── 96% RTP crash generator ──────────────────────────────────
+  // P(C > x) = 0.96/x  →  E[return at any fixed cashout x] = 0.96
+  function genCrash() {
+    const u = Math.random();
+    return u < 0.04 ? 0 : 0.96 / (1 - u);
   }
 
-  function initScene(){
-    stars=Array.from({length:200},()=>({
-      x:Math.random(),y:Math.random(),
-      r:Math.random()*1.8+.3,b:Math.random()*.9+.2,tw:Math.random()*6.28
+  // ── Scene init ───────────────────────────────────────────────
+  function initScene() {
+    stars = Array.from({length: 200}, () => ({
+      x: Math.random(), y: Math.random(),
+      r: Math.random() * 1.8 + .3,
+      b: Math.random() * .9 + .2,
+      tw: Math.random() * 6.28
     }));
-    clouds=Array.from({length:28},()=>({
-      cx:Math.random(),cy:0.05+Math.random()*0.7,
-      rx:0.06+Math.random()*0.14,ry:0.02+Math.random()*0.05,
-      alpha:0.35+Math.random()*0.45,rot:Math.random()*0.4-0.2
+    clouds = Array.from({length: 28}, () => ({
+      cx: Math.random(), cy: .05 + Math.random() * .7,
+      rx: .06 + Math.random() * .14, ry: .02 + Math.random() * .05,
+      alpha: .35 + Math.random() * .45, rot: Math.random() * .4 - .2
     }));
   }
 
-  function rsz(){ cv.width=sc.offsetWidth; cv.height=sc.offsetHeight; }
+  function rsz() { cv.width = sc.offsetWidth; cv.height = sc.offsetHeight; }
 
-  function earthScroll(){
-    if(gs==='IDLE'||gs==='COUNTDOWN') return 0;
-    if(gs==='FLYING') return Math.min((mult-1)/9,1);
+  function earthScroll() {
+    if (gs === 'IDLE' || gs === 'COUNTDOWN') return 0;
+    if (gs === 'FLYING') return Math.min((mult - 1) / 9, 1);
     return 1;
   }
 
-  // ── 5-point star helper ────────────────────────────────────────
-  function star5(cx,cy,ro,ri){
+  // ── Star polygon helper ──────────────────────────────────────
+  function star5(cx, cy, ro, ri) {
     c.beginPath();
-    for(let i=0;i<10;i++){
-      const r=i%2===0?ro:ri;
-      const a=i*Math.PI/5-Math.PI/2;
-      i===0?c.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r):c.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);
+    for (let i = 0; i < 10; i++) {
+      const r = i % 2 === 0 ? ro : ri, a = i * Math.PI / 5 - Math.PI / 2;
+      i === 0 ? c.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r)
+              : c.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
     }
     c.closePath();
   }
 
-  // ── SHIP 1 — Red retro rocket (Image 1 style) ─────────────────
-  // coords centered at (0,0), nose points up (negative y), total ~90px tall
-  function drawShip1Body(){
-    // === Swept fins (behind body) ===
-    // Left fin — red outer + yellow inner
-    c.fillStyle='#991100';
+  // ── Ship 1 — Red retro pixel rocket ─────────────────────────
+  function drawShip1Body() {
+    // Swept fins
+    c.fillStyle = '#991100';
     c.beginPath(); c.moveTo(-13,2); c.lineTo(-30,22); c.lineTo(-13,20); c.closePath(); c.fill();
-    c.fillStyle='#ffcc00';
+    c.fillStyle = '#ffcc00';
     c.beginPath(); c.moveTo(-14,9); c.lineTo(-24,20); c.lineTo(-14,18); c.closePath(); c.fill();
-    // Right fin
-    c.fillStyle='#991100';
+    c.fillStyle = '#991100';
     c.beginPath(); c.moveTo(13,2); c.lineTo(30,22); c.lineTo(13,20); c.closePath(); c.fill();
-    c.fillStyle='#ffcc00';
+    c.fillStyle = '#ffcc00';
     c.beginPath(); c.moveTo(14,9); c.lineTo(24,20); c.lineTo(14,18); c.closePath(); c.fill();
-
-    // === Blue engine skirt ===
-    c.fillStyle='#2244cc'; c.fillRect(-12,10,24,14);
-    c.fillStyle='#3355dd'; c.fillRect(-10,11,5,12); // highlight
-
-    // === Engine nozzle ===
-    c.fillStyle='#555555'; c.fillRect(-6,24,12,6);
-    c.fillStyle='#333333'; c.fillRect(-4,28,8,6);
-    c.fillStyle='#222222'; c.fillRect(-3,32,6,3);
-
-    // === Main body — red ===
-    c.fillStyle='#dd2200'; c.fillRect(-13,-24,26,34);
-    c.fillStyle='#ff4422'; c.fillRect(-11,-22,5,30); // left highlight
-    c.fillStyle='#bb1100'; c.fillRect(7,-22,5,30);   // right shadow
-
-    // === Gold collar ===
-    c.fillStyle='#ffcc00'; c.fillRect(-13,-27,26,5);
-    c.fillStyle='#cc9900'; c.fillRect(-13,-24,26,2);
-
-    // === Nose cone — red ===
-    c.fillStyle='#cc2200';
+    // Blue engine skirt
+    c.fillStyle = '#2244cc'; c.fillRect(-12,10,24,14);
+    c.fillStyle = '#3355dd'; c.fillRect(-10,11,5,12);
+    // Nozzle
+    c.fillStyle = '#555'; c.fillRect(-6,24,12,6);
+    c.fillStyle = '#333'; c.fillRect(-4,28,8,6);
+    c.fillStyle = '#222'; c.fillRect(-3,32,6,3);
+    // Main body
+    c.fillStyle = '#dd2200'; c.fillRect(-13,-24,26,34);
+    c.fillStyle = '#ff4422'; c.fillRect(-11,-22,5,30);
+    c.fillStyle = '#bb1100'; c.fillRect(7,-22,5,30);
+    // Gold collar
+    c.fillStyle = '#ffcc00'; c.fillRect(-13,-27,26,5);
+    c.fillStyle = '#cc9900'; c.fillRect(-13,-24,26,2);
+    // Nose cone
+    c.fillStyle = '#cc2200';
     c.beginPath(); c.moveTo(0,-46); c.lineTo(-12,-24); c.lineTo(12,-24); c.closePath(); c.fill();
-    // Nose left highlight
-    c.fillStyle='#ee4422';
+    c.fillStyle = '#ee4422';
     c.beginPath(); c.moveTo(-1,-46); c.lineTo(-6,-32); c.lineTo(0,-32); c.closePath(); c.fill();
-    // Nose right shadow
-    c.fillStyle='#aa1100';
+    c.fillStyle = '#aa1100';
     c.beginPath(); c.moveTo(3,-46); c.lineTo(8,-32); c.lineTo(11,-24); c.closePath(); c.fill();
-
-    // === Upper porthole ===
-    c.fillStyle='#ffcc00'; c.beginPath(); c.arc(0,-13,8,0,6.28); c.fill();
-    c.fillStyle='#1133aa'; c.beginPath(); c.arc(0,-13,6,0,6.28); c.fill();
-    c.fillStyle='#4466ee'; c.beginPath(); c.arc(0,-13,4.5,0,6.28); c.fill();
-    c.fillStyle='#88bbff'; c.globalAlpha=.7; c.beginPath(); c.arc(-2,-15,2,0,6.28); c.fill(); c.globalAlpha=1;
-
-    // === Lower porthole ===
-    c.fillStyle='#ffcc00'; c.beginPath(); c.arc(0,1,8,0,6.28); c.fill();
-    c.fillStyle='#1133aa'; c.beginPath(); c.arc(0,1,6,0,6.28); c.fill();
-    c.fillStyle='#4466ee'; c.beginPath(); c.arc(0,1,4.5,0,6.28); c.fill();
-    c.fillStyle='#88bbff'; c.globalAlpha=.7; c.beginPath(); c.arc(-2,-1,2,0,6.28); c.fill(); c.globalAlpha=1;
-
-    // === Rainbow star badge ===
-    const rc=['#ff0000','#ff7700','#ffee00','#00bb00','#2255ff'];
-    for(let i=4;i>=0;i--){
-      star5(0,14,7.5-i*0.7,3.8-i*0.35);
-      c.fillStyle=rc[i]; c.fill();
-    }
-    // Star outline
-    star5(0,14,7.5,3.8); c.strokeStyle='#441100'; c.lineWidth=.5; c.stroke();
+    // Upper porthole
+    c.fillStyle = '#ffcc00'; c.beginPath(); c.arc(0,-13,8,0,6.28); c.fill();
+    c.fillStyle = '#1133aa'; c.beginPath(); c.arc(0,-13,6,0,6.28); c.fill();
+    c.fillStyle = '#4466ee'; c.beginPath(); c.arc(0,-13,4.5,0,6.28); c.fill();
+    c.fillStyle = '#88bbff'; c.globalAlpha = .7; c.beginPath(); c.arc(-2,-15,2,0,6.28); c.fill(); c.globalAlpha = 1;
+    // Lower porthole
+    c.fillStyle = '#ffcc00'; c.beginPath(); c.arc(0,1,8,0,6.28); c.fill();
+    c.fillStyle = '#1133aa'; c.beginPath(); c.arc(0,1,6,0,6.28); c.fill();
+    c.fillStyle = '#4466ee'; c.beginPath(); c.arc(0,1,4.5,0,6.28); c.fill();
+    c.fillStyle = '#88bbff'; c.globalAlpha = .7; c.beginPath(); c.arc(-2,-1,2,0,6.28); c.fill(); c.globalAlpha = 1;
+    // Rainbow star badge
+    const rc = ['#ff0000','#ff7700','#ffee00','#00bb00','#2255ff'];
+    for (let i = 4; i >= 0; i--) { star5(0,14,7.5-i*.7,3.8-i*.35); c.fillStyle = rc[i]; c.fill(); }
+    star5(0,14,7.5,3.8); c.strokeStyle = '#441100'; c.lineWidth = .5; c.stroke();
   }
 
-  // ── SHIP 2 — Blue-nose rocket (Image 2 style) ─────────────────
-  function drawShip2Body(){
-    // === Swept fins — blue outer, orange inner ===
-    c.fillStyle='#1133aa';
+  // ── Ship 2 — Blue-nose pixel rocket ─────────────────────────
+  function drawShip2Body() {
+    // Swept fins
+    c.fillStyle = '#1133aa';
     c.beginPath(); c.moveTo(-13,4); c.lineTo(-32,26); c.lineTo(-13,22); c.closePath(); c.fill();
-    c.fillStyle='#ff8800';
+    c.fillStyle = '#ff8800';
     c.beginPath(); c.moveTo(-14,11); c.lineTo(-26,22); c.lineTo(-14,20); c.closePath(); c.fill();
-
-    c.fillStyle='#1133aa';
+    c.fillStyle = '#1133aa';
     c.beginPath(); c.moveTo(13,4); c.lineTo(32,26); c.lineTo(13,22); c.closePath(); c.fill();
-    c.fillStyle='#ff8800';
+    c.fillStyle = '#ff8800';
     c.beginPath(); c.moveTo(14,11); c.lineTo(26,22); c.lineTo(14,20); c.closePath(); c.fill();
-
-    // === Blue lower engine skirt ===
-    c.fillStyle='#1133aa'; c.fillRect(-13,8,26,16);
-    c.fillStyle='#2244bb'; c.fillRect(-11,9,5,14); // highlight
-
-    // === Engine nozzle (wider, two bells) ===
-    c.fillStyle='#666666'; c.fillRect(-7,24,14,6);
-    c.fillStyle='#444444'; c.fillRect(-5,28,10,6);
-    c.fillStyle='#222222'; c.fillRect(-4,32,8,3);
-
-    // === Red main body ===
-    c.fillStyle='#dd2200'; c.fillRect(-13,-24,26,32);
-    c.fillStyle='#ff4422'; c.fillRect(-11,-22,5,28); // highlight
-    c.fillStyle='#bb1100'; c.fillRect(7,-22,5,28);   // shadow
-
-    // === White "FLY" band ===
-    c.fillStyle='#ffffff'; c.fillRect(-13,0,26,10);
-    c.fillStyle='#eeeeee'; c.fillRect(-13,0,26,3); // top sheen
+    // Blue engine skirt
+    c.fillStyle = '#1133aa'; c.fillRect(-13,8,26,16);
+    c.fillStyle = '#2244bb'; c.fillRect(-11,9,5,14);
+    // Nozzle
+    c.fillStyle = '#666'; c.fillRect(-7,24,14,6);
+    c.fillStyle = '#444'; c.fillRect(-5,28,10,6);
+    c.fillStyle = '#222'; c.fillRect(-4,32,8,3);
+    // Red main body
+    c.fillStyle = '#dd2200'; c.fillRect(-13,-24,26,32);
+    c.fillStyle = '#ff4422'; c.fillRect(-11,-22,5,28);
+    c.fillStyle = '#bb1100'; c.fillRect(7,-22,5,28);
+    // White FLY band
+    c.fillStyle = '#fff'; c.fillRect(-13,0,26,10);
+    c.fillStyle = '#eee'; c.fillRect(-13,0,26,3);
     c.save();
-    c.fillStyle='#1133aa'; c.font='bold 7px monospace';
-    c.textAlign='center'; c.textBaseline='middle';
-    c.fillText('FLY',0,6);
+    c.fillStyle = '#1133aa'; c.font = 'bold 7px monospace';
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillText('FLY', 0, 6);
     c.restore();
-
-    // === Blue nose cone (taller, sharper) ===
-    c.fillStyle='#2255bb';
+    // Blue nose cone
+    c.fillStyle = '#2255bb';
     c.beginPath(); c.moveTo(0,-48); c.lineTo(-13,-22); c.lineTo(13,-22); c.closePath(); c.fill();
-    // Nose left highlight
-    c.fillStyle='#4488dd';
+    c.fillStyle = '#4488dd';
     c.beginPath(); c.moveTo(-2,-48); c.lineTo(-7,-33); c.lineTo(-1,-33); c.closePath(); c.fill();
-    // Nose right shadow
-    c.fillStyle='#1133aa';
+    c.fillStyle = '#1133aa';
     c.beginPath(); c.moveTo(4,-48); c.lineTo(9,-33); c.lineTo(12,-22); c.closePath(); c.fill();
-
-    // === Upper porthole — yellow ring, dark, yellow center ===
-    c.fillStyle='#ffcc00'; c.beginPath(); c.arc(0,-14,8,0,6.28); c.fill();
-    c.fillStyle='#222222'; c.beginPath(); c.arc(0,-14,6,0,6.28); c.fill();
-    c.fillStyle='#ffee44'; c.beginPath(); c.arc(0,-14,3.5,0,6.28); c.fill();
-    c.fillStyle='#ffffff'; c.globalAlpha=.55; c.beginPath(); c.arc(-1.5,-15.5,1.8,0,6.28); c.fill(); c.globalAlpha=1;
-
-    // === Lower porthole ===
-    c.fillStyle='#ffcc00'; c.beginPath(); c.arc(0,-2,8,0,6.28); c.fill();
-    c.fillStyle='#222222'; c.beginPath(); c.arc(0,-2,6,0,6.28); c.fill();
-    c.fillStyle='#ffee44'; c.beginPath(); c.arc(0,-2,3.5,0,6.28); c.fill();
-    c.fillStyle='#ffffff'; c.globalAlpha=.55; c.beginPath(); c.arc(-1.5,-3.5,1.8,0,6.28); c.fill(); c.globalAlpha=1;
-
-    // === Star on lower blue panel ===
-    star5(0,17,6,3); c.fillStyle='#ffcc00'; c.fill();
-    c.strokeStyle='#886600'; c.lineWidth=.5; c.stroke();
+    // Upper porthole
+    c.fillStyle = '#ffcc00'; c.beginPath(); c.arc(0,-14,8,0,6.28); c.fill();
+    c.fillStyle = '#222'; c.beginPath(); c.arc(0,-14,6,0,6.28); c.fill();
+    c.fillStyle = '#ffee44'; c.beginPath(); c.arc(0,-14,3.5,0,6.28); c.fill();
+    c.fillStyle = '#fff'; c.globalAlpha = .55; c.beginPath(); c.arc(-1.5,-15.5,1.8,0,6.28); c.fill(); c.globalAlpha = 1;
+    // Lower porthole
+    c.fillStyle = '#ffcc00'; c.beginPath(); c.arc(0,-2,8,0,6.28); c.fill();
+    c.fillStyle = '#222'; c.beginPath(); c.arc(0,-2,6,0,6.28); c.fill();
+    c.fillStyle = '#ffee44'; c.beginPath(); c.arc(0,-2,3.5,0,6.28); c.fill();
+    c.fillStyle = '#fff'; c.globalAlpha = .55; c.beginPath(); c.arc(-1.5,-3.5,1.8,0,6.28); c.fill(); c.globalAlpha = 1;
+    // Gold star
+    star5(0,17,6,3); c.fillStyle = '#ffcc00'; c.fill();
+    c.strokeStyle = '#886600'; c.lineWidth = .5; c.stroke();
   }
 
-  // ── Unified drawShip — alternates based on launchCount ─────────
-  function drawShip(x,y,flipped){
-    c.save(); c.translate(x,y);
-    if(flipped) c.rotate(Math.PI);
-
-    const type=launchCount%2;
-    if(type===0) drawShip1Body();
-    else drawShip2Body();
-
-    // Engine flame (always from nozzle exit at ~y=35 in local space)
-    if(gs==='FLYING'||gs==='DESCENDING'||gs==='COUNTDOWN'){
-      const fh=20+Math.random()*16;
-      const g=c.createLinearGradient(0,33,0,33+fh);
-      g.addColorStop(0,'#ffee88');
-      g.addColorStop(0.15,'#ffaa00');
-      g.addColorStop(0.55,'#ff4400');
-      g.addColorStop(1,'rgba(255,40,0,0)');
-      c.fillStyle=g;
-      c.beginPath(); c.moveTo(-6,33); c.quadraticCurveTo(0,33+fh,6,33); c.fill();
-      // Inner bright core
-      const g2=c.createLinearGradient(0,33,0,33+fh*.5);
-      g2.addColorStop(0,'rgba(255,255,200,.9)');
-      g2.addColorStop(1,'rgba(255,200,0,0)');
-      c.fillStyle=g2;
-      c.beginPath(); c.moveTo(-3,33); c.quadraticCurveTo(0,33+fh*.5,3,33); c.fill();
+  // ── Draw active ship + flame ─────────────────────────────────
+  function drawShip(x, y, flipped) {
+    c.save(); c.translate(x, y);
+    if (flipped) c.rotate(Math.PI);
+    if (launchCount % 2 === 0) drawShip1Body(); else drawShip2Body();
+    // Engine flame
+    if (gs === 'FLYING' || gs === 'DESCENDING' || gs === 'COUNTDOWN') {
+      const fh = 20 + Math.random() * 16;
+      const g = c.createLinearGradient(0,33,0,33+fh);
+      g.addColorStop(0,'#ffee88'); g.addColorStop(.15,'#ffaa00');
+      g.addColorStop(.55,'#ff4400'); g.addColorStop(1,'rgba(255,40,0,0)');
+      c.fillStyle = g; c.beginPath(); c.moveTo(-6,33); c.quadraticCurveTo(0,33+fh,6,33); c.fill();
+      const g2 = c.createLinearGradient(0,33,0,33+fh*.5);
+      g2.addColorStop(0,'rgba(255,255,200,.9)'); g2.addColorStop(1,'rgba(255,200,0,0)');
+      c.fillStyle = g2; c.beginPath(); c.moveTo(-3,33); c.quadraticCurveTo(0,33+fh*.5,3,33); c.fill();
     }
     c.restore();
   }
 
-  // ── Earth + stars scene ────────────────────────────────────────
-  function drawScene(t){
-    const W=cv.width, H=cv.height;
-    const scroll=earthScroll();
-    c.fillStyle='#020208'; c.fillRect(0,0,W,H);
+  // ── Earth + stars background ─────────────────────────────────
+  function drawScene(t) {
+    const W = cv.width, H = cv.height, scroll = earthScroll();
+    c.fillStyle = '#020208'; c.fillRect(0,0,W,H);
 
-    // Stars fade in as Earth scrolls away
-    const sA=Math.min(scroll*1.6,1);
-    stars.forEach(s=>{
-      c.globalAlpha=s.b*(.5+.5*Math.sin(s.tw+t*.0008))*sA;
-      c.fillStyle='#fff';
-      c.beginPath(); c.arc(s.x*W,s.y*H,s.r,0,6.28); c.fill();
+    // Stars — fade in as Earth scrolls away
+    const sA = Math.min(scroll * 1.6, 1);
+    stars.forEach(s => {
+      c.globalAlpha = s.b * (.5 + .5 * Math.sin(s.tw + t * .0008)) * sA;
+      c.fillStyle = '#fff'; c.beginPath(); c.arc(s.x*W, s.y*H, s.r, 0, 6.28); c.fill();
     });
-    c.globalAlpha=1;
+    c.globalAlpha = 1;
 
-    // Earth surface scrolls downward
-    const earthTop=H*0.25+scroll*(H-H*0.25);
-    const earthH=H-earthTop;
-    if(earthH>0){
-      const og=c.createLinearGradient(0,earthTop,0,H);
-      og.addColorStop(0,'#0d2b5e'); og.addColorStop(0.25,'#1a4488');
-      og.addColorStop(0.55,'#2060aa'); og.addColorStop(1,'#4488cc');
-      c.fillStyle=og; c.fillRect(0,earthTop,W,H-earthTop);
+    // Earth surface scrolls off bottom as altitude increases
+    const earthTop = H * .25 + scroll * (H - H * .25);
+    const earthH   = H - earthTop;
+    if (earthH > 0) {
+      const og = c.createLinearGradient(0, earthTop, 0, H);
+      og.addColorStop(0,'#0d2b5e'); og.addColorStop(.25,'#1a4488');
+      og.addColorStop(.55,'#2060aa'); og.addColorStop(1,'#4488cc');
+      c.fillStyle = og; c.fillRect(0, earthTop, W, H - earthTop);
 
-      const land=[[.08,.3,.12,.07,.4,'#1a5530'],[.28,.55,.16,.09,-.3,'#1e5a34'],
-                  [.55,.38,.13,.08,.2,'#1a5028'],[.72,.7,.18,.1,-.15,'#226038'],
-                  [-.05,.75,.11,.06,.1,'#1e5530'],[.9,.45,.1,.07,.3,'#1a5030']];
-      land.forEach(([lx,ly,lrx,lry,rot,col])=>{
-        const px=lx*W,py=earthTop+ly*earthH;
-        if(py<earthTop||py>H) return;
+      // Land masses
+      [[.08,.3,.12,.07,.4,'#1a5530'],[.28,.55,.16,.09,-.3,'#1e5a34'],
+       [.55,.38,.13,.08,.2,'#1a5028'],[.72,.7,.18,.1,-.15,'#226038'],
+       [-.05,.75,.11,.06,.1,'#1e5530'],[.9,.45,.1,.07,.3,'#1a5030']].forEach(([lx,ly,lrx,lry,rot,col]) => {
+        const px = lx*W, py = earthTop + ly*earthH;
+        if (py < earthTop || py > H) return;
         c.save(); c.translate(px,py); c.rotate(rot);
-        c.fillStyle=col; c.globalAlpha=0.75;
+        c.fillStyle = col; c.globalAlpha = .75;
         c.beginPath(); c.ellipse(0,0,lrx*W,lry*earthH,0,0,6.28); c.fill();
         c.restore();
       });
-      c.globalAlpha=1;
+      c.globalAlpha = 1;
 
-      clouds.forEach(cl=>{
-        const px=cl.cx*W, py=earthTop+cl.cy*earthH;
-        if(py>H+20) return;
-        c.save(); c.translate(px,py); c.rotate(cl.rot);
-        c.globalAlpha=cl.alpha;
-        const cg=c.createRadialGradient(0,0,0,0,0,cl.rx*W);
-        cg.addColorStop(0,'rgba(230,240,255,.95)');
-        cg.addColorStop(.5,'rgba(200,220,245,.7)');
+      // Clouds
+      clouds.forEach(cl => {
+        const px = cl.cx*W, py = earthTop + cl.cy*earthH;
+        if (py > H + 20) return;
+        c.save(); c.translate(px,py); c.rotate(cl.rot); c.globalAlpha = cl.alpha;
+        const cg = c.createRadialGradient(0,0,0,0,0,cl.rx*W);
+        cg.addColorStop(0,'rgba(230,240,255,.95)'); cg.addColorStop(.5,'rgba(200,220,245,.7)');
         cg.addColorStop(1,'rgba(180,210,240,0)');
-        c.fillStyle=cg;
-        c.beginPath(); c.ellipse(0,0,cl.rx*W,cl.ry*earthH,0,0,6.28); c.fill();
+        c.fillStyle = cg; c.beginPath(); c.ellipse(0,0,cl.rx*W,cl.ry*earthH,0,0,6.28); c.fill();
         c.restore();
       });
-      c.globalAlpha=1;
+      c.globalAlpha = 1;
 
       // Atmosphere glow at horizon
-      const ag=c.createLinearGradient(0,earthTop,0,earthTop+30);
-      ag.addColorStop(0,'rgba(80,160,255,0)');
-      ag.addColorStop(.4,'rgba(90,170,255,.52)');
+      const ag = c.createLinearGradient(0,earthTop,0,earthTop+30);
+      ag.addColorStop(0,'rgba(80,160,255,0)'); ag.addColorStop(.4,'rgba(90,170,255,.52)');
       ag.addColorStop(1,'rgba(60,140,240,0)');
-      c.fillStyle=ag; c.fillRect(0,earthTop,W,30);
-      // Curvature dark fringe
-      const curveG=c.createLinearGradient(0,earthTop,0,earthTop+12);
-      curveG.addColorStop(0,'rgba(2,2,8,.8)');
-      curveG.addColorStop(1,'rgba(2,2,8,0)');
-      c.fillStyle=curveG; c.fillRect(0,earthTop,W,12);
+      c.fillStyle = ag; c.fillRect(0,earthTop,W,30);
+
+      // Dark fringe at top of earth panel
+      const cgrd = c.createLinearGradient(0,earthTop,0,earthTop+12);
+      cgrd.addColorStop(0,'rgba(2,2,8,.8)'); cgrd.addColorStop(1,'rgba(2,2,8,0)');
+      c.fillStyle = cgrd; c.fillRect(0,earthTop,W,12);
     }
 
-    // Landing pad (descent/landed)
-    if(gs==='DESCENDING'||gs==='LANDED'){
-      const px=cv.width*.6, py=cv.height-50;
-      c.fillStyle='#7a7855'; c.fillRect(px-28,py+12,56,5);
-      const blink=Date.now()%700<350;
-      c.fillStyle=blink?'#ffcc00':'#554400';
-      [-20,-7,7,20].forEach(dx=>{c.beginPath();c.arc(px+dx,py+18,2.5,0,6.28);c.fill();});
-      c.font='500 9px sans-serif'; c.textAlign='center';
-      c.fillStyle='rgba(200,200,100,.45)';
-      c.fillText('LANDING ZONE',px,py+30);
+    // Landing pad (descent / landed phases)
+    if (gs === 'DESCENDING' || gs === 'LANDED') {
+      const px = cv.width * .6, py = cv.height - 50;
+      c.fillStyle = '#7a7855'; c.fillRect(px-28, py+12, 56, 5);
+      const blink = Date.now() % 700 < 350;
+      c.fillStyle = blink ? '#ffcc00' : '#554400';
+      [-20,-7,7,20].forEach(dx => { c.beginPath(); c.arc(px+dx,py+18,2.5,0,6.28); c.fill(); });
+      c.font = '500 9px sans-serif'; c.textAlign = 'center';
+      c.fillStyle = 'rgba(200,200,100,.45)'; c.fillText('LANDING ZONE', px, py+30);
     }
   }
 
-  function spawnExp(x,y){
-    parts=[]; ex=x; ey=y;
-    const cols=['#ff4400','#ff8800','#ffcc00','#ff2200','#ffeeaa','#fff'];
-    for(let i=0;i<90;i++){
-      const a=Math.random()*6.28,sp=Math.random()*9+1;
+  // ── Explosion ────────────────────────────────────────────────
+  function spawnExp(x, y) {
+    parts = []; ex = x; ey = y;
+    const cols = ['#ff4400','#ff8800','#ffcc00','#ff2200','#ffeeaa','#fff'];
+    for (let i = 0; i < 90; i++) {
+      const a = Math.random() * 6.28, sp = Math.random() * 9 + 1;
       parts.push({x:0,y:0,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2.5,sz:Math.random()*6+2,life:1,col:cols[~~(Math.random()*6)]});
     }
   }
-  function tickExp(){
-    parts=parts.filter(p=>{
+  function tickExp() {
+    parts = parts.filter(p => {
       p.x+=p.vx; p.y+=p.vy; p.vy+=.28; p.life-=.018;
-      if(p.life<=0) return false;
-      c.globalAlpha=p.life; c.fillStyle=p.col;
-      c.beginPath(); c.arc(ex+p.x,ey+p.y,p.sz*p.life,0,6.28); c.fill();
+      if (p.life <= 0) return false;
+      c.globalAlpha = p.life; c.fillStyle = p.col;
+      c.beginPath(); c.arc(ex+p.x, ey+p.y, p.sz*p.life, 0, 6.28); c.fill();
       return true;
     });
-    c.globalAlpha=1;
+    c.globalAlpha = 1;
   }
 
-  function getPos(){
-    const W=cv.width,H=cv.height,sx=W*.44,bot=H-55,top=62;
-    if(gs==='IDLE'||gs==='COUNTDOWN') return[sx,bot];
-    if(gs==='FLYING'){
-      const p=Math.min(Math.max((mult-1)/9,0),1);
-      return[sx,bot-p*(bot-top)];
+  // ── Rocket position from current game state ──────────────────
+  function getPos() {
+    const W = cv.width, H = cv.height, sx = W*.44, bot = H-55, top = 62;
+    if (gs === 'IDLE' || gs === 'COUNTDOWN') return [sx, bot];
+    if (gs === 'FLYING') {
+      const p = Math.min(Math.max((mult-1)/9, 0), 1);
+      return [sx, bot - p*(bot-top)];
     }
-    if(gs==='DESCENDING'){
-      const p=Math.min((mult-10)/(LAND-10),1);
-      return[sx+p*cv.width*.16,top+p*(bot-top)];
+    if (gs === 'DESCENDING') {
+      const p = Math.min((mult-10)/(LAND-10), 1);
+      return [sx + p*cv.width*.16, top + p*(bot-top)];
     }
-    if(gs==='LANDED') return[cv.width*.6,cv.height-55];
-    return[lsx,lsy];
+    if (gs === 'LANDED') return [cv.width*.6, cv.height-55];
+    return [lsx, lsy];
   }
 
-  function drawCashPin(){
-    if(!cashedOut||coMult===0) return;
-    const ring=(Date.now()%1200)/1200;
-    c.globalAlpha=1-ring; c.strokeStyle='#f4c775'; c.lineWidth=1.5;
-    c.beginPath(); c.arc(coX,coY,10+ring*24,0,6.28); c.stroke(); c.globalAlpha=1;
-    c.fillStyle='#f4c775'; c.beginPath(); c.arc(coX,coY,5,0,6.28); c.fill();
-    c.strokeStyle='rgba(0,0,0,.5)'; c.lineWidth=1; c.stroke();
+  // ── Cashout pin marker ───────────────────────────────────────
+  function drawCashPin() {
+    if (!cashedOut || coMult === 0) return;
+    const ring = (Date.now() % 1200) / 1200;
+    c.globalAlpha = 1-ring; c.strokeStyle = '#f4c775'; c.lineWidth = 1.5;
+    c.beginPath(); c.arc(coX, coY, 10+ring*24, 0, 6.28); c.stroke(); c.globalAlpha = 1;
+    c.fillStyle = '#f4c775'; c.beginPath(); c.arc(coX,coY,5,0,6.28); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,.5)'; c.lineWidth = 1; c.stroke();
     c.save();
-    c.font='500 10px sans-serif'; c.textAlign='left'; c.textBaseline='middle';
-    const lbl=`You: ${coMult.toFixed(2)}x`;
-    const tw=c.measureText(lbl).width;
-    const lx=coX+12,ly=coY-16;
-    c.fillStyle='rgba(20,14,2,.88)'; c.strokeStyle='rgba(244,199,117,.5)'; c.lineWidth=.5;
+    c.font = '500 10px sans-serif'; c.textAlign = 'left'; c.textBaseline = 'middle';
+    const lbl = `You: ${coMult.toFixed(2)}x`, tw = c.measureText(lbl).width;
+    const lx = coX+12, ly = coY-16;
+    c.fillStyle = 'rgba(20,14,2,.88)'; c.strokeStyle = 'rgba(244,199,117,.5)'; c.lineWidth = .5;
     c.beginPath(); c.rect(lx-4,ly-9,tw+10,18); c.fill(); c.stroke();
-    c.fillStyle='#f4c775'; c.fillText(lbl,lx,ly);
+    c.fillStyle = '#f4c775'; c.fillText(lbl, lx, ly);
     c.restore();
   }
 
-  // ── Render loop ────────────────────────────────────────────────
-  function draw(t){
+  // ── Main render loop ─────────────────────────────────────────
+  function draw(t) {
     requestAnimationFrame(draw);
-    rsz();
-    drawScene(t);
+    rsz(); drawScene(t);
 
-    if(trail.length>1){
-      trail.forEach((pt,i)=>{
-        c.globalAlpha=(i/trail.length)*.55;
-        c.fillStyle=(gs==='DESCENDING'||gs==='LANDED')?'#f4a040':'#5fcfa0';
-        c.beginPath(); c.arc(pt[0],pt[1],1.8,0,6.28); c.fill();
+    // Trail
+    if (trail.length > 1) {
+      trail.forEach((pt, i) => {
+        c.globalAlpha = (i / trail.length) * .55;
+        c.fillStyle = (gs === 'DESCENDING' || gs === 'LANDED') ? '#f4a040' : '#5fcfa0';
+        c.beginPath(); c.arc(pt[0], pt[1], 1.8, 0, 6.28); c.fill();
       });
-      c.globalAlpha=1;
+      c.globalAlpha = 1;
     }
 
     drawCashPin();
 
-    if(gs==='CRASHED'){
+    if (gs === 'CRASHED') {
       tickExp();
     } else {
-      const [rx,ry]=getPos();
-      drawShip(rx,ry,gs==='DESCENDING'||gs==='LANDED');
-      lsx=rx; lsy=ry;
-      if(gs==='FLYING'||gs==='DESCENDING'){
-        trail.push([rx,ry]); if(trail.length>90)trail.shift();
+      const [rx, ry] = getPos();
+      drawShip(rx, ry, gs === 'DESCENDING' || gs === 'LANDED');
+      lsx = rx; lsy = ry;
+      if (gs === 'FLYING' || gs === 'DESCENDING') {
+        trail.push([rx,ry]); if (trail.length > 90) trail.shift();
       }
-      if(gs==='LANDED'){
-        lRing+=1.9; const rr=lRing%75;
-        c.globalAlpha=1-rr/75; c.strokeStyle='#5fcfa0'; c.lineWidth=2;
-        c.beginPath(); c.arc(rx,ry,rr+10,0,6.28); c.stroke(); c.globalAlpha=1;
+      if (gs === 'LANDED') {
+        lRing += 1.9; const rr = lRing % 75;
+        c.globalAlpha = 1-rr/75; c.strokeStyle = '#5fcfa0'; c.lineWidth = 2;
+        c.beginPath(); c.arc(rx,ry,rr+10,0,6.28); c.stroke(); c.globalAlpha = 1;
       }
     }
 
-    if(gs==='COUNTDOWN'){
-      c.fillStyle='rgba(255,255,255,.87)';
-      c.font='500 58px sans-serif'; c.textAlign='center'; c.textBaseline='middle';
-      c.fillText(cdVal>0?String(cdVal):'GO!',cv.width/2,cv.height/2);
+    if (gs === 'COUNTDOWN') {
+      c.fillStyle = 'rgba(255,255,255,.87)';
+      c.font = '500 58px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText(cdVal > 0 ? String(cdVal) : 'GO!', cv.width/2, cv.height/2);
     }
   }
 
-  // ── Game flow ──────────────────────────────────────────────────
-  function startGame(){
-    bet=Math.max(1,Math.min(500,parseFloat(document.getElementById('sg-bet').value)||10));
-    if(bet>bal){sSt('Insufficient balance!','#e24b4a');return;}
-    bal-=bet; uUI();
-    crashPt=genCrash();
-    mult=1; parts=[]; trail=[]; lRing=0;
-    cashedOut=false; coMult=0; coX=0; coY=0;
-    launchCount++;
-    sM(1,'asc'); sPh(`Ship ${launchCount%2===0?'2 (Blue)':'1 (Red)'} — Launching...`);
-    sSt(''); sW('—'); sBt('wait');
-    gs='COUNTDOWN'; cdVal=3;
-    let ct=0;
-    const ci=setInterval(()=>{ ct++; if(ct<4){cdVal=3-ct;}else{clearInterval(ci);phAscent();} },750);
+  // ── Game logic ───────────────────────────────────────────────
+  function shipName() { return launchCount % 2 === 0 ? 'Ship 1 — Red' : 'Ship 2 — Blue'; }
+
+  function startGame() {
+    bet = Math.max(1, Math.min(500, parseFloat(document.getElementById('sg-bet').value) || 10));
+    if (bet > bal) { sSt('Insufficient balance!','#e24b4a'); return; }
+    bal -= bet; uUI();
+    crashPt = genCrash();
+    mult = 1; parts = []; trail = []; lRing = 0;
+    cashedOut = false; coMult = 0; coX = 0; coY = 0;
+    sM(1,'asc'); sPh(`${shipName()} — Launching...`); sSt(''); sW('—'); sBt('wait');
+    gs = 'COUNTDOWN'; cdVal = 3; let ct = 0;
+    const ci = setInterval(() => { ct++; if (ct < 4) { cdVal = 3-ct; } else { clearInterval(ci); phAscent(); } }, 750);
   }
 
-  function phAscent(){
-    if(crashPt<1){
-      gs='FLYING'; mult=Math.max(.01,crashPt);
-      [ex,ey]=getPos(); setTimeout(phCrash,380); return;
+  function phAscent() {
+    if (crashPt < 1) {
+      gs = 'FLYING'; mult = Math.max(.01, crashPt);
+      [ex,ey] = getPos(); setTimeout(phCrash, 380); return;
     }
-    gs='FLYING'; updCtrl();
-    sPh('Flying — cash out anytime!');
-    ivl=setInterval(()=>{
-      mult*=(1+ARATE+Math.random()*.007);
-      sM(mult,cashedOut?'ghost':'asc');
-      if(!cashedOut) sW((bet*mult).toFixed(2));
-      if(crashPt<LAND&&mult>=crashPt){clearInterval(ivl);[ex,ey]=getPos();phCrash();return;}
-      if(mult>=10){clearInterval(ivl);phDescend();}
-    },100);
+    gs = 'FLYING'; updCtrl(); sPh('Flying — cash out anytime!');
+    ivl = setInterval(() => {
+      mult *= (1 + ARATE + Math.random() * .007);
+      sM(mult, cashedOut ? 'ghost' : 'asc');
+      if (!cashedOut) sW((bet * mult).toFixed(2));
+      if (crashPt < LAND && mult >= crashPt) { clearInterval(ivl); [ex,ey]=getPos(); phCrash(); return; }
+      if (mult >= 10) { clearInterval(ivl); phDescend(); }
+    }, A_MS);
   }
 
-  function phDescend(){
-    gs='DESCENDING'; sM(mult,cashedOut?'ghost':'desc'); updCtrl();
-    if(!cashedOut) sPh(`Descent mode — jackpot at ${LAND}x!`);
-    ivl=setInterval(()=>{
-      mult*=(1+DRATE+Math.random()*.004);
-      sM(mult,cashedOut?'ghost':'desc');
-      if(!cashedOut) sW((bet*mult).toFixed(2));
-      if(crashPt<LAND&&mult>=crashPt){clearInterval(ivl);[ex,ey]=getPos();phCrash();return;}
-      if(mult>=LAND){clearInterval(ivl);phLand();}
-    },150);
+  function phDescend() {
+    gs = 'DESCENDING'; sM(mult, cashedOut ? 'ghost' : 'desc'); updCtrl();
+    if (!cashedOut) sPh(`Descent — jackpot at ${LAND}x!`);
+    ivl = setInterval(() => {
+      mult *= (1 + DRATE + Math.random() * .004);
+      sM(mult, cashedOut ? 'ghost' : 'desc');
+      if (!cashedOut) sW((bet * mult).toFixed(2));
+      if (crashPt < LAND && mult >= crashPt) { clearInterval(ivl); [ex,ey]=getPos(); phCrash(); return; }
+      if (mult >= LAND) { clearInterval(ivl); phLand(); }
+    }, D_MS);
   }
 
-  function phCrash(){
-    gs='CRASHED'; spawnExp(ex,ey); clearInterval(ivl);
+  // Increment launchCount at round END so the idle screen
+  // always previews the NEXT ship before the player hits Launch
+  function roundOver(delay) {
+    setTimeout(() => {
+      launchCount++;
+      gs = 'IDLE'; sBt('go');
+      sPh(`Ready — ${shipName()} on deck`);
+      sSt('', null);
+    }, delay);
+  }
+
+  function phCrash() {
+    gs = 'CRASHED'; spawnExp(ex, ey); clearInterval(ivl);
     sM(mult,'crash'); sBt('wait');
-    if(cashedOut){
+    if (cashedOut) {
       sPh(`Ship exploded at ${mult.toFixed(2)}x`);
       sSt(`Smart bail at ${coMult.toFixed(2)}x — kept $${(bet*coMult).toFixed(2)}`,'#5fcfa0');
       addH(`Out ${coMult.toFixed(2)}x / Boom ${mult.toFixed(2)}x`,'hb-w');
     } else {
       sPh('Ship destroyed!');
       sSt(`Crashed at ${mult.toFixed(2)}x — lost $${bet.toFixed(2)}`,'#e24b4a');
-      sW('0.00');
-      addH(`${mult.toFixed(2)}x crash`,'hb-c');
+      sW('0.00'); addH(`${mult.toFixed(2)}x crash`,'hb-c');
     }
-    setTimeout(()=>{gs='IDLE';sBt('go');sPh('Ready for launch');sSt('',null);},3500);
+    roundOver(3500);
   }
 
-  function phLand(){
-    gs='LANDED'; clearInterval(ivl); sM(LAND,'land'); sBt('wait');
-    if(cashedOut){
+  function phLand() {
+    gs = 'LANDED'; clearInterval(ivl); sM(LAND,'land'); sBt('wait');
+    if (cashedOut) {
       sPh(`JACKPOT at ${LAND}x!`);
       sSt(`Jackpot was $${(bet*LAND).toFixed(2)}! You locked $${(bet*coMult).toFixed(2)}`,'#f4a040');
       addH(`Out ${coMult.toFixed(2)}x — missed ${LAND}x JACKPOT`,'hb-j');
     } else {
-      const won=bet*LAND; bal+=won; uUI();
+      const won = bet * LAND; bal += won; uUI();
       sPh('JACKPOT! Perfect landing!');
       sSt(`JACKPOT! Won $${won.toFixed(2)} at ${LAND}x!`,'#5fcfa0');
-      sW(won.toFixed(2));
-      addH(`${LAND}x JACKPOT`,'hb-j');
+      sW(won.toFixed(2)); addH(`${LAND}x JACKPOT`,'hb-j');
     }
-    setTimeout(()=>{gs='IDLE';sBt('go');sPh('Ready for launch');sSt('',null);},5000);
+    roundOver(5000);
   }
 
-  function doCashout(){
-    if(cashedOut||(gs!=='FLYING'&&gs!=='DESCENDING')) return;
-    cashedOut=true; coMult=mult;
-    [coX,coY]=getPos();
-    const won=bet*coMult; bal+=won; uUI();
+  function doCashout() {
+    if (cashedOut || (gs !== 'FLYING' && gs !== 'DESCENDING')) return;
+    cashedOut = true; coMult = mult;
+    [coX, coY] = getPos();
+    const won = bet * coMult; bal += won; uUI();
     sW(won.toFixed(2));
     sPh(`Cashed out at ${coMult.toFixed(2)}x — watching rocket...`);
     sSt(`Locked $${won.toFixed(2)} — see where it goes!`,'#f4c775');
     sBt('watch');
   }
 
-  function sM(m,md){
-    const e=document.getElementById('sg-mult');
-    e.textContent=m.toFixed(2)+'x';
-    e.style.color={asc:'#5fcfa0',desc:'#f4a040',crash:'#e24b4a',land:'#5fcfa0',ghost:'#4455aa'}[md]||'#5fcfa0';
-    e.style.opacity=(md==='ghost')?.55:1;
+  // ── UI helpers ───────────────────────────────────────────────
+  function sM(m, md) {
+    const e = document.getElementById('sg-mult');
+    e.textContent = m.toFixed(2) + 'x';
+    e.style.color = {asc:'#5fcfa0',desc:'#f4a040',crash:'#e24b4a',land:'#5fcfa0',ghost:'#4455aa'}[md] || '#5fcfa0';
+    e.style.opacity = (md === 'ghost') ? .55 : 1;
   }
-  function sPh(t){document.getElementById('sg-phase').textContent=t;}
-  function sSt(t,col){const e=document.getElementById('sg-stat');e.textContent=t;e.style.color=col||'var(--color-text-secondary)';}
-  function sW(t){document.getElementById('sg-win').textContent=t;}
-  function uUI(){document.getElementById('sg-bal').textContent=bal.toFixed(2);}
-  function updCtrl(){if(cashedOut){sBt('watch');return;}if(gs==='FLYING'||gs==='DESCENDING')sBt('co');}
-  function sBt(m){
-    const b=document.getElementById('sg-btn'),i=document.getElementById('sg-bet');
-    b.classList.remove('go','co','wt','pulse');
-    if(m==='go'){b.textContent='Launch';b.className='go';b.disabled=false;i.disabled=false;}
-    else if(m==='co'){b.textContent='Cash Out';b.className='co pulse';b.disabled=false;i.disabled=true;}
-    else if(m==='watch'){b.textContent='Watching...';b.className='wt';b.disabled=true;i.disabled=true;}
-    else{b.textContent='...';b.disabled=true;i.disabled=true;}
-  }
-  function addH(label,cls){
-    history.unshift({label,cls}); if(history.length>7)history.pop();
-    document.getElementById('sg-hist').innerHTML=history.map(h=>`<span class="hb ${h.cls}">${h.label}</span>`).join('');
+  function sPh(t) { document.getElementById('sg-phase').textContent = t; }
+  function sSt(t, col) { const e=document.getElementById('sg-stat'); e.textContent=t; e.style.color=col||'#8899cc'; }
+  function sW(t) { document.getElementById('sg-win').textContent = t; }
+  function uUI() { document.getElementById('sg-bal').textContent = bal.toFixed(2); }
+  function updCtrl() { if (cashedOut) { sBt('watch'); return; } if (gs==='FLYING'||gs==='DESCENDING') sBt('co'); }
+
+  // Button styles applied via JS inline to guarantee override of any browser defaults
+  function sBt(m) {
+    const b = document.getElementById('sg-btn'), i = document.getElementById('sg-bet');
+    b.className = '';
+    if (m === 'go') {
+      b.textContent = 'Launch';
+      b.style.cssText = 'flex:1;padding:9px;font-size:15px;font-weight:700;border-radius:8px;cursor:pointer;border:none;background:#ffffff;color:#0a0a20;';
+      b.disabled = false; i.disabled = false;
+    } else if (m === 'co') {
+      b.textContent = 'Cash Out';
+      b.style.cssText = 'flex:1;padding:9px;font-size:15px;font-weight:700;border-radius:8px;cursor:pointer;border:.5px solid #aa7020;background:#7a5010;color:#f4c775;animation:pulse .65s infinite;';
+      b.disabled = false; i.disabled = true;
+    } else if (m === 'watch') {
+      b.textContent = 'Watching...';
+      b.style.cssText = 'flex:1;padding:9px;font-size:15px;font-weight:500;border-radius:8px;cursor:default;border:.5px solid #223366;background:#0d0d28;color:#5577cc;opacity:.9;';
+      b.disabled = true; i.disabled = true;
+    } else {
+      b.textContent = '...';
+      b.style.cssText = 'flex:1;padding:9px;font-size:15px;font-weight:500;border-radius:8px;cursor:default;border:none;background:#222;color:#555;opacity:.5;';
+      b.disabled = true; i.disabled = true;
+    }
   }
 
-  window.sgAct=function(){
-    if(gs==='IDLE')startGame();
-    else if((gs==='FLYING'||gs==='DESCENDING')&&!cashedOut)doCashout();
+  function addH(label, cls) {
+    history.unshift({label, cls}); if (history.length > 7) history.pop();
+    document.getElementById('sg-hist').innerHTML = history.map(h => `<span class="hb ${h.cls}">${h.label}</span>`).join('');
+  }
+
+  window.sgAct = function() {
+    if (gs === 'IDLE') startGame();
+    else if ((gs === 'FLYING' || gs === 'DESCENDING') && !cashedOut) doCashout();
   };
 
-  initScene(); requestAnimationFrame(draw); uUI(); sBt('go');
+  // ── Boot ─────────────────────────────────────────────────────
+  initScene();
+  requestAnimationFrame(draw);
+  uUI();
+  sBt('go');
+  sPh(`Ready — ${shipName()} on deck`);
 })();
 </script>
+</body>
+</html>
