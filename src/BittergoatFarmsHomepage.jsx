@@ -129,7 +129,7 @@ export default function BittergoatFarmsHomepage() {
               <div className="bgf-section-head">
                 <div>
                   <div className="eyebrow">Game Library</div>
-                  <h2>All Games</h2>
+                  <h2>All Games TEST</h2>
                 </div>
                 <p className="bgf-muted">Arcade and casino prototypes, all in one place.</p>
               </div>
