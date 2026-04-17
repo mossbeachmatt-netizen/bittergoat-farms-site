@@ -5,8 +5,9 @@ export default function BittergoatFarmsHomepage() {
     { title: "Boarding Pass", category: "Arcade", description: "Fast-paced airport boarding chaos with timing and strategy.", badge: "Featured", icon: "🕹️" },
     { title: "Golden Farms", category: "Casino", description: "Spin the reels and harvest big wins in this farm-themed slot experience.", badge: "Popular", icon: "🎰" },
     { title: "Crab Hunt", category: "Arcade", description: "Quick reflex arcade action chasing crabs and high scores.", badge: "Hot", icon: "🕹️" },
-    { title: "Cocaine Bear", category: "Arcade", description: "Wild, chaotic gameplay inspired by an unstoppable force of nature.", badge: "New", icon: "🕹️" },
-  ];
+    {title: "Cocaine Bear",category: "Arcade",description: "Wild, chaotic gameplay inspired by an unstoppable force of nature.",badge: "New",
+  image: "/images/games/cocaine-bear.jpg"
+},
 
   const allGames = [
     { title: "Boarding Pass", category: "Arcade" },
@@ -111,7 +112,9 @@ export default function BittergoatFarmsHomepage() {
                     <span className="badge badge-warm">{game.badge}</span>
                     <span className="badge badge-soft">{game.category}</span>
                   </div>
-                  <div className="bgf-game-icon">{game.icon}</div>
+                  <div className="bgf-game-image-wrap">
+  <img src={game.image} alt={game.title} className="bgf-game-image" />
+</div>
                   <h3>{game.title}</h3>
                   <p>{game.description}</p>
                   <button className="btn btn-primary full" onClick={() => window.location.href = gameUrl(game.title)}>
