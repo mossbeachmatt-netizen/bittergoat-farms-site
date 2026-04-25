@@ -60,7 +60,7 @@ export default function BittergoatFarmsHomepage() {
       case "Rocket":
         return "/games/rocket/index.html";
       case "Horse Racing":
-        return "/games/horse/index.html";
+        return "/games/horse-racing/index.html";
       default:
         return "#";
     }
