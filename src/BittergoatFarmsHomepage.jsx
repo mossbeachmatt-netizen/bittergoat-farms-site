@@ -14,7 +14,7 @@ export default function BittergoatFarmsHomepage() {
       category: "Casino",
       description: "Aaand they're off! Bet on pixelated ponies.",
       badge: "New",
-      image: "/images/games/horse-racing.jpg"
+      image: "/images/games/horse-racing.jpg",
 }
     {
       title: "Cocaine Bear",
