@@ -30,6 +30,13 @@ export default function BittergoatFarmsHomepage() {
       badge: "Popular",
       image: "/images/games/golden-farms.jpg",
     },
+        {
+      title: "Ore Wars",
+      category: "Casino",
+      description: "Diggin' for riches in this mining-themed crypto game.",
+      badge: "New",
+      image: "/images/games/goat-mines.jpg",
+},
   ];
 
   const allGames = [
