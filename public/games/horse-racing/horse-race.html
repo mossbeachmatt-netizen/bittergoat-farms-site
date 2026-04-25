@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Prix Racing</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0d0d1a; overflow: hidden; font-family: 'Georgia', serif; }
+#c { display: block; width: 100vw; height: 100vh; }
+#ui { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+#title {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.72); border: 1.5px solid #c9a227;
+  padding: 7px 28px; border-radius: 2px;
+  color: #c9a227; font-size: 20px; letter-spacing: 4px;
+  text-transform: uppercase; white-space: nowrap;
+}
+#panel-left {
+  position: absolute; left: 14px; top: 14px;
+  background: rgba(0,0,0,0.72); border: 1px solid #c9a227;
+  padding: 12px 14px; border-radius: 2px; min-width: 148px;
+}
+#panel-left h3 {
+  color: #c9a227; font-size: 11px; letter-spacing: 2.5px;
+  text-transform: uppercase; border-bottom: 1px solid rgba(201,162,39,0.3);
+  padding-bottom: 6px; margin-bottom: 8px;
+}
+.leg-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; color: #e8e8e0; font-size: 12px; }
+.leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+#panel-right {
+  position: absolute; right: 14px; top: 14px;
+  background: rgba(0,0,0,0.72); border: 1px solid #c9a227;
+  padding: 12px 14px; border-radius: 2px; min-width: 160px;
+}
+#panel-right h3 {
+  color: #c9a227; font-size: 11px; letter-spacing: 2.5px;
+  text-transform: uppercase; border-bottom: 1px solid rgba(201,162,39,0.3);
+  padding-bottom: 6px; margin-bottom: 8px;
+}
+.stand-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; color: #e8e8e0; font-size: 12px; }
+.stand-num { color: #c9a227; font-weight: bold; width: 24px; }
+.stand-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+#bottom {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  pointer-events: all; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+#hint { color: rgba(255,255,255,0.35); font-size: 11px; letter-spacing: 1px; text-align: center; }
+#start-btn {
+  background: #c9a227; color: #0d0d1a; border: none;
+  padding: 11px 44px; font-size: 15px; font-family: 'Georgia', serif;
+  letter-spacing: 3px; text-transform: uppercase;
+  cursor: pointer; border-radius: 1px; font-weight: bold;
+  transition: background .15s, transform .1s;
+}
+#start-btn:hover { background: #e2b730; }
+#start-btn:active { transform: scale(0.97); }
+#start-btn:disabled { background: #4a4a3a; color: #888; cursor: not-allowed; }
+#result-modal { display: none; }
+
+/* ── BETTING SLIP ─────────────────────────────────────────── */
+#bet-modal {
+  display: none; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  background: #0a150a; border: 2px solid #c9a227; border-radius: 3px;
+  pointer-events: all; width: min(700px,96vw); max-height: 92vh; overflow-y: auto;
+  font-family: 'Arial',sans-serif; color: #e8e8d0;
+  box-shadow: 0 0 50px rgba(0,0,0,0.9);
+}
+.bet-header {
+  background: #1a5228; padding: 13px 18px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 2px solid #c9a227;
+}
+.bet-header-title { color: #FFD700; font-size: 17px; font-weight: bold; letter-spacing: 2px; }
+.bet-header-sub { color: #aad4aa; font-size: 12px; margin-top: 3px; }
+.bet-header-sub strong { color: #FFD700; }
+.bankroll-disp { color: #4dff88; font-size: 16px; font-weight: bold; white-space: nowrap; }
+
+.bet-col-hdr {
+  display: grid; grid-template-columns: 30px 1fr 58px 42px 42px 42px;
+  gap: 3px; padding: 7px 14px 5px; background: #14401c;
+  color: #FFD700; font-size: 10px; font-weight: bold; letter-spacing: 1.5px;
+}
+.bet-col-hdr span:nth-child(2) { padding-left: 4px; }
+.bet-col-hdr span:nth-child(n+4) { text-align: center; }
+
+.bet-horse-row {
+  display: grid; grid-template-columns: 30px 1fr 58px 42px 42px 42px;
+  gap: 3px; padding: 5px 14px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  align-items: center;
+}
+.bet-horse-row:hover { background: rgba(255,255,255,0.03); }
+.bet-num {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: bold; color: #fff;
+}
+.bet-name { font-size: 12px; padding-left: 4px; }
+.bet-odds-badge {
+  background: #000; color: #FFD700; font-size: 12px; font-weight: bold;
+  text-align: center; padding: 2px 4px; border-radius: 2px;
+}
+.btype {
+  width: 38px; height: 26px; border: 1px solid rgba(201,162,39,0.35);
+  background: #0a150a; color: #888; font-size: 9px; font-weight: bold;
+  cursor: pointer; border-radius: 2px; transition: all .12s; letter-spacing: .5px;
+}
+.btype:hover { background: rgba(201,162,39,0.18); color: #FFD700; border-color: #c9a227; }
+
+.bet-amt-bar {
+  padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.08); background: #0d1f0d;
+}
+.bet-amt-lbl { color: #c9a227; font-size: 11px; font-weight: bold; letter-spacing: 1px; margin-right: 4px; }
+.amt { padding: 5px 13px; border: 1px solid rgba(201,162,39,0.35);
+  background: #0a150a; color: #bbb; font-size: 13px; cursor: pointer; border-radius: 2px; transition: all .12s; }
+.amt:hover { background: rgba(201,162,39,0.15); }
+.amt.sel { background: #c9a227; color: #000; font-weight: bold; border-color: #c9a227; }
+
+.slip-section { padding: 10px 14px; min-height: 70px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.slip-hdr { color: #c9a227; font-size: 10px; letter-spacing: 2px; font-weight: bold; margin-bottom: 6px; }
+.slip-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 3px 0; font-size: 12px; color: #ddd;
+}
+.hdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; flex-shrink: 0; }
+.rm { background: none; border: 1px solid rgba(255,80,80,0.4); color: #ff8888;
+  font-size: 9px; cursor: pointer; padding: 1px 5px; border-radius: 1px; }
+.rm:hover { background: rgba(255,0,0,0.15); }
+.slip-total { margin-top: 7px; color: #FFD700; font-size: 12px; font-weight: bold; }
+.no-bets { color: rgba(255,255,255,0.28); font-size: 12px; font-style: italic; padding: 6px 0; }
+
+.bet-actions { padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+.bankroll-big { color: #4dff88; font-size: 13px; font-weight: bold; }
+.bet-btns { display: flex; gap: 10px; }
+#clear-btn {
+  background: transparent; border: 1px solid rgba(255,80,80,0.45); color: #ff8888;
+  padding: 9px 18px; font-size: 12px; cursor: pointer; border-radius: 2px; letter-spacing: 1px;
+}
+#clear-btn:hover { background: rgba(255,0,0,0.1); }
+#post-btn {
+  background: #c9a227; border: none; color: #000;
+  padding: 9px 24px; font-size: 14px; font-weight: bold;
+  cursor: pointer; border-radius: 2px; letter-spacing: 2px; font-family: 'Georgia',serif;
+}
+#post-btn:hover { background: #e2b730; }
+
+/* ── TOTE BOARD ───────────────────────────────────────────── */
+#tote-board {
+  display: none; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  background: #1a5526; pointer-events: all;
+  width: min(800px,96vw); border: 4px solid #2a7a3a;
+  box-shadow: 0 0 0 2px #FFD700, 0 10px 50px rgba(0,0,0,0.85);
+  font-family: 'Arial',sans-serif; color: #FFD700;
+}
+.tote-top {
+  background: #113d1c; display: grid; grid-template-columns: 130px 1fr 110px 1fr;
+  border-bottom: 2px solid #2a7a3a;
+}
+.tote-th {
+  padding: 5px 10px; font-size: 11px; font-weight: bold; letter-spacing: 2px;
+  color: #FFD700; border-right: 1px solid #2a7a3a;
+}
+.tote-th:last-child { border-right: none; }
+.tote-body { display: grid; grid-template-columns: 130px 1fr 110px 1fr; }
+.tote-col { border-right: 1px solid #2a7a3a; padding: 8px 10px; }
+.tote-col:last-child { border-right: none; }
+
+.tb { background: #000; color: #FFD700; font-weight: bold;
+  display: inline-block; padding: 2px 8px; margin: 2px 0; font-size: 12px; }
+.tlbl { font-size: 9px; letter-spacing: 1px; color: #88cc99; margin-top: 5px; display: block; }
+
+.tote-odds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.tote-or { display: flex; align-items: center; gap: 3px; padding: 2px 0; }
+.thn { color: #fff; font-size: 11px; font-weight: bold; width: 13px; }
+.tov { background: #000; color: #FFD700; font-size: 11px; font-weight: bold;
+  padding: 1px 5px; flex: 1; text-align: center; border-radius: 1px; }
+
+.tote-rr { display: flex; align-items: center; gap: 6px; padding: 5px 2px; }
+.tpl { font-size: 9px; color: #88cc99; width: 24px; }
+.trn { background: #000; color: #FFD700; font-weight: bold;
+  padding: 2px 10px; font-size: 15px; border-radius: 1px; }
+
+.tote-race-badge { font-size: 11px; color: #88cc99; margin-bottom: 3px; }
+.tote-pays-hdr { font-size: 9px; letter-spacing: 1px; color: #FFD700; font-weight: bold; margin-bottom: 5px; }
+.tote-col-hdrs { display: grid; grid-template-columns: 26px 1fr 1fr 1fr; gap: 2px; margin-bottom: 3px; }
+.tch { color: #bbb; font-size: 9px; font-weight: bold; text-align: center; }
+.tote-pr { display: grid; grid-template-columns: 26px 1fr 1fr 1fr; gap: 2px; margin-bottom: 2px; }
+.tppl { color: #88cc99; font-size: 9px; }
+.tpv { background: #000; color: #FFD700; font-size: 11px;
+  text-align: center; padding: 2px; font-weight: bold; border-radius: 1px; }
+.tpv.none { background: transparent; }
+.tote-status { display: flex; justify-content: flex-end; gap: 18px;
+  padding: 4px 8px; border-top: 1px solid #2a7a3a; font-size: 10px; margin-top: 6px; }
+.tunoff { color: #5588ff; } .toff { color: #ff7733; font-weight: bold; }
+
+.tote-player {
+  background: #0d3318; border-top: 2px solid #2a7a3a;
+  padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+}
+.tote-bet-summary { font-size: 11px; color: #ccc; flex: 1; line-height: 1.7; }
+.tote-net { font-size: 17px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; }
+.tpos { color: #4dff88; } .tneg { color: #ff4444; } .tzero { color: #FFD700; }
+#tote-again {
+  background: #c9a227; border: none; color: #000;
+  padding: 8px 20px; font-size: 13px; font-weight: bold;
+  cursor: pointer; border-radius: 2px; letter-spacing: 2px; font-family: 'Georgia',serif;
+  white-space: nowrap;
+}
+#tote-again:hover { background: #e2b730; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui">
+  <div id="title">&#127939; Grand Prix Racing</div>
+  <div id="panel-left"><h3>Horses</h3><div id="legend-list"></div></div>
+  <div id="panel-right"><h3>Standings</h3><div id="stand-list"></div></div>
+  <div id="bottom">
+    <div id="hint">Drag to rotate &nbsp;·&nbsp; Scroll to zoom</div>
+    <button id="start-btn">Place Bets</button>
+  </div>
+  <div id="result-modal" style="display:none"></div>
+
+  <!-- ── BETTING SLIP ─────────────────────────────────── -->
+  <div id="bet-modal">
+    <div class="bet-header">
+      <div>
+        <div class="bet-header-title">🏇 GRAND PRIX RACING</div>
+        <div class="bet-header-sub">RACE <span id="race-disp">1</span> &nbsp;·&nbsp; TRACK: <strong>FAST</strong> &nbsp;·&nbsp; POST TIME: <span id="post-disp">3:25 PM</span></div>
+      </div>
+      <div class="bankroll-disp">💰 $<span id="broll">100.00</span></div>
+    </div>
+
+    <div class="bet-col-hdr">
+      <span>#</span><span>HORSE</span><span>ODDS</span><span>WIN</span><span>PLC</span><span>SHW</span>
+    </div>
+    <div id="bet-horse-list"></div>
+
+    <div class="bet-amt-bar">
+      <span class="bet-amt-lbl">WAGER:</span>
+      <button class="amt sel" data-a="2">$2</button>
+      <button class="amt" data-a="5">$5</button>
+      <button class="amt" data-a="10">$10</button>
+      <button class="amt" data-a="20">$20</button>
+    </div>
+
+    <div class="slip-section">
+      <div class="slip-hdr">BET SLIP</div>
+      <div id="slip-list"></div>
+      <div class="slip-total">TOTAL WAGERED: $<span id="tot-wager">0.00</span></div>
+    </div>
+
+    <div class="bet-actions">
+      <div class="bankroll-big">BANKROLL: $<span id="broll2">100.00</span></div>
+      <div class="bet-btns">
+        <button id="clear-btn">CLEAR BETS</button>
+        <button id="post-btn">POST TIME — RACE! 🏇</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOTE BOARD ──────────────────────────────────── -->
+  <div id="tote-board">
+    <div class="tote-top">
+      <div class="tote-th">TRACK</div>
+      <div class="tote-th">ODDS</div>
+      <div class="tote-th">RESULTS</div>
+      <div class="tote-th" id="tote-race-hdr">RACE 1</div>
+    </div>
+    <div class="tote-body">
+      <div class="tote-col">
+        <div class="tb">FAST</div>
+        <span class="tlbl">TIME OF DAY</span>
+        <div class="tb" id="tote-time">3:05</div>
+        <span class="tlbl">POST TIME</span>
+        <div class="tb">3:25</div>
+      </div>
+      <div class="tote-col">
+        <div class="tote-odds-grid" id="tote-odds"></div>
+      </div>
+      <div class="tote-col" id="tote-res"></div>
+      <div class="tote-col">
+        <div class="tote-race-badge">$2 TOTE TICKET PAYS</div>
+        <div class="tote-col-hdrs">
+          <div class="tch"></div><div class="tch">WIN</div>
+          <div class="tch">PLACE</div><div class="tch">SHOW</div>
+        </div>
+        <div id="tote-pays"></div>
+        <div class="tote-status"><span class="tunoff">Unofficial</span><span class="toff">Official</span></div>
+      </div>
+    </div>
+    <div class="tote-player">
+      <div class="tote-bet-summary" id="tote-summary">No bets placed</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="tote-net" id="tote-net"></div>
+        <button id="tote-again">RACE AGAIN</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ── TRACK CONSTANTS ─────────────────────────────────────────
+// Stadium oval: two long straights + two tight semicircular ends
+const SL = 148;        // straight half-length (full straight = 296)
+const OR = 98;         // outer end-cap radius (Z half-depth = OR)
+const IR = 33;         // inner end-cap radius
+const TW = OR - IR;    // track width = 65
+const NH = 8;
+const GATE_X = 14;     // gate centre X on near straight (finish line is at x=0, to the LEFT)
+
+const HORSES = [
+  { body: 0x8B3A1F, jockey: 0xE74C3C, hex: '#E74C3C', name: 'Chestnut' },
+  { body: 0x2C1B0F, jockey: 0x2980B9, hex: '#2980B9', name: 'Dark Bay'  },
+  { body: 0xC0C0C0, jockey: 0x27AE60, hex: '#27AE60', name: 'Silver'    },
+  { body: 0xD4A030, jockey: 0xF39C12, hex: '#F39C12', name: 'Palomino'  },
+  { body: 0x1A1A1A, jockey: 0x9B59B6, hex: '#9B59B6', name: 'Onyx'      },
+  { body: 0x7B3F00, jockey: 0x00BCD4, hex: '#00BCD4', name: 'Roan'      },
+  { body: 0xC27A2E, jockey: 0x8BC34A, hex: '#8BC34A', name: 'Sorrel'    },
+  { body: 0xAAAAAA, jockey: 0xFF5722, hex: '#FF5722', name: 'Dapple'    },
+];
+
+// Each lane shares the same straight half-length but has its own end radius
+const LANE_R = [];
+for (let i = 0; i < NH; i++) LANE_R.push(IR + (i + 0.5) / NH * TW);
+
+// ── BETTING SYSTEM ─────────────────────────────────────────
+const ODDS_POOL = ['1-1','6-5','3-2','2-1','5-2','3-1','7-2','4-1','5-1','6-1','8-1','10-1','12-1','15-1','20-1'];
+let bankroll      = 100;
+let raceNum       = 1;
+let horseOdds     = [];   // odds string per horse index
+let placedBets    = [];   // {lane, type, amount}
+let selAmt        = 2;
+
+function randomizeOdds() {
+  const pool = [...ODDS_POOL].sort(() => Math.random() - 0.5);
+  horseOdds = pool.slice(0, NH);
+}
+
+function oddsNum(s) { const [n,d] = s.split('-').map(Number); return n/d; }
+
+// $2-base tote payouts for 1st/2nd/3rd finishers
+function buildPayouts() {
+  const rows = [];
+  const lbl  = ['1st','2nd','3rd'];
+  for (let p = 0; p < 3; p++) {
+    const lane = finishOrder[p] - 1;
+    const o    = oddsNum(horseOdds[lane]);
+    const rnd  = v => Math.round(Math.max(2.20, v) / 0.20) * 0.20;
+    rows.push({
+      lbl:   lbl[p],
+      lane,
+      win:   p===0 ? rnd(2*(1+o))        : 0,
+      place: p<=1  ? rnd(2*(1+o*(p?0.38:0.48))) : 0,
+      show:  p<=2  ? rnd(2*(1+o*[0.28,0.22,0.14][p])) : 0,
+    });
+  }
+  return rows;
+}
+
+// How much a specific bet returns (actual $ back, not profit)
+function betReturn(bet, payoutRows) {
+  const pos = finishOrder.indexOf(bet.lane + 1);
+  if (pos < 0 || pos > 7) return 0;
+  const row  = payoutRows.find(r => r.lane === bet.lane);
+  if (!row) return 0;
+  const mult = bet.amount / 2;   // scale $2 base payout to bet size
+  if (bet.type==='WIN'   && pos===0) return row.win   * mult;
+  if (bet.type==='PLACE' && pos<=1)  return row.place * mult;
+  if (bet.type==='SHOW'  && pos<=2)  return row.show  * mult;
+  return 0;
+}
+
+function syncBankrollDisplay() {
+  ['broll','broll2'].forEach(id => {
+    document.getElementById(id).textContent = bankroll.toFixed(2);
+  });
+}
+
+function renderSlip() {
+  const el  = document.getElementById('slip-list');
+  const tot = document.getElementById('tot-wager');
+  if (!placedBets.length) {
+    el.innerHTML = '<div class="no-bets">No bets placed yet</div>';
+    tot.textContent = '0.00';
+    return;
+  }
+  const sum = placedBets.reduce((s,b) => s+b.amount, 0);
+  el.innerHTML = placedBets.map((b,i) => {
+    const h = HORSES[b.lane];
+    return `<div class="slip-item">
+      <span><span class="hdot" style="background:${h.hex}"></span>
+        #${b.lane+1} ${h.name} — <strong>${b.type}</strong> @ ${b.odds}</span>
+      <span style="white-space:nowrap">$${b.amount.toFixed(2)}
+        &nbsp;<button class="rm" onclick="removeBet(${i})">✕</button></span>
+    </div>`;
+  }).join('');
+  tot.textContent = sum.toFixed(2);
+}
+
+window.removeBet = function(i) {
+  bankroll += placedBets[i].amount;
+  placedBets.splice(i, 1);
+  syncBankrollDisplay();
+  renderSlip();
+};
+
+window.addBet = function(lane, type) {
+  if (bankroll < selAmt) { alert('Insufficient bankroll!'); return; }
+  placedBets.push({ lane, type, amount: selAmt, odds: horseOdds[lane] });
+  bankroll -= selAmt;
+  syncBankrollDisplay();
+  renderSlip();
+};
+
+function showBetModal() {
+  randomizeOdds();
+  placedBets = [];
+  document.getElementById('race-disp').textContent = raceNum;
+  const now = new Date();
+  const hh  = now.getHours() % 12 || 12;
+  const mm  = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('post-disp').textContent = `${hh}:${mm} ${now.getHours()<12?'AM':'PM'}`;
+
+  document.getElementById('bet-horse-list').innerHTML = HORSES.map((h,i) => `
+    <div class="bet-horse-row">
+      <div class="bet-num" style="background:${h.hex}">${i+1}</div>
+      <div class="bet-name">${h.name}</div>
+      <div class="bet-odds-badge">${horseOdds[i]}</div>
+      <button class="btype" onclick="addBet(${i},'WIN')">WIN</button>
+      <button class="btype" onclick="addBet(${i},'PLACE')">PLC</button>
+      <button class="btype" onclick="addBet(${i},'SHOW')">SHW</button>
+    </div>`).join('');
+
+  syncBankrollDisplay();
+  renderSlip();
+  document.getElementById('bet-modal').style.display = 'block';
+}
+
+function showToteBoard() {
+  // Race header
+  document.getElementById('tote-race-hdr').textContent = `RACE ${raceNum}`;
+  const now = new Date();
+  const hh  = now.getHours() % 12 || 12;
+  const mm  = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('tote-time').textContent = `${hh}:${mm}`;
+
+  // Odds list (two-column grid, 4 per column)
+  document.getElementById('tote-odds').innerHTML = HORSES.map((h,i) =>
+    `<div class="tote-or"><span class="thn">${i+1}</span><span class="tov">${horseOdds[i]}</span></div>`
+  ).join('');
+
+  // Results
+  const rplbl = ['1st','2nd','3rd'];
+  document.getElementById('tote-res').innerHTML = finishOrder.slice(0,3).map((hn,i) =>
+    `<div class="tote-rr"><span class="tpl">${rplbl[i]}</span><span class="trn">${hn}</span></div>`
+  ).join('');
+
+  // Payout rows
+  const prows = buildPayouts();
+  document.getElementById('tote-pays').innerHTML = prows.map(r =>
+    `<div class="tote-pr">
+      <div class="tppl">${r.lbl}</div>
+      <div class="tpv ${r.win?'':'none'}">${r.win?'$'+r.win.toFixed(2):''}</div>
+      <div class="tpv ${r.place?'':'none'}">${r.place?'$'+r.place.toFixed(2):''}</div>
+      <div class="tpv ${r.show?'':'none'}">${r.show?'$'+r.show.toFixed(2):''}</div>
+    </div>`
+  ).join('');
+
+  // Player bets & winnings
+  const plbl = ['1st','2nd','3rd','4th','5th','6th','7th','8th'];
+  let totalReturn = 0;
+  let totalStaked = placedBets.reduce((s,b) => s+b.amount, 0);
+  const summaryParts = placedBets.map(b => {
+    const ret  = betReturn(b, prows);
+    const pos  = finishOrder.indexOf(b.lane + 1);
+    totalReturn += ret;
+    const won  = ret > 0;
+    const posStr = pos >= 0 ? plbl[pos] : '—';
+    return `<span style="color:${won?'#4dff88':'#ff7777'}">
+      #${b.lane+1} ${b.type} $${b.amount} [${posStr}] → ${won?'+$'+ret.toFixed(2):'-$'+b.amount.toFixed(2)}
+    </span>`;
+  });
+
+  document.getElementById('tote-summary').innerHTML =
+    placedBets.length ? summaryParts.join('<span style="color:#555"> &nbsp;|&nbsp; </span>') : 'No bets placed';
+
+  const net = totalReturn - totalStaked;
+  bankroll += totalReturn;
+  const netEl = document.getElementById('tote-net');
+  netEl.textContent = placedBets.length ? (net>=0?'+':'')+`$${net.toFixed(2)}` : '';
+  netEl.className   = `tote-net ${net>0?'tpos':net<0?'tneg':'tzero'}`;
+
+  syncBankrollDisplay();
+  document.getElementById('tote-board').style.display = 'block';
+}
+
+// ── RENDERER / SCENE / CAMERA ───────────────────────────────
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x7ABBE0);
+scene.fog = new THREE.FogExp2(0x7ABBE0, 0.0014);
+
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.5, 1600);
+let camTheta = 0.12, camPhi = 0.94, camR = 600;
+function applyCamera() {
+  camera.position.set(
+    camR * Math.sin(camPhi) * Math.sin(camTheta),
+    camR * Math.cos(camPhi),
+    camR * Math.sin(camPhi) * Math.cos(camTheta)
+  );
+  camera.lookAt(0, 6, 0);
+}
+applyCamera();
+
+// ── LIGHTING ───────────────────────────────────────────────
+scene.add(new THREE.AmbientLight(0xffeedd, 0.55));
+const sun = new THREE.DirectionalLight(0xfff4cc, 1.1);
+sun.position.set(100, 380, 100); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.left = -550; sun.shadow.camera.right = 550;
+sun.shadow.camera.top  = 280;  sun.shadow.camera.bottom = -280;
+sun.shadow.camera.far  = 1000;
+scene.add(sun);
+scene.add(new THREE.HemisphereLight(0x9ec8e8, 0x4a7c3f, 0.4));
+
+// ── STADIUM PATH MATH ───────────────────────────────────────
+// t=0: start/finish at x=0, z=+r (centre of near straight, close to camera).
+// CCW from camera: near straight goes +X (east) → right end curves to far side →
+// far straight goes -X (west) → left end curves back to near side.
+//
+// Segment map (s = arc distance from t=0):
+//   1. Near right half :  (0,+r) → (+sl,+r)           length sl
+//   2. Right semicircle:  centre (+sl,0), angle π/2→-π/2   length π·r
+//   3. Far straight    :  (+sl,-r) → (-sl,-r)          length 2·sl
+//   4. Left semicircle :  centre (-sl,0), angle -π/2→-3π/2  length π·r
+//   5. Near left half  :  (-sl,+r) → (0,+r)            length sl
+
+function stadiumPt(t, sl, r) {
+  const P = 4 * sl + 2 * Math.PI * r;
+  let s = ((t % 1) + 1) % 1 * P;
+  if (s < sl) return { x: s, z: r };                           // seg 1
+  s -= sl;
+  if (s < Math.PI * r) {
+    const a = Math.PI / 2 - s / r;
+    return { x: sl + r * Math.cos(a), z: r * Math.sin(a) };   // seg 2
+  }
+  s -= Math.PI * r;
+  if (s < 2 * sl) return { x: sl - s, z: -r };                // seg 3
+  s -= 2 * sl;
+  if (s < Math.PI * r) {
+    const a = -Math.PI / 2 - s / r;
+    return { x: -sl + r * Math.cos(a), z: r * Math.sin(a) };  // seg 4
+  }
+  s -= Math.PI * r;
+  return { x: -sl + s, z: r };                                 // seg 5
+}
+
+// Tangent derivation for horse facing angle (rotation.y):
+//   Horse model faces local +X. Rotation matrix maps local +X → world (cos θ, -sin θ) in XZ.
+//   Velocity on seg 2&4: (sin a, -cos a) where a decreases at rate 1/r.
+//   → rotation.y = atan2(cos a, sin a) for both semicircles.
+function stadiumTangent(t, sl, r) {
+  const P = 4 * sl + 2 * Math.PI * r;
+  let s = ((t % 1) + 1) % 1 * P;
+  if (s < sl) return 0;                                         // seg 1: +X
+  s -= sl;
+  if (s < Math.PI * r) {
+    const a = Math.PI / 2 - s / r;
+    return Math.atan2(Math.cos(a), Math.sin(a));                // seg 2
+  }
+  s -= Math.PI * r;
+  if (s < 2 * sl) return Math.PI;                              // seg 3: -X
+  s -= 2 * sl;
+  if (s < Math.PI * r) {
+    const a = -Math.PI / 2 - s / r;
+    return Math.atan2(Math.cos(a), Math.sin(a));                // seg 4
+  }
+  s -= Math.PI * r;
+  return 0;                                                     // seg 5: +X
+}
+
+// Flat shape for ShapeGeometry (rotated -π/2 around X to lie flat)
+function makeStadiumShape(sl, endR) {
+  const s = new THREE.Shape();
+  s.moveTo(sl, -endR);
+  s.absarc(sl,  0, endR, -Math.PI / 2,  Math.PI / 2, false);
+  s.lineTo(-sl, endR);
+  s.absarc(-sl, 0, endR,  Math.PI / 2, -Math.PI / 2, false);
+  s.lineTo(sl, -endR);
+  return s;
+}
+
+// Curve for TubeGeometry — traces stadium perimeter in world XZ
+function makeStadiumCurve(sl, r, total) {
+  total = total || 200;
+  const P    = 4 * sl + 2 * Math.PI * r;
+  const nStr = Math.max(6,  Math.round(total * 2 * sl / P));
+  const nCrv = Math.max(22, Math.round(total * Math.PI * r / P));
+  const pts  = [];
+  const add  = (x, z) => pts.push(new THREE.Vector3(x, 0, z));
+
+  for (let i = 0; i < nStr; i++) add(sl - (i / nStr) * 2 * sl, r);
+  for (let i = 0; i < nCrv; i++) {
+    const a = Math.PI / 2 + (i / nCrv) * Math.PI;
+    add(-sl + r * Math.cos(a), r * Math.sin(a));
+  }
+  for (let i = 0; i < nStr; i++) add(-sl + (i / nStr) * 2 * sl, -r);
+  for (let i = 0; i < nCrv; i++) {
+    const a = -Math.PI / 2 + (i / nCrv) * Math.PI;
+    add(sl + r * Math.cos(a), r * Math.sin(a));
+  }
+  return new THREE.CatmullRomCurve3(pts, true);
+}
+
+// ── GROUND ─────────────────────────────────────────────────
+const gnd = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000),
+  new THREE.MeshLambertMaterial({ color: 0x4a883a }));
+gnd.rotation.x = -Math.PI / 2; gnd.receiveShadow = true; scene.add(gnd);
+
+// ── INFIELD GRASS ──────────────────────────────────────────
+{
+  const m = new THREE.Mesh(new THREE.ShapeGeometry(makeStadiumShape(SL, IR - 1), 48),
+    new THREE.MeshLambertMaterial({ color: 0x3d7a2c }));
+  m.rotation.x = -Math.PI / 2; m.position.y = 0.06; m.receiveShadow = true; scene.add(m);
+}
+
+// ── DIRT TRACK ─────────────────────────────────────────────
+{
+  const outer = makeStadiumShape(SL, OR);
+  outer.holes.push(new THREE.Path(makeStadiumShape(SL, IR).getPoints(80)));
+  const m = new THREE.Mesh(new THREE.ShapeGeometry(outer, 48),
+    new THREE.MeshLambertMaterial({ color: 0xBF9A60 }));
+  m.rotation.x = -Math.PI / 2; m.position.y = 0.10; m.receiveShadow = true; scene.add(m);
+}
+
+// ── LANE LINES ─────────────────────────────────────────────
+for (let i = 1; i < NH; i++) {
+  const lr = IR + (i / NH) * TW;
+  const m = new THREE.Mesh(
+    new THREE.TubeGeometry(makeStadiumCurve(SL, lr, 200), 200, 0.22, 4, true),
+    new THREE.MeshLambertMaterial({ color: 0xD4B878, transparent: true, opacity: 0.5 })
+  );
+  m.position.y = 0.18; scene.add(m);
+}
+
+// ── RAILS ──────────────────────────────────────────────────
+function addRail(r, posts) {
+  const curve = makeStadiumCurve(SL, r, 240);
+  const rail = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 240, 0.5, 6, true),
+    new THREE.MeshLambertMaterial({ color: 0xEEEEEE })
+  );
+  rail.position.y = 2.4; rail.castShadow = true; scene.add(rail);
+  const pGeo = new THREE.CylinderGeometry(0.28, 0.28, 2.8, 6);
+  const pMat = new THREE.MeshLambertMaterial({ color: 0xDDDDDD });
+  for (let i = 0; i < posts; i++) {
+    const pt = stadiumPt(i / posts, SL, r);
+    const post = new THREE.Mesh(pGeo, pMat);
+    post.position.set(pt.x, 1.4, pt.z);
+    post.castShadow = true; scene.add(post);
+  }
+}
+addRail(OR + 1, 56);
+addRail(IR - 1, 40);
+
+// ── FINISH LINE & POLES ────────────────────────────────────
+// Centered at x = 0 (mid-stretch start/finish line), spanning z = IR → OR
+{
+  const cz  = (IR + OR) / 2;
+  const nsw = 10, sw = TW / nsw;
+  for (let i = 0; i < nsw; i++) {
+    const col = i % 2 === 0 ? 0x111111 : 0xEEEEEE;
+    const m = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.4, sw),
+      new THREE.MeshLambertMaterial({ color: col }));
+    m.position.set(0, 0.3, IR + sw * (i + 0.5)); scene.add(m);
+  }
+  const poleMat = new THREE.MeshLambertMaterial({ color: 0xCC2222 });
+  const pGeo = new THREE.CylinderGeometry(0.55, 0.55, 14, 8);
+  const p1 = new THREE.Mesh(pGeo, poleMat); p1.position.set(0, 7, IR - 1); scene.add(p1);
+  const p2 = new THREE.Mesh(pGeo, poleMat); p2.position.set(0, 7, OR + 1); scene.add(p2);
+  const ban = new THREE.Mesh(new THREE.BoxGeometry(0.25, 2.2, TW + 4),
+    new THREE.MeshLambertMaterial({ color: 0xCC2222 }));
+  ban.position.set(0, 14, cz); scene.add(ban);
+}
+
+// ── GRANDSTANDS (far side) ─────────────────────────────────
+{
+  const baseW = 590, baseZ = OR + 38;
+  const tierMat  = new THREE.MeshLambertMaterial({ color: 0xC8C0B8 });
+  const seatMatA = new THREE.MeshLambertMaterial({ color: 0x3A6FBF });
+  const seatMatB = new THREE.MeshLambertMaterial({ color: 0xBF3A3A });
+  for (let t = 0; t < 4; t++) {
+    const bk = new THREE.Mesh(new THREE.BoxGeometry(baseW, 9 + t * 2, 18), tierMat);
+    bk.position.set(0, 4.5 + t * 11, -(baseZ + 18 * t));
+    bk.castShadow = true; bk.receiveShadow = true; scene.add(bk);
+    for (let s = 0; s < 12; s++) {
+      const sm = s % 2 === 0 ? seatMatA : seatMatB;
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(baseW - 4, 0.8, 1.2), sm);
+      seat.position.set(0, 9 + t * 11, -(baseZ + 18 * t + 6 - s * 1.1)); scene.add(seat);
+    }
+  }
+  const roof = new THREE.Mesh(new THREE.BoxGeometry(baseW + 8, 3, 6), tierMat);
+  roof.position.set(0, 44, -(baseZ + 54)); scene.add(roof);
+}
+
+// ── TREES ──────────────────────────────────────────────────
+{
+  const trunkMat = new THREE.MeshLambertMaterial({ color: 0x5C3A1A });
+  const leafMat  = new THREE.MeshLambertMaterial({ color: 0x2E6B22 });
+  const spots    = [];
+  // Near side
+  for (let x = -(SL + OR + 10); x <= SL + OR + 10; x += 52)
+    spots.push([x + (Math.random() - .5) * 28, OR + 28 + Math.random() * 40]);
+  // Left end
+  for (let z = -OR + 10; z <= OR - 10; z += 42)
+    spots.push([-(SL + OR + 30 + Math.random() * 35), z + (Math.random() - .5) * 18]);
+  // Right end
+  for (let z = -OR + 10; z <= OR - 10; z += 42)
+    spots.push([SL + OR + 30 + Math.random() * 35, z + (Math.random() - .5) * 18]);
+  spots.forEach(([x, z]) => {
+    const h = 14 + Math.random() * 10;
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 1, h * .45, 6), trunkMat);
+    trunk.position.set(x, h * .225, z); trunk.castShadow = true; scene.add(trunk);
+    const canopy = new THREE.Mesh(new THREE.SphereGeometry(h * .28, 7, 7), leafMat);
+    canopy.position.set(x, h * .55, z); canopy.castShadow = true; scene.add(canopy);
+  });
+}
+
+// ── STARTING GATE (Churchill Downs style) ──────────────────
+// Gate sits at x=GATE_X, to the RIGHT of the finish line at x=0.
+// Horses start inside the gate, burst out going +X, lap the track,
+// and cross the finish (x=0) just BEFORE reaching the gate again.
+const gateDoors = [];
+{
+  const GX   = GATE_X;              // use the module-level constant
+  const cz   = (IR + OR) / 2;
+  const stW  = TW / NH;           // stall width in Z  (≈8.1 units)
+  const gW   = TW + 8;            // total gate span in Z
+  const bodyH = 10;               // main green body height
+  const doorH = 8;                // front door height
+
+  const grnMat  = new THREE.MeshLambertMaterial({ color: 0x1C6B30 }); // Churchill green
+  const grnDkMat= new THREE.MeshLambertMaterial({ color: 0x14501F }); // darker green accent
+  const wMat    = new THREE.MeshLambertMaterial({ color: 0xF0F2EE }); // white trim / doors
+  const chromeMat=new THREE.MeshLambertMaterial({ color: 0xBBBBBB }); // metal rail
+
+  // ── MAIN BODY ────────────────────────────────────────────
+  const body = new THREE.Mesh(new THREE.BoxGeometry(3.5, bodyH, gW), grnMat);
+  body.position.set(GX, bodyH / 2, cz); body.castShadow = true; scene.add(body);
+
+  // ── LANE DIVIDERS (white vertical walls between stalls) ──
+  for (let i = 0; i <= NH; i++) {
+    const z = IR + (i / NH) * TW;
+    const div = new THREE.Mesh(new THREE.BoxGeometry(4, bodyH + 1, 0.55), wMat);
+    div.position.set(GX, bodyH / 2, z); scene.add(div);
+  }
+
+  // ── END WINGS (taller solid panels on inner / outer edge) ──
+  [IR - 4, OR + 4].forEach(z => {
+    const wing = new THREE.Mesh(new THREE.BoxGeometry(3.2, bodyH + 5, 5), grnMat);
+    wing.position.set(GX, (bodyH + 5) / 2, z); wing.castShadow = true; scene.add(wing);
+    const cap = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.9, 5.4), wMat);
+    cap.position.set(GX, bodyH + 5.45, z); scene.add(cap);
+  });
+
+  // ── TOP RAIL ─────────────────────────────────────────────
+  const topRail = new THREE.Mesh(new THREE.BoxGeometry(2, 1.4, gW + 4), wMat);
+  topRail.position.set(GX, bodyH + 0.7, cz); scene.add(topRail);
+
+  // Vertical uprights above rail (one per divider)
+  for (let i = 0; i <= NH; i++) {
+    const z = IR + (i / NH) * TW;
+    const up = new THREE.Mesh(new THREE.BoxGeometry(0.55, 5.5, 0.55), wMat);
+    up.position.set(GX, bodyH + 1.4 + 2.75, z); scene.add(up);
+  }
+
+  // ── BANNER BILLBOARD ─────────────────────────────────────
+  const bw = 2048, bh = 192;
+  const bCv = document.createElement('canvas');
+  bCv.width = bw; bCv.height = bh;
+  const bCtx = bCv.getContext('2d');
+  // Background
+  const grad = bCtx.createLinearGradient(0, 0, 0, bh);
+  grad.addColorStop(0, '#1C6B30'); grad.addColorStop(1, '#14501F');
+  bCtx.fillStyle = grad; bCtx.fillRect(0, 0, bw, bh);
+  // White border
+  bCtx.strokeStyle = '#ffffff'; bCtx.lineWidth = 8;
+  bCtx.strokeRect(8, 8, bw - 16, bh - 16);
+  // Title text
+  bCtx.fillStyle = '#ffffff';
+  bCtx.font = 'bold 96px Georgia, serif';
+  bCtx.textAlign = 'center'; bCtx.textBaseline = 'middle';
+  bCtx.fillText('✦  GRAND PRIX RACING  ✦', bw / 2, bh / 2);
+  const banTex  = new THREE.CanvasTexture(bCv);
+  const banFace = new THREE.MeshLambertMaterial({ map: banTex });
+  const bannerH = 5.5;
+  const banner  = new THREE.Mesh(
+    new THREE.BoxGeometry(1.4, bannerH, gW + 2),
+    [ banFace, banFace, grnDkMat, grnDkMat, grnMat, grnMat ]
+  );
+  banner.position.set(GX, bodyH + 1.4 + 5.5 + bannerH / 2, cz);
+  banner.castShadow = true; scene.add(banner);
+
+  // ── STALL NUMBERS (coloured circle panels on top rail) ───
+  for (let i = 0; i < NH; i++) {
+    const czl = IR + (i + 0.5) / NH * TW;
+    const nc  = document.createElement('canvas');
+    nc.width = 80; nc.height = 80;
+    const ctx = nc.getContext('2d');
+    // Coloured disc
+    ctx.fillStyle = HORSES[i].hex;
+    ctx.beginPath(); ctx.arc(40, 40, 37, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4; ctx.stroke();
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 40px Arial';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(i + 1, 40, 42);
+    const nMat = new THREE.MeshLambertMaterial({ map: new THREE.CanvasTexture(nc) });
+    const numBox = new THREE.Mesh(new THREE.BoxGeometry(1.8, 3, 3), nMat);
+    numBox.position.set(GX, bodyH + 0.7 + 1.5, czl); scene.add(numBox);
+  }
+
+  // ── FRONT DOORS (white panels, one per stall, hinge at top) ─
+  // Pivot sits at top-front of each stall; door hangs down, swings open via rotation.z
+  for (let i = 0; i < NH; i++) {
+    const czl  = IR + (i + 0.5) / NH * TW;
+    const pivot = new THREE.Group();
+    pivot.position.set(GX - 1.75, doorH, czl);
+
+    // Two-panel V-door per stall: left half and right half swing opposite ways
+    const panelW = (stW - 1.0) / 2;
+
+    const leftDoor = new THREE.Mesh(new THREE.BoxGeometry(0.4, doorH, panelW), wMat);
+    leftDoor.position.set(0, -doorH / 2, -panelW / 2 - 0.05);
+    pivot.add(leftDoor);
+
+    const rightDoor = new THREE.Mesh(new THREE.BoxGeometry(0.4, doorH, panelW), wMat);
+    rightDoor.position.set(0, -doorH / 2, panelW / 2 + 0.05);
+    pivot.add(rightDoor);
+
+    scene.add(pivot);
+    gateDoors.push(pivot);
+  }
+}
+
+// ── HORSE MODEL ────────────────────────────────────────────
+function makeHorse(hInfo, num) {
+  const grp  = new THREE.Group();
+  const bMat = new THREE.MeshLambertMaterial({ color: hInfo.body });
+  const dkM  = new THREE.MeshLambertMaterial({ color: 0x0A0A0A });
+  const jMat = new THREE.MeshLambertMaterial({ color: hInfo.jockey });
+
+  const add = (geo, mat, x, y, z, rz) => {
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(x, y, z); if (rz) m.rotation.z = rz;
+    m.castShadow = true; grp.add(m); return m;
+  };
+
+  add(new THREE.BoxGeometry(4.8, 1.6, 1.4), bMat,  0,   2.4, 0);
+  add(new THREE.BoxGeometry(0.9, 1.6, 0.9), bMat,  2.0, 3.4, 0, -0.28);
+  add(new THREE.BoxGeometry(1.6, 0.9, 0.8), bMat,  2.9, 4.2, 0);
+  add(new THREE.BoxGeometry(0.7, 0.5, 0.65),bMat,  3.65,3.9, 0);
+  add(new THREE.BoxGeometry(2.0, 0.5, 0.2), dkM,   2.2, 4.55,0);
+  add(new THREE.BoxGeometry(0.35,1.6, 0.35),dkM,  -2.6, 2.4, 0, 0.4);
+  [-0.3, 0.3].forEach(z => add(new THREE.BoxGeometry(0.22, 0.38, 0.18), bMat, 2.6, 4.75, z));
+
+  // Legs
+  const legs = [];
+  [[1.1, 0.32],[1.1,-0.32],[-1.1, 0.32],[-1.1,-0.32]].forEach(([lx, lz]) => {
+    const lg = new THREE.Group();
+    lg.position.set(lx, 1.6, lz);
+    const up = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.17, 1.2, 7), bMat);
+    up.position.y = -0.6; up.castShadow = true;
+    const lo = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.1, 1.0, 7), dkM);
+    lo.position.y = -1.65;
+    lg.add(up, lo); grp.add(lg); legs.push(lg);
+  });
+
+  // Jockey
+  add(new THREE.BoxGeometry(1.1, 1.1, 0.85), jMat, 0.4, 3.7, 0);
+  const jh = new THREE.Mesh(new THREE.SphereGeometry(0.4, 8, 7),
+    new THREE.MeshLambertMaterial({ color: 0xFFD5A0 }));
+  jh.position.set(0.5, 4.7, 0); grp.add(jh);
+  add(new THREE.CylinderGeometry(0.44, 0.42, 0.35, 8), jMat, 0.5, 4.95, 0);
+  add(new THREE.CylinderGeometry(0.55, 0.55, 0.08, 8),
+    new THREE.MeshLambertMaterial({ color: 0x111111 }), 0.5, 4.8, 0);
+
+  // Number badge sprite
+  const nc = document.createElement('canvas');
+  nc.width = 80; nc.height = 80;
+  const ctx = nc.getContext('2d');
+  ctx.fillStyle = hInfo.hex;
+  ctx.beginPath(); ctx.arc(40, 40, 38, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 44px Arial';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(num, 40, 42);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(nc) }));
+  sp.scale.set(4, 4, 1); sp.position.set(0, 6.8, 0); grp.add(sp);
+
+  return { group: grp, legs };
+}
+
+// ── BUILD HORSES ───────────────────────────────────────────
+const horses = [];
+for (let i = 0; i < NH; i++) {
+  const { group, legs } = makeHorse(HORSES[i], i + 1);
+  scene.add(group);
+  horses.push({
+    group, legs,
+    progress: 0.014,           // x≈12 on near straight — just inside the gate
+    speed: 0,
+    baseSpeed: 0.00085 + Math.random() * 0.00032,
+    legPhase:  Math.random() * Math.PI * 2,
+    finished:  false,
+    lane: i,
+    r: LANE_R[i],              // spread across track at start
+    targetR: IR + 5,           // all want the inside rail once racing
+  });
+}
+
+function placeHorse(h) {
+  const pt = stadiumPt(h.progress, SL, h.r);
+  h.group.position.set(pt.x, 0, pt.z);
+  h.group.rotation.y = stadiumTangent(h.progress, SL, h.r);
+}
+horses.forEach(placeHorse);
+
+// ── UI ─────────────────────────────────────────────────────
+document.getElementById('legend-list').innerHTML = HORSES.map((h, i) =>
+  `<div class="leg-row"><div class="leg-dot" style="background:${h.hex}"></div><span>#${i+1} ${h.name}</span></div>`
+).join('');
+
+function buildStandings() {
+  const sorted = [...horses].sort((a, b) => b.progress - a.progress);
+  const places = ['1st','2nd','3rd','4th','5th','6th','7th','8th'];
+  document.getElementById('stand-list').innerHTML = sorted.map((h, i) =>
+    `<div class="stand-row">
+       <span class="stand-num">${places[i]}</span>
+       <div class="stand-dot" style="background:${HORSES[h.lane].hex}"></div>
+       <span>Horse #${h.lane + 1}</span>
+     </div>`
+  ).join('');
+}
+buildStandings();
+
+// ── RACE STATE ─────────────────────────────────────────────
+let raceState = 'idle', gateOpen = 0, finishOrder = [], standTimer = 0;
+
+function resetHorses() {
+  horses.forEach((h, i) => {
+    h.progress  = 0.014; h.finished = false; h.speed = 0;
+    h.legPhase  = Math.random() * Math.PI * 2;
+    h.baseSpeed = 0.00085 + Math.random() * 0.00032;
+    h.r         = LANE_R[i]; h.targetR = IR + 5;
+    placeHorse(h);
+  });
+  finishOrder = []; gateOpen = 0;
+  gateDoors.forEach(pivot => {
+    if (pivot.children[0]) pivot.children[0].rotation.z = 0;
+    if (pivot.children[1]) pivot.children[1].rotation.z = 0;
+  });
+}
+
+function startRace() {
+  resetHorses();
+  document.getElementById('bet-modal').style.display  = 'none';
+  document.getElementById('tote-board').style.display = 'none';
+  document.getElementById('start-btn').disabled = true;
+  document.getElementById('start-btn').textContent = 'Racing…';
+  raceState = 'racing';
+  buildStandings();
+}
+
+function showResults() { showToteBoard(); }
+
+// ── BUTTON WIRING ───────────────────────────────────────────
+// Main "Place Bets" button
+document.getElementById('start-btn').addEventListener('click', () => {
+  document.getElementById('start-btn').style.display = 'none';
+  showBetModal();
+});
+
+// Wager amount buttons
+document.querySelectorAll('.amt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.amt').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    selAmt = +btn.dataset.a;
+  });
+});
+
+// Clear bets
+document.getElementById('clear-btn').addEventListener('click', () => {
+  placedBets.forEach(b => bankroll += b.amount);
+  placedBets = [];
+  syncBankrollDisplay();
+  renderSlip();
+});
+
+// Post time — actually start the race
+document.getElementById('post-btn').addEventListener('click', startRace);
+
+// Tote board "Race Again"
+document.getElementById('tote-again').addEventListener('click', () => {
+  raceNum++;
+  placedBets = [];
+  document.getElementById('tote-board').style.display = 'none';
+  const sb = document.getElementById('start-btn');
+  sb.style.display = 'block';
+  sb.textContent   = 'Place Bets';
+  sb.disabled      = false;
+  resetHorses();
+  raceState = 'idle';
+  buildStandings();
+});
+
+// ── ANIMATION LOOP ─────────────────────────────────────────
+let lastT = 0;
+function animate(ts) {
+  requestAnimationFrame(animate);
+  const dt = Math.min((ts - lastT) / 1000, 0.05);
+  lastT = ts;
+
+  // Gate V-doors splay open: each pivot's children rotate in opposite Z directions
+  if (raceState === 'racing' && gateOpen < 1) {
+    gateOpen = Math.min(1, gateOpen + dt * 2.4);
+    const ang = gateOpen * Math.PI / 2;
+    gateDoors.forEach(pivot => {
+      if (pivot.children[0]) pivot.children[0].rotation.z =  ang;  // left panel swings left
+      if (pivot.children[1]) pivot.children[1].rotation.z = -ang;  // right panel swings right
+    });
+  }
+
+  if (raceState === 'racing') {
+    standTimer += dt;
+    if (standTimer > 0.28) { buildStandings(); standTimer = 0; }
+
+    horses.forEach(h => {
+      if (h.finished) return;
+
+      // ── LATERAL ROUTING ────────────────────────────────────
+      // Default: hug the inside rail.
+      h.targetR = IR + 5;
+
+      // Avoidance: if another horse is nearby (progress-wise) AND close laterally,
+      // push outward to go around them on the outside.
+      horses.forEach(other => {
+        if (other === h || other.finished) return;
+        const dp = Math.abs(other.progress - h.progress);
+        const dr = h.r - other.r;   // positive = I am outside the other horse
+        if (dp < 0.06 && Math.abs(dr) < 14) {
+          if (dr >= 0) {
+            // I'm already outside them or level — push further out to clear
+            h.targetR = Math.max(h.targetR, other.r + 16);
+          }
+          // If I'm inside (dr < 0), I hold my line; the other horse will swing out
+        }
+      });
+
+      h.targetR = Math.max(IR + 4, Math.min(OR - 4, h.targetR));
+      // Smooth lateral drift (slower on straights, snappier in bends)
+      h.r += (h.targetR - h.r) * 0.035;
+      h.r  = Math.max(IR + 3, Math.min(OR - 3, h.r));
+
+      // ── SPEED ───────────────────────────────────────────────
+      // Outer-rail horses run a longer path — slight speed penalty keeps it fair-ish
+      const outerPenalty = (h.r - IR) / TW * 0.07;
+      h.speed = h.baseSpeed * (1 - outerPenalty)
+        + Math.sin(ts * 0.0009 + h.lane * 1.91) * 0.00008
+        + (Math.random() - 0.5) * 0.00005;
+      h.speed = Math.max(0.0005, h.speed);
+      h.progress += h.speed;
+
+      // ── FINISH ──────────────────────────────────────────────
+      if (h.progress >= 1) {
+        h.finished = true; h.progress = 1;
+        finishOrder.push(h.lane + 1);
+        if (finishOrder.length === NH) { raceState = 'finished'; showResults(); }
+      }
+
+      placeHorse(h);
+      h.legPhase += h.speed * 440;
+      const ph = [h.legPhase, h.legPhase + Math.PI, h.legPhase + Math.PI, h.legPhase];
+      h.legs.forEach((lg, i) => { lg.rotation.x = Math.sin(ph[i]) * 0.55; });
+    });
+  }
+
+  renderer.render(scene, camera);
+}
+animate(0);
+
+// ── CAMERA ORBIT ───────────────────────────────────────────
+let dragging = false, px = 0, py = 0;
+canvas.addEventListener('mousedown', e => { dragging = true; px = e.clientX; py = e.clientY; });
+window.addEventListener('mouseup', () => dragging = false);
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  camTheta -= (e.clientX - px) * 0.007;
+  camPhi = Math.max(0.18, Math.min(1.38, camPhi - (e.clientY - py) * 0.005));
+  px = e.clientX; py = e.clientY; applyCamera();
+});
+canvas.addEventListener('wheel', e => {
+  camR = Math.max(150, Math.min(950, camR + e.deltaY * 0.6));
+  applyCamera();
+}, { passive: true });
+let lt = null;
+canvas.addEventListener('touchstart', e => { lt = e.touches[0]; }, { passive: true });
+canvas.addEventListener('touchmove', e => {
+  if (!lt) return;
+  const t = e.touches[0];
+  camTheta -= (t.clientX - lt.clientX) * 0.007;
+  camPhi = Math.max(0.18, Math.min(1.38, camPhi - (t.clientY - lt.clientY) * 0.005));
+  lt = t; applyCamera();
+}, { passive: true });
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>

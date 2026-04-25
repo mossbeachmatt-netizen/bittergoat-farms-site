@@ -10,6 +10,13 @@ export default function BittergoatFarmsHomepage() {
       image: "/images/games/boarding-pass.jpg",
     },
     {
+      title: "Horse Racing",
+      category: "Casino",
+      description: "Aaand they're off! Bet on pixelated ponies.",
+      badge: "New",
+      image: "/images/games/horse-racing.jpg"
+}
+    {
       title: "Cocaine Bear",
       category: "Arcade",
       description: "Wild, chaotic gameplay.",
@@ -33,6 +40,7 @@ export default function BittergoatFarmsHomepage() {
     { title: "Golden Farms", category: "Casino" },
     { title: "Goat Mines", category: "Casino" },
     { title: "Rocket", category: "Casino" },
+    { title: "Horse Racing", category: "Casino" },
   ];
 
   const gameUrl = (title) => {
@@ -51,6 +59,8 @@ export default function BittergoatFarmsHomepage() {
         return "/games/goat-mines/index.html";
       case "Rocket":
         return "/games/rocket/index.html";
+      case "Horse Racing":
+        return "/games/horse/index.html";
       default:
         return "#";
     }
