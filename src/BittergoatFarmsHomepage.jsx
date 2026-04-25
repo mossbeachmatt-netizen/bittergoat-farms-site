@@ -28,7 +28,7 @@ export default function BittergoatFarmsHomepage() {
       category: "Casino",
       description: "Farm-themed slot machine fun.",
       badge: "Popular",
-      image: "/images/games/golden-farms.jpg",
+      image: "/images/games/golden-farms.jpeg",
     },
         {
       title: "Ore Wars",
