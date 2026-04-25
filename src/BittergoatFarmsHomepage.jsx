@@ -28,14 +28,14 @@ export default function BittergoatFarmsHomepage() {
       category: "Casino",
       description: "Farm-themed slot machine fun.",
       badge: "Popular",
-      image: "/images/games/golden-farms.jpeg",
+      image: "/images/games/golden-farms.jpg",
     },
         {
       title: "Ore Wars",
       category: "Casino",
       description: "Diggin' for riches in this mining-themed crypto game.",
       badge: "New",
-      image: "/images/games/goat-mines.jpg",
+      image: "/images/games/goat-mines.jpeg",
 },
   ];
 
