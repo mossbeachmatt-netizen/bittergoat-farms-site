@@ -132,6 +132,17 @@
 <button id="char-toggle" onclick="toggleCharacter()">🐻 PLAYING: BEAR</button>
 <div id="speed-indicator">WALKING</div>
 <div id="zone-indicator">🏙️ TOWN</div>
+<div id="boost-hud" style="
+  display:none; position:fixed; top:80px; left:50%; transform:translateX(-50%);
+  text-align:center; pointer-events:none; z-index:20;
+">
+  <div style="color:#fff; font-size:0.8rem; letter-spacing:3px; text-shadow:0 0 12px #fff, 0 2px 6px #000; margin-bottom:4px;">
+    ❄️ COCAINE RUSH &nbsp;<span id="boost-timer-val">30s</span>
+  </div>
+  <div style="width:200px; height:8px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.6); border-radius:4px; overflow:hidden;">
+    <div id="boost-bar" style="height:100%; width:100%; background:linear-gradient(to right,#aaddff,#ffffff); border-radius:4px; transition:width 0.1s;"></div>
+  </div>
+</div>
 <div id="throw-gauge" style="
   display:none; position:fixed; bottom:90px; left:50%; transform:translateX(-50%);
   text-align:center; pointer-events:none;
@@ -901,6 +912,88 @@ const keys = {};
 window.addEventListener('keydown', e => { keys[e.code] = true; });
 window.addEventListener('keyup',   e => { keys[e.code] = false; });
 
+// ─── COCAINE BOOST STATE ────────────────────────────────────────────────────
+let boostActive    = false;
+let boostTimer     = 0;
+const BOOST_DURATION = 30;    // seconds
+const BOOST_SPEED    = 1.5;   // 50% faster
+const BOOST_LAUNCH   = 2.0;   // 2× launch distance/speed on swipes
+const boostHud  = document.getElementById('boost-hud');
+const boostBar  = document.getElementById('boost-bar');
+const boostVal  = document.getElementById('boost-timer-val');
+
+function activateBoost() {
+  boostActive = true;
+  boostTimer  = BOOST_DURATION;
+  boostHud.style.display = 'block';
+  // Screen flash white
+  const fl = document.getElementById('swipe-flash');
+  fl.style.background = 'radial-gradient(ellipse at center, rgba(255,255,255,0.45) 0%, transparent 70%)';
+  fl.style.opacity = '1';
+  setTimeout(() => {
+    fl.style.opacity = '0';
+    setTimeout(() => {
+      fl.style.background = 'radial-gradient(ellipse at center, rgba(255,80,0,0.18) 0%, transparent 70%)';
+    }, 200);
+  }, 180);
+}
+
+// ─── SUGAR BAGS (10 scattered in town) ─────────────────────────────────────
+const sugarBags = [];
+const bagPositions = [
+  [-5, 8], [-18, -5], [-35, 12], [-44, -14], [-25, -20],
+  [-10, -8], [-42, 4], [-28, 25], [-15, 18], [-50, -2],
+];
+
+bagPositions.forEach(([bx, bz]) => {
+  const group = new THREE.Group();
+
+  // Small white bag shape
+  const bagMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
+  const bagGeo = new THREE.BoxGeometry(0.35, 0.22, 0.22);
+  const bag = new THREE.Mesh(bagGeo, bagMat);
+  bag.castShadow = true;
+  group.add(bag);
+
+  // Tied top — small pinched cylinder
+  const topMat = new THREE.MeshLambertMaterial({ color: 0xddddcc });
+  const topGeo = new THREE.CylinderGeometry(0.04, 0.1, 0.12, 6);
+  const top = new THREE.Mesh(topGeo, topMat);
+  top.position.y = 0.17;
+  group.add(top);
+
+  // Little powder puff on top — sphere
+  const puffMat = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.85 });
+  const puff = new THREE.Mesh(new THREE.SphereGeometry(0.06, 6, 6), puffMat);
+  puff.position.y = 0.26;
+  group.add(puff);
+
+  // "C" label — tiny red plane
+  const labelCanvas = document.createElement('canvas');
+  labelCanvas.width = 32; labelCanvas.height = 32;
+  const lctx = labelCanvas.getContext('2d');
+  lctx.fillStyle = '#cc0000';
+  lctx.fillRect(0, 0, 32, 32);
+  lctx.fillStyle = '#ffffff';
+  lctx.font = 'bold 22px Arial';
+  lctx.textAlign = 'center';
+  lctx.fillText('C', 16, 24);
+  const labelTex = new THREE.CanvasTexture(labelCanvas);
+  const labelMesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.25, 0.16),
+    new THREE.MeshBasicMaterial({ map: labelTex, transparent: true })
+  );
+  labelMesh.position.set(0, 0, 0.115);
+  group.add(labelMesh);
+
+  group.position.set(bx, 0.11, bz);
+  // Slight random rotation so they look scattered
+  group.rotation.y = Math.random() * Math.PI * 2;
+  scene.add(group);
+
+  sugarBags.push({ group, active: true, x: bx, z: bz });
+});
+
 // ─── CHARACTER TOGGLE ──────────────────────────────────────────────────────
 let activeChar = 'bear';  // 'bear' | 'raccoon'
 const toggleBtn = document.getElementById('char-toggle');
@@ -992,12 +1085,13 @@ function triggerRaccoonSwipe() {
   if (nearest.type === 'hippie') {
     hippieState = 'LAUNCHED';
     const fwdX = Math.sin(rcAngle), fwdZ = Math.cos(rcAngle);
-    hippieVel.set(fwdX*10, 5, fwdZ*10);
+    hippieVel.set(fwdX*10*rcSwipeMult, 5*rcSwipeMult, fwdZ*10*rcSwipeMult);
     hippie.rotation.x = 0; hippie.rotation.z = 0;
   } else {
     nearest.ref.state = 'LAUNCHED';
     const fwdX = Math.sin(rcAngle), fwdZ = Math.cos(rcAngle);
-    nearest.ref.vel.set(fwdX*10, 5, fwdZ*10);
+    const rcSwipeMult = boostActive ? BOOST_LAUNCH : 1.0;
+    nearest.ref.vel.set(fwdX*10*rcSwipeMult, 5*rcSwipeMult, fwdZ*10*rcSwipeMult);
     nearest.ref.mesh.rotation.x = 0; nearest.ref.mesh.rotation.z = 0;
   }
 }
@@ -1290,7 +1384,8 @@ function animate() {
   isMoving  = moving;
   isRunning = running;
 
-  const speed = running ? 18 : 4;
+  const boostMult = boostActive ? BOOST_SPEED : 1.0;
+  const speed = (running ? 18 : 4) * boostMult;
 
   // Direction relative to camera
   const forward = new THREE.Vector3();
@@ -1348,7 +1443,7 @@ function animate() {
 
   } else {
     // ── Raccoon movement (player-controlled) ──
-    const rcSpeed = running ? 20 : 5;
+    const rcSpeed = (running ? 20 : 5) * boostMult;
     if (moveDir.lengthSq() > 0 && rcAttackState === 'NONE') {
       moveDir.normalize();
       raccoon.position.addScaledVector(moveDir, rcSpeed * dt);
@@ -1411,8 +1506,9 @@ function animate() {
         const awayLen = hitDist || 1;
         const launchX = (hx / awayLen) * 0.5 + bearRtX * 0.5;
         const launchZ = (hz / awayLen) * 0.5 + bearRtZ * 0.5;
-        const launchSpeed = 14;
-        hippieVel.set(launchX * launchSpeed, 7, launchZ * launchSpeed);
+        const launchSpeed = 14 * (boostActive ? BOOST_LAUNCH : 1.0);
+        const launchY = 7 * (boostActive ? BOOST_LAUNCH : 1.0);
+        hippieVel.set(launchX * launchSpeed, launchY, launchZ * launchSpeed);
       }
     }
 
@@ -1751,7 +1847,42 @@ function animate() {
     legs.forEach(l => { l.rotation.x *= 0.85; });
   }
 
-  // ── Hippie AI + Physics ──
+  // ── Sugar bag pickup (E key, any character) ──────────────────────────────
+  if (keys['KeyE']) {
+    const playerPos = activeChar === 'bear' ? bear.position : raccoon.position;
+    sugarBags.forEach(bag => {
+      if (!bag.active) return;
+      const dx = playerPos.x - bag.x;
+      const dz = playerPos.z - bag.z;
+      if (Math.sqrt(dx*dx + dz*dz) < 1.4) {
+        bag.active = false;
+        bag.group.visible = false;
+        activateBoost();
+      }
+    });
+  }
+
+  // ── Boost timer tick ──────────────────────────────────────────────────────
+  if (boostActive) {
+    boostTimer -= dt;
+    if (boostTimer <= 0) {
+      boostTimer  = 0;
+      boostActive = false;
+      boostHud.style.display = 'none';
+    } else {
+      const pct = boostTimer / BOOST_DURATION;
+      boostBar.style.width = (pct * 100).toFixed(1) + '%';
+      boostVal.textContent = Math.ceil(boostTimer) + 's';
+      // Pulse bar colour as it runs low
+      if (pct < 0.25) {
+        boostBar.style.background = 'linear-gradient(to right,#ff6666,#ffffff)';
+      } else {
+        boostBar.style.background = 'linear-gradient(to right,#aaddff,#ffffff)';
+      }
+    }
+  }
+
+    // ── Hippie AI + Physics ──
   {
     const hp = hippie.position;
     const bp = bear.position;
@@ -2059,7 +2190,8 @@ function animate() {
           const bfx=Math.sin(bearAngle), bfz=Math.cos(bearAngle);
           const brx=bfz, brz=-bfx;
           const aLen=ed||1;
-          e.vel.set(((ex/aLen)*0.5+brx*0.5)*14, 7, ((ez/aLen)*0.5+brz*0.5)*14);
+          const eLaunchMult = boostActive ? BOOST_LAUNCH : 1.0;
+          e.vel.set(((ex/aLen)*0.5+brx*0.5)*14*eLaunchMult, 7*eLaunchMult, ((ez/aLen)*0.5+brz*0.5)*14*eLaunchMult);
         }
       });
     }
