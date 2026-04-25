@@ -45,7 +45,7 @@ export default function BittergoatFarmsHomepage() {
     { title: "Cocaine Bear", category: "Arcade" },
     { title: "Mostly Peaceful", category: "Arcade" },
     { title: "Golden Farms", category: "Casino" },
-    { title: "Goat Mines", category: "Casino" },
+    { title: "Ore Wars", category: "Casino" },
     { title: "Rocket", category: "Casino" },
     { title: "Horse Racing", category: "Casino" },
   ];
@@ -62,7 +62,7 @@ export default function BittergoatFarmsHomepage() {
         return "/games/mostly-peaceful/index.html";
       case "Golden Farms":
         return "/games/golden-farms/index.html";
-      case "Goat Mines":
+      case "Ore Wars":
         return "/games/goat-mines/index.html";
       case "Rocket":
         return "/games/rocket/index.html";
