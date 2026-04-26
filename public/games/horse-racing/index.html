@@ -215,6 +215,7 @@ body { background: #0d0d1a; overflow: hidden; font-family: 'Georgia', serif; }
 </head>
 <body>
 <canvas id="c"></canvas>
+<audio id="atpost-audio" src="63753__rdb__atpost.wav" preload="auto"></audio>
 <div id="ui">
   <div id="title">&#127939; Grand Prix Racing</div>
   <div id="panel-left"><h3>Horses</h3><div id="legend-list"></div></div>
@@ -1010,7 +1011,16 @@ document.getElementById('clear-btn').addEventListener('click', () => {
 });
 
 // Post time — actually start the race
-document.getElementById('post-btn').addEventListener('click', startRace);
+document.getElementById('post-btn').addEventListener('click', () => {
+  const audio = document.getElementById('atpost-audio');
+  audio.currentTime = 0;
+  audio.play();
+  setTimeout(() => {
+    audio.pause();
+    audio.currentTime = 0;
+    startRace();
+  }, 3000);
+});
 
 // Tote board "Race Again"
 document.getElementById('tote-again').addEventListener('click', () => {
