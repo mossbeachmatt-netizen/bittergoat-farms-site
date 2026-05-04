@@ -42,7 +42,7 @@ export default function BittergoatFarmsHomepage() {
       category: "Arcade",
       description: "Celebs and wannabe celebs fight for fame and glory",
       badge: "New",
-      image: "/images/games/fame-fighters.jpeg",
+      image: "/images/games/fame-fighters.jpg",
 },
 
   ];
