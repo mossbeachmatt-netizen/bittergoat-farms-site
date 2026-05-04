@@ -36,7 +36,15 @@ export default function BittergoatFarmsHomepage() {
       description: "Diggin' for riches in this mining-themed crypto game.",
       badge: "New",
       image: "/images/games/goat-mines.jpeg",
+},    
+       {
+      title: "Fame Fighters",
+      category: "Arcade",
+      description: "Celebs and wannabe celebs fight for fame and glory",
+      badge: "New",
+      image: "/images/games/fame-fighters.jpeg",
 },
+
   ];
 
   const allGames = [
@@ -48,6 +56,7 @@ export default function BittergoatFarmsHomepage() {
     { title: "Ore Wars", category: "Casino" },
     { title: "Rocket", category: "Casino" },
     { title: "Horse Racing", category: "Casino" },
+    { title: "Fame Fighters", category: "Arcade" },
   ];
 
   const gameUrl = (title) => {
@@ -68,6 +77,8 @@ export default function BittergoatFarmsHomepage() {
         return "/games/rocket/index.html";
       case "Horse Racing":
         return "/games/horse-racing/index.html";
+      case "Fame Fighters":
+        return "/games/fame-fighters/index.html";
       default:
         return "#";
     }

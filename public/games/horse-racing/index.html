@@ -42,6 +42,17 @@ body { background: #0d0d1a; overflow: hidden; font-family: 'Georgia', serif; }
 .stand-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; color: #e8e8e0; font-size: 12px; }
 .stand-num { color: #c9a227; font-weight: bold; width: 24px; }
 .stand-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+#commentary {
+  position: absolute; left: 14px; bottom: 14px; max-width: 320px;
+  background: rgba(0,0,0,0.72); border: 1px solid #c9a227;
+  padding: 12px 14px; border-radius: 2px; min-height: 60px;
+  color: #e8e8e0; font-size: 12px; line-height: 1.5;
+  display: none; pointer-events: all;
+}
+#commentary.active { display: block; }
+#commentary.lead-change { border-color: #FFD700; background: rgba(201,162,39,0.15); }
+#commentary.finish { border-color: #4dff88; background: rgba(77,255,136,0.1); }
+.commentary-text { color: #e8e8e0; }
 #bottom {
   position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
   pointer-events: all; display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -220,6 +231,7 @@ body { background: #0d0d1a; overflow: hidden; font-family: 'Georgia', serif; }
   <div id="title">&#127939; Grand Prix Racing</div>
   <div id="panel-left"><h3>Horses</h3><div id="legend-list"></div></div>
   <div id="panel-right"><h3>Standings</h3><div id="stand-list"></div></div>
+  <div id="commentary"><div class="commentary-text"></div></div>
   <div id="bottom">
     <div id="hint">Drag to rotate &nbsp;·&nbsp; Scroll to zoom</div>
     <button id="start-btn">Place Bets</button>
@@ -514,14 +526,20 @@ scene.background = new THREE.Color(0x7ABBE0);
 scene.fog = new THREE.FogExp2(0x7ABBE0, 0.0014);
 
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.5, 1600);
-let camTheta = 0.12, camPhi = 0.94, camR = 600;
+const camLookAt = new THREE.Vector3(14, 6, 65);
+let camTheta = 0.32, camPhi = 1.12, camR = 290;
+let raceCameraTimer = 0;
+let raceCameraMoved = false;
+const targetCamPos = new THREE.Vector3();
+const targetCamLookAt = new THREE.Vector3();
+
 function applyCamera() {
   camera.position.set(
     camR * Math.sin(camPhi) * Math.sin(camTheta),
     camR * Math.cos(camPhi),
     camR * Math.sin(camPhi) * Math.cos(camTheta)
   );
-  camera.lookAt(0, 6, 0);
+  camera.lookAt(camLookAt);
 }
 applyCamera();
 
@@ -926,7 +944,7 @@ for (let i = 0; i < NH; i++) {
     legPhase:  Math.random() * Math.PI * 2,
     finished:  false,
     lane: i,
-    r: LANE_R[i],              // spread across track at start
+    r: IR + 5,              // aligned at start
     targetR: IR + 5,           // all want the inside rail once racing
   });
 }
@@ -956,6 +974,58 @@ function buildStandings() {
 }
 buildStandings();
 
+// ── COMMENTARY SYSTEM ──────────────────────────────────────
+const COMMENTARY = {
+  START: [
+    "And they're off!",
+    "The gates burst open!",
+    "Racing toward the first turn!",
+    "The horses explode from the gate!"
+  ],
+  LEAD_CHANGE: [
+    "{{HORSE}} takes the lead!",
+    "{{HORSE}} moves to the front!",
+    "We have a new leader: {{HORSE}}!",
+    "{{HORSE}} goes to first place!",
+    "Incredible move by {{HORSE}}!"
+  ],
+  FINISH: [
+    "And {{HORSE}} crosses the finish line!",
+    "The winner is {{HORSE}}!",
+    "{{HORSE}} takes the race!"
+  ]
+};
+
+let currentLeader = null;
+let commentaryQueue = [];
+let commentaryDisplay = null;
+
+function getHorseName(laneNum) {
+  return HORSES[laneNum - 1]?.name || `Horse #${laneNum}`;
+}
+
+function addCommentary(text, type = 'normal', duration = 3.5) {
+  commentaryQueue.push({ text, type, duration, elapsed: 0 });
+}
+
+function getRandomCommentary(category) {
+  const pool = COMMENTARY[category];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function displayCommentary(text, type = 'normal') {
+  const el = document.getElementById('commentary');
+  const textEl = el.querySelector('.commentary-text');
+  textEl.textContent = text;
+  el.className = 'active';
+  if (type !== 'normal') el.classList.add(type);
+}
+
+function hideCommentary() {
+  const el = document.getElementById('commentary');
+  el.className = '';
+}
+
 // ── RACE STATE ─────────────────────────────────────────────
 let raceState = 'idle', gateOpen = 0, finishOrder = [], standTimer = 0;
 
@@ -964,14 +1034,30 @@ function resetHorses() {
     h.progress  = 0.014; h.finished = false; h.speed = 0;
     h.legPhase  = Math.random() * Math.PI * 2;
     h.baseSpeed = 0.00085 + Math.random() * 0.00032;
-    h.r         = LANE_R[i]; h.targetR = IR + 5;
+    h.r         = IR + 5; h.targetR = IR + 5;
     placeHorse(h);
   });
   finishOrder = []; gateOpen = 0;
+  raceCameraTimer = 0;
+  raceCameraMoved = false;
+  commentaryQueue = [];
+  currentLeader = null;
+  hideCommentary();
   gateDoors.forEach(pivot => {
     if (pivot.children[0]) pivot.children[0].rotation.z = 0;
     if (pivot.children[1]) pivot.children[1].rotation.z = 0;
   });
+}
+
+function startRaceCameraMove() {
+  // Removed - now following lead horse
+}
+
+function resetCamera() {
+  camTheta = 0.32;
+  camPhi = 1.12;
+  camR = 290;
+  applyCamera();
 }
 
 function startRace() {
@@ -981,7 +1067,14 @@ function startRace() {
   document.getElementById('start-btn').disabled = true;
   document.getElementById('start-btn').textContent = 'Racing…';
   raceState = 'racing';
+  currentLeader = null;
+  commentaryQueue = [];
   buildStandings();
+  // Queue start of race commentary
+  setTimeout(() => {
+    const text = getRandomCommentary('START');
+    addCommentary(text, 'normal', 2.5);
+  }, 500);
 }
 
 function showResults() { showToteBoard(); }
@@ -1032,6 +1125,7 @@ document.getElementById('tote-again').addEventListener('click', () => {
   sb.textContent   = 'Place Bets';
   sb.disabled      = false;
   resetHorses();
+  resetCamera();
   raceState = 'idle';
   buildStandings();
 });
@@ -1054,6 +1148,57 @@ function animate(ts) {
   }
 
   if (raceState === 'racing') {
+    // ── CAMERA FOLLOWING ─────────────────────────────────────
+    if (gateOpen >= 0.8) {
+      const sorted = [...horses].filter(h => !h.finished).sort((a, b) => b.progress - a.progress);
+      const leader = sorted[0];
+      if (leader) {
+        const pt = stadiumPt(leader.progress, SL, leader.r);
+        const horsePos = new THREE.Vector3(pt.x, 0, pt.z);
+        const horseDir = stadiumTangent(leader.progress, SL, leader.r);
+        const dir = new THREE.Vector3(Math.cos(horseDir), 0, Math.sin(horseDir));
+        const camOffset = dir.clone().multiplyScalar(-60).add(new THREE.Vector3(0, 40, 0));
+        targetCamPos.copy(horsePos).add(camOffset);
+        targetCamLookAt.copy(horsePos).add(dir.clone().multiplyScalar(30));
+        camera.position.lerp(targetCamPos, 0.03);
+        camera.lookAt(targetCamLookAt);
+      }
+    } else {
+      // Use orbital camera
+      camera.position.set(
+        camR * Math.sin(camPhi) * Math.sin(camTheta),
+        camR * Math.cos(camPhi),
+        camR * Math.sin(camPhi) * Math.cos(camTheta)
+      );
+      camera.lookAt(camLookAt);
+    }
+
+    // ── COMMENTARY QUEUE ──────────────────────────────────────
+    commentaryQueue = commentaryQueue.filter(c => {
+      c.elapsed += dt;
+      if (c.elapsed < 0.3) return true; // small delay before showing
+      if (commentaryDisplay !== c) {
+        displayCommentary(c.text, c.type);
+        commentaryDisplay = c;
+      }
+      if (c.elapsed >= c.duration) {
+        hideCommentary();
+        commentaryDisplay = null;
+        return false;
+      }
+      return true;
+    });
+
+    // ── DETECT LEAD CHANGES ────────────────────────────────────
+    const sorted = [...horses].filter(h => !h.finished).sort((a, b) => b.progress - a.progress);
+    const leader = sorted[0]?.lane + 1;
+    if (leader && leader !== currentLeader && raceState === 'racing' && gateOpen >= 0.8) {
+      currentLeader = leader;
+      const horseName = getHorseName(leader);
+      const text = getRandomCommentary('LEAD_CHANGE').replace('{{HORSE}}', horseName);
+      addCommentary(text, 'lead-change', 3);
+    }
+
     standTimer += dt;
     if (standTimer > 0.28) { buildStandings(); standTimer = 0; }
 
@@ -1079,6 +1224,9 @@ function animate(ts) {
         }
       });
 
+      // Limit to lane 4 (no horse goes outside lane 4)
+      h.targetR = Math.min(h.targetR, IR + (3.5 / NH) * TW);
+
       h.targetR = Math.max(IR + 4, Math.min(OR - 4, h.targetR));
       // Smooth lateral drift (slower on straights, snappier in bends)
       h.r += (h.targetR - h.r) * 0.035;
@@ -1097,6 +1245,11 @@ function animate(ts) {
       if (h.progress >= 1) {
         h.finished = true; h.progress = 1;
         finishOrder.push(h.lane + 1);
+        if (finishOrder.length === 1) {
+          const horseName = getHorseName(h.lane + 1);
+          const text = getRandomCommentary('FINISH').replace('{{HORSE}}', horseName);
+          addCommentary(text, 'finish', 3.5);
+        }
         if (finishOrder.length === NH) { raceState = 'finished'; showResults(); }
       }
 
