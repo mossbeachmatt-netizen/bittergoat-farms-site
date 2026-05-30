@@ -36,7 +36,14 @@ export default function BittergoatFarmsHomepage() {
       description: "Diggin' for riches in this mining-themed crypto game.",
       badge: "New",
       image: "/images/games/goat-mines.jpeg",
-},    
+},  
+        {
+      title: "Dragon Palace",
+      category: "Arcade",
+      description: "Competitive traditional Chinese fishing game.",
+      badge: "New",
+      image: "/images/games/dragon-palace.jpg",
+},  
        {
       title: "Fame Fighters",
       category: "Arcade",
@@ -56,6 +63,7 @@ export default function BittergoatFarmsHomepage() {
     { title: "Ore Wars", category: "Casino" },
     { title: "Rocket", category: "Casino" },
     { title: "Horse Racing", category: "Casino" },
+    { title: "Dragon Palace", category: "Arcade" },
     { title: "Fame Fighters", category: "Arcade" },
   ];
 
@@ -75,7 +83,9 @@ export default function BittergoatFarmsHomepage() {
         return "/games/goat-mines/index.html";
       case "Rocket":
         return "/games/rocket/index.html";
-      case "Horse Racing":
+      case "Dragon Palace":
+        return "/games/dragon-palace/index.html";
+      case "Fame Fighters":
         return "/games/horse-racing/index.html";
       case "Fame Fighters":
         return "/games/fame-fighters/index.html";
