@@ -338,6 +338,47 @@ const HORSES = [
   { body: 0xAAAAAA, jockey: 0xFF5722, hex: '#FF5722', name: 'Dapple'    },
 ];
 
+const HORSE_NAME_POOL = [
+  'Sir Gallops-a-Lot', 'Hoof Hearted', 'Mane Event', 'Neigh Sayer',
+  'Clip Clop Chaos', 'Filly Mignon', 'Gallop Poll', 'Hay Girl Hay',
+  'Stable Genius', 'Fast and the Furriest', 'The Mane Attraction',
+  'Trotter Tot', 'Whinny the Pooh', 'Bit by Bit', 'Galloping Gourmet',
+  'Pony Expressway', 'Saddle Snatcher', 'Hay There', 'Jockey Junkie',
+  'Pasture Prime', 'Speedy Spur', 'Bridle Path', 'Canter Coleman',
+  'Stirrup Trouble', 'Mr. Neigh Alot', 'Lady Loping', 'Hoofin It',
+  'Fastback Fred', 'Dressage Diva', 'Buckaroo Banzai', 'Ginger Gallop',
+  'Chocolate Chip', 'Apricot Amp', 'Latte Loper', 'Muffin Mover',
+  'Fuzzy Furlong', 'Turbo Trot', 'Prancing Pete', 'Slick Saddles',
+  'Thunderhoof', 'Rapid Rump', 'Whirlwind Willie', 'Blaze of Glory',
+  'Velvet Vanner', 'Rocket Rein', 'Pacing Picasso', 'Zoomin Zane',
+  'Bucking Beauty', 'Mystic Mare', 'Captain Canter', 'Lightning Lark',
+  'Quick Quip', 'Hasty Hoof', 'Sprinting Sprite', 'Bolt from Barn',
+  'Whisperwind', 'Tango Tail', 'Neon Nicker', 'Brisk Breeze',
+  'Royal Rush', 'Giddyup Greg', 'Fancy Filly', 'Pony Picasso',
+  'Dashing Dune', 'Slick Strider', 'Velvet Volt', 'Cosmic Colt',
+  'Ninja Neigh', 'Prancing Pearl', 'Shetland Shaker', 'High Stepper',
+  'Meadow Missile', 'Barrel of Fun', 'Magic Mane', 'Galactic Gallop',
+  'Turbo Tails', 'Peppy Pinto', 'Zippy Zephyr', 'Major Mustang',
+  'Lucky Loper', 'Cheeky Chestnut', 'Midnight Mare', 'Emerald Equine',
+  'Flashy Foal', 'Rumpling Rump', 'Happy Hooves', 'Spiral Spur',
+  'Cowboy Comet', 'Diamond Derby', 'Bramble Breeze', 'Flicker Frost',
+  'Wicked Whinny', 'Oracle Oats', 'Pasture Pirate', 'Velvet Victory',
+  'Turbo Tack', 'Jolly Jockey', 'Sprinter Spark', 'Cider Sipper',
+  'Pony Pizzazz', 'Trot Tonic', 'Meadow Marmalade', 'Hoofin It Hard',
+  'Breeze Block', 'Rusty Reins', 'Patchwork Pony', 'Mane Street',
+  'Gallop Gadget', 'Rye Runner', 'Whinny Wonderland', 'Froth and Trot',
+  'Clover Cruiser', 'Twisty Tail', 'Rumble Stomp', 'Midnight Mane',
+  'Thunder Toast', 'Smarty Pants Stallion', 'Paddock Pirate', 'Saddle Saga',
+  'Neigh Teen', 'Prance Pants'
+];
+
+function randomizeHorseNames() {
+  const shuffled = [...HORSE_NAME_POOL].sort(() => Math.random() - 0.5);
+  HORSES.forEach((horse, i) => {
+    horse.name = shuffled[i];
+  });
+}
+
 // Each lane shares the same straight half-length but has its own end radius
 const LANE_R = [];
 for (let i = 0; i < NH; i++) LANE_R.push(IR + (i + 0.5) / NH * TW);
@@ -761,7 +802,11 @@ addRail(IR - 1, 40);
 // Gate sits at x=GATE_X, to the RIGHT of the finish line at x=0.
 // Horses start inside the gate, burst out going +X, lap the track,
 // and cross the finish (x=0) just BEFORE reaching the gate again.
+const gateGroup = new THREE.Group();
+scene.add(gateGroup);
 const gateDoors = [];
+const gateComponents = [];
+let initialGateX = GATE_X;
 {
   const GX   = GATE_X;              // use the module-level constant
   const cz   = (IR + OR) / 2;
@@ -777,32 +822,38 @@ const gateDoors = [];
 
   // ── MAIN BODY ────────────────────────────────────────────
   const body = new THREE.Mesh(new THREE.BoxGeometry(3.5, bodyH, gW), grnMat);
-  body.position.set(GX, bodyH / 2, cz); body.castShadow = true; scene.add(body);
+  body.position.set(GX, bodyH / 2, cz); body.castShadow = true; gateGroup.add(body);
+  gateComponents.push(body);
 
   // ── LANE DIVIDERS (white vertical walls between stalls) ──
   for (let i = 0; i <= NH; i++) {
     const z = IR + (i / NH) * TW;
     const div = new THREE.Mesh(new THREE.BoxGeometry(4, bodyH + 1, 0.55), wMat);
-    div.position.set(GX, bodyH / 2, z); scene.add(div);
+    div.position.set(GX, bodyH / 2, z); gateGroup.add(div);
+    gateComponents.push(div);
   }
 
   // ── END WINGS (taller solid panels on inner / outer edge) ──
   [IR - 4, OR + 4].forEach(z => {
     const wing = new THREE.Mesh(new THREE.BoxGeometry(3.2, bodyH + 5, 5), grnMat);
-    wing.position.set(GX, (bodyH + 5) / 2, z); wing.castShadow = true; scene.add(wing);
+    wing.position.set(GX, (bodyH + 5) / 2, z); wing.castShadow = true; gateGroup.add(wing);
+    gateComponents.push(wing);
     const cap = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.9, 5.4), wMat);
-    cap.position.set(GX, bodyH + 5.45, z); scene.add(cap);
+    cap.position.set(GX, bodyH + 5.45, z); gateGroup.add(cap);
+    gateComponents.push(cap);
   });
 
   // ── TOP RAIL ─────────────────────────────────────────────
   const topRail = new THREE.Mesh(new THREE.BoxGeometry(2, 1.4, gW + 4), wMat);
-  topRail.position.set(GX, bodyH + 0.7, cz); scene.add(topRail);
+  topRail.position.set(GX, bodyH + 0.7, cz); gateGroup.add(topRail);
+  gateComponents.push(topRail);
 
   // Vertical uprights above rail (one per divider)
   for (let i = 0; i <= NH; i++) {
     const z = IR + (i / NH) * TW;
     const up = new THREE.Mesh(new THREE.BoxGeometry(0.55, 5.5, 0.55), wMat);
-    up.position.set(GX, bodyH + 1.4 + 2.75, z); scene.add(up);
+    up.position.set(GX, bodyH + 1.4 + 2.75, z); gateGroup.add(up);
+    gateComponents.push(up);
   }
 
   // ── BANNER BILLBOARD ─────────────────────────────────────
@@ -830,7 +881,8 @@ const gateDoors = [];
     [ banFace, banFace, grnDkMat, grnDkMat, grnMat, grnMat ]
   );
   banner.position.set(GX, bodyH + 1.4 + 5.5 + bannerH / 2, cz);
-  banner.castShadow = true; scene.add(banner);
+  banner.castShadow = true; gateGroup.add(banner);
+  gateComponents.push(banner);
 
   // ── STALL NUMBERS (coloured circle panels on top rail) ───
   for (let i = 0; i < NH; i++) {
@@ -848,7 +900,8 @@ const gateDoors = [];
     ctx.fillText(i + 1, 40, 42);
     const nMat = new THREE.MeshLambertMaterial({ map: new THREE.CanvasTexture(nc) });
     const numBox = new THREE.Mesh(new THREE.BoxGeometry(1.8, 3, 3), nMat);
-    numBox.position.set(GX, bodyH + 0.7 + 1.5, czl); scene.add(numBox);
+    numBox.position.set(GX, bodyH + 0.7 + 1.5, czl); gateGroup.add(numBox);
+    gateComponents.push(numBox);
   }
 
   // ── FRONT DOORS (white panels, one per stall, hinge at top) ─
@@ -869,7 +922,7 @@ const gateDoors = [];
     rightDoor.position.set(0, -doorH / 2, panelW / 2 + 0.05);
     pivot.add(rightDoor);
 
-    scene.add(pivot);
+    gateGroup.add(pivot);
     gateDoors.push(pivot);
   }
 }
@@ -932,20 +985,25 @@ function makeHorse(hInfo, num) {
 }
 
 // ── BUILD HORSES ───────────────────────────────────────────
+randomizeHorseNames();
 const horses = [];
+const desiredStartX = 10; // All horses start at same x position
 for (let i = 0; i < NH; i++) {
+  const r = LANE_R[i];
+  const P = 4 * SL + 2 * Math.PI * r;
+  const progress = desiredStartX / P;
   const { group, legs } = makeHorse(HORSES[i], i + 1);
   scene.add(group);
   horses.push({
     group, legs,
-    progress: 0.014,           // x≈12 on near straight — just inside the gate
+    progress: progress,      // Position at x=10 for all horses
     speed: 0,
     baseSpeed: 0.00085 + Math.random() * 0.00032,
     legPhase:  Math.random() * Math.PI * 2,
     finished:  false,
     lane: i,
-    r: IR + 5,              // aligned at start
-    targetR: IR + 5,           // all want the inside rail once racing
+    r: r,                    // Each horse in their lane
+    targetR: r,              // Start in assigned lane
   });
 }
 
@@ -1030,11 +1088,15 @@ function hideCommentary() {
 let raceState = 'idle', gateOpen = 0, finishOrder = [], standTimer = 0;
 
 function resetHorses() {
+  randomizeHorseNames();
+  const desiredStartX = 10;
   horses.forEach((h, i) => {
-    h.progress  = 0.014; h.finished = false; h.speed = 0;
+    const r = LANE_R[i];
+    const P = 4 * SL + 2 * Math.PI * r;
+    h.progress  = desiredStartX / P; h.finished = false; h.speed = 0;
     h.legPhase  = Math.random() * Math.PI * 2;
     h.baseSpeed = 0.00085 + Math.random() * 0.00032;
-    h.r         = IR + 5; h.targetR = IR + 5;
+    h.r         = r; h.targetR = r;
     placeHorse(h);
   });
   finishOrder = []; gateOpen = 0;
