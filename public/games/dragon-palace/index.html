@@ -123,7 +123,7 @@ const boss={
   x:0,y:0,hp:0,maxHp:55,sz:155,pts:25000,
   alpha:0,wPhase:0,flashT:0,patrolT:0,entryDone:false,
 };
-function resetBoss(){
+async function playPing(){
   Object.assign(boss,{nextTriggerIdx:0,warning:false,warningT:0,active:false,dying:false,
     dyingT:0,alpha:0,flashT:0,entryDone:false,hp:0});
 }
@@ -143,11 +143,17 @@ const SLOT_DEFS=[
   {id:2,pos:'BR',col:2,row:1,color:'#ffdd22'},
   {id:5,pos:'TL',col:0,row:0,color:'#ffaa33'},
   {id:6,pos:'TC',col:1,row:0,color:'#88ff88'},
-  {id:7,pos:'TR',col:2,row:0,color:'#ccccff'},
-];
-function slotXY(sd){
-  const FT=45,FB=H-45;
-  const xs=[W*.12,W*.5,W*.88];
+        console.log('playPing: attempting HTMLAudioEl fallback');
+        const el = sfxAudioEl.cloneNode();
+        try{
+          await el.play();
+          try{ window.__lastPingMode = 'audioel'; }catch(e){}
+          console.log('playPing: HTMLAudioEl played successfully');
+          return;
+        }catch(playErr){
+          console.log('audioEl play failed', playErr);
+          // fall through to synthesized fallback
+        }
   const ys=[FT,FB];
   return{x:xs[sd.col],y:ys[sd.row]};
 }
@@ -297,6 +303,88 @@ function tickUpgrades(dt){
     }
   }
 }
+// Short ping SFX for turret firing (uses WebAudio, created/resumed on first gesture)
+let sfxAudioCtx = null;
+let sfxAudioBuffer = null;
+let sfxAudioEl = null;
+
+// Load ping SFX from an absolute path so fetch resolution is reliable.
+async function loadPingAsset(){
+  const path = '/games/dragon-palace/gvehimpa.wav';
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(AC) sfxAudioCtx = sfxAudioCtx || new AC();
+
+    // HTMLAudio element (works in more cases) — keep as a fallback and for quick play
+    sfxAudioEl = new Audio(path);
+    sfxAudioEl.preload = 'auto';
+    sfxAudioEl.load();
+    try{ window._sfxAudioEl = sfxAudioEl; }catch(e){}
+
+    // Try to fetch & decode into an AudioBuffer for low-latency playback
+    const resp = await fetch(path, {cache: 'no-store'}).catch(err => { console.log('Ping fetch failed', err); return null; });
+    if(!resp || !resp.ok){ console.log('Ping fetch returned', resp && resp.status); return; }
+    const ab = await resp.arrayBuffer().catch(e=>{ console.log('arrayBuffer failed', e); return null; });
+    if(!ab) return;
+    try{
+      // decodeAudioData returns a promise in modern browsers
+      sfxAudioBuffer = await sfxAudioCtx.decodeAudioData(ab);
+      try{ window._sfxAudioBuffer = sfxAudioBuffer; }catch(e){}
+      console.log('Ping decoded, buffer length', sfxAudioBuffer.length);
+    }catch(de){ console.log('decodeAudioData failed', de); }
+  }catch(e){ console.log('Ping load failed', e); }
+  try{ window._pingLoadAttempted = true; }catch(e){}
+}
+
+loadPingAsset();
+
+function playPing(){
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    // Prefer decoded buffer
+    if(sfxAudioBuffer && AC){
+      sfxAudioCtx = sfxAudioCtx || new AC();
+      if(sfxAudioCtx.state === 'suspended') sfxAudioCtx.resume().catch(()=>{console.log('resume failed');});
+      const now = sfxAudioCtx.currentTime;
+      console.log('playPing: using decoded buffer');
+      try{ window.__lastPingMode = 'buffer'; }catch(e){}
+      const src = sfxAudioCtx.createBufferSource(); src.buffer = sfxAudioBuffer;
+      const g = sfxAudioCtx.createGain(); g.gain.setValueAtTime(1, now);
+      src.connect(g); g.connect(sfxAudioCtx.destination);
+      src.start(now);
+      return;
+    }
+
+    // Next fallback: clone an HTMLAudio element so overlapping plays work
+    if(sfxAudioEl){
+      try{
+        console.log('playPing: using HTMLAudioEl fallback');
+        try{ window.__lastPingMode = 'audioel'; }catch(e){}
+        const el = sfxAudioEl.cloneNode();
+        el.play().catch(e=>{ console.log('audioEl play failed', e); });
+        return;
+      }catch(e){ console.log('audio clone failed', e); }
+    }
+
+    // Final fallback: synthesized sine ping
+    if(!AC) return;
+    sfxAudioCtx = sfxAudioCtx || new AC();
+    if(sfxAudioCtx.state === 'suspended') sfxAudioCtx.resume().catch(()=>{});
+    const now = sfxAudioCtx.currentTime;
+    console.log('playPing: using synthesized fallback');
+    try{ window.__lastPingMode = 'synth'; }catch(e){}
+    const o = sfxAudioCtx.createOscillator();
+    const g = sfxAudioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(1200, now);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.25, now + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+    o.connect(g); g.connect(sfxAudioCtx.destination);
+    o.start(now);
+    o.stop(now + 0.2);
+  }catch(e){ console.log('playPing error', e); }
+}
 /* â”€â”€ FIRE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function fireBullet(st){
   const bx=st.x+Math.cos(st.angle)*42,by=st.y+Math.sin(st.angle)*42;
@@ -305,6 +393,8 @@ function fireBullet(st){
       sid:st.id,color:'#44ffee',life:2.5,laser:true,damage:3});
     spawnLaserMuzzle(st); return;
   }
+  // Play a short ping only for the human player's normal/triple/upgraded bullet fires
+  try{ if(st.isPlayer) playPing(); }catch(e){}
     if(st.tripleMode){
     // Exact barrel tip positions traced through crop+rotate+scale pipeline
     const ca=Math.cos(st.angle),sa=Math.sin(st.angle);
