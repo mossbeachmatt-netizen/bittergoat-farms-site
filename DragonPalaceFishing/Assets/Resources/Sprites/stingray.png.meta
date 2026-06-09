@@ -1,0 +1,993 @@
+fileFormatVersion: 2
+guid: f628511b214f21f4db74702602f872b6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3142052452305003664
+    second: stingray_0
+  - first:
+      213: 3680940738211789288
+    second: stingray_1
+  - first:
+      213: 4997948135893109451
+    second: stingray_2
+  - first:
+      213: -3300849625891853703
+    second: stingray_3
+  - first:
+      213: 5440974204738159817
+    second: stingray_4
+  - first:
+      213: 3365524731947122737
+    second: stingray_5
+  - first:
+      213: 8316721337064927032
+    second: stingray_6
+  - first:
+      213: 981386561169174977
+    second: stingray_7
+  - first:
+      213: 3199847551462027187
+    second: stingray_8
+  - first:
+      213: 1911916458690692516
+    second: stingray_9
+  - first:
+      213: -2738508364102549526
+    second: stingray_10
+  - first:
+      213: 7168467291138348420
+    second: stingray_11
+  - first:
+      213: 3800357788422804312
+    second: stingray_12
+  - first:
+      213: -4667994688231880320
+    second: stingray_13
+  - first:
+      213: 6114659718324698778
+    second: stingray_14
+  - first:
+      213: 7152960184901366090
+    second: stingray_15
+  - first:
+      213: 7674264399695977207
+    second: stingray_16
+  - first:
+      213: -2534223148103580896
+    second: stingray_17
+  - first:
+      213: 8521341410780857822
+    second: stingray_18
+  - first:
+      213: -7665399916490815213
+    second: stingray_19
+  - first:
+      213: -3106220739072178372
+    second: stingray_20
+  - first:
+      213: 7686258659687554114
+    second: stingray_21
+  - first:
+      213: 4609834448796891040
+    second: stingray_22
+  - first:
+      213: 6573590148197390995
+    second: stingray_23
+  - first:
+      213: -474053849817240369
+    second: stingray_24
+  - first:
+      213: 377452713134122633
+    second: stingray_25
+  - first:
+      213: -5984158591812050153
+    second: stingray_26
+  - first:
+      213: 8492035620867934253
+    second: stingray_27
+  - first:
+      213: 1354340251253111896
+    second: stingray_28
+  - first:
+      213: 3993167529309882667
+    second: stingray_29
+  - first:
+      213: 6649943237562920244
+    second: stingray_30
+  - first:
+      213: 7949766450374696185
+    second: stingray_31
+  - first:
+      213: -8364233952595337920
+    second: stingray_32
+  - first:
+      213: -8855696920058920654
+    second: stingray_33
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: stingray_0
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 387
+        width: 104
+        height: 118
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 094e84dde00da9b20800000000000000
+      internalID: 3142052452305003664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_1
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 387
+        width: 88
+        height: 118
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e9b0645914551330800000000000000
+      internalID: 3680940738211789288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_2
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 387
+        width: 88
+        height: 118
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bca0cbd69574c5540800000000000000
+      internalID: 4997948135893109451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_3
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 387
+        width: 104
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97a2cbff0c60132d0800000000000000
+      internalID: -3300849625891853703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_4
+      rect:
+        serializedVersion: 2
+        x: 978
+        y: 387
+        width: 113
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c44b713639328b40800000000000000
+      internalID: 5440974204738159817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_5
+      rect:
+        serializedVersion: 2
+        x: 1214
+        y: 387
+        width: 103
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 130008299eeb4be20800000000000000
+      internalID: 3365524731947122737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_6
+      rect:
+        serializedVersion: 2
+        x: 1443
+        y: 387
+        width: 103
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83faaaffdfdea6370800000000000000
+      internalID: 8316721337064927032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_7
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 387
+        width: 108
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c1b4d5b0e59e9d00800000000000000
+      internalID: 981386561169174977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_8
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 258
+        width: 106
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bf2c400564286c20800000000000000
+      internalID: 3199847551462027187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_9
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 258
+        width: 97
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a54b70b3ed788a10800000000000000
+      internalID: 1911916458690692516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_10
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 258
+        width: 84
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aef3b3fe62ddef9d0800000000000000
+      internalID: -2738508364102549526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_11
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 258
+        width: 96
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 485de4865038b7360800000000000000
+      internalID: 7168467291138348420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_12
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 258
+        width: 112
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 853945ef5459db430800000000000000
+      internalID: 3800357788422804312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_13
+      rect:
+        serializedVersion: 2
+        x: 1207
+        y: 258
+        width: 115
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 089478a2093f73fb0800000000000000
+      internalID: -4667994688231880320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_14
+      rect:
+        serializedVersion: 2
+        x: 1442
+        y: 258
+        width: 108
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9e3221fd92abd450800000000000000
+      internalID: 6114659718324698778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_15
+      rect:
+        serializedVersion: 2
+        x: 1678
+        y: 258
+        width: 96
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a41fe81e36b644360800000000000000
+      internalID: 7152960184901366090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_16
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 129
+        width: 80
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fa1e40cfc6708a60800000000000000
+      internalID: 7674264399695977207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_17
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 144
+        width: 91
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 023c6b34971a4dcd0800000000000000
+      internalID: -2534223148103580896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_18
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 129
+        width: 103
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed54b677dd2e14670800000000000000
+      internalID: 8521341410780857822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_19
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 129
+        width: 108
+        height: 118
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 319814493670f9590800000000000000
+      internalID: -7665399916490815213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_20
+      rect:
+        serializedVersion: 2
+        x: 982
+        y: 129
+        width: 104
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c37c6adf1bc74e4d0800000000000000
+      internalID: -3106220739072178372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_21
+      rect:
+        serializedVersion: 2
+        x: 1218
+        y: 129
+        width: 93
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24c527607831baa60800000000000000
+      internalID: 7686258659687554114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_22
+      rect:
+        serializedVersion: 2
+        x: 1454
+        y: 129
+        width: 84
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a7b5e9d10c69ff30800000000000000
+      internalID: 4609834448796891040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_23
+      rect:
+        serializedVersion: 2
+        x: 1678
+        y: 129
+        width: 97
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39a105259651a3b50800000000000000
+      internalID: 6573590148197390995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_24
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 129
+        width: 4
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fccac350982db69f0800000000000000
+      internalID: -474053849817240369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_25
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 0
+        width: 112
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 986edd52e3bfc3500800000000000000
+      internalID: 377452713134122633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_26
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 0
+        width: 109
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 713e077577ff3fca0800000000000000
+      internalID: -5984158591812050153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_27
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 0
+        width: 92
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d280cc98765c9d570800000000000000
+      internalID: 8492035620867934253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_28
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 0
+        width: 89
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85c74fc68459bc210800000000000000
+      internalID: 1354340251253111896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_29
+      rect:
+        serializedVersion: 2
+        x: 985
+        y: 0
+        width: 101
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b29c32116b49a6730800000000000000
+      internalID: 3993167529309882667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_30
+      rect:
+        serializedVersion: 2
+        x: 1210
+        y: 0
+        width: 108
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43de2734428594c50800000000000000
+      internalID: 6649943237562920244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_31
+      rect:
+        serializedVersion: 2
+        x: 1443
+        y: 0
+        width: 105
+        height: 118
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fcd6e9877e335e60800000000000000
+      internalID: 7949766450374696185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: stingray_32
+      rect:
+        serializedVersion: 2
+        x: 1679
+        y: 0
+        width: 95
+        height: 118
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04d1b4529854ceb80800000000000000
+      internalID: -8364233952595337920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: d5c302b6ed10ac240949b463411add82
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      stingray_0: 3142052452305003664
+      stingray_1: 3680940738211789288
+      stingray_10: -2738508364102549526
+      stingray_11: 7168467291138348420
+      stingray_12: 3800357788422804312
+      stingray_13: -4667994688231880320
+      stingray_14: 6114659718324698778
+      stingray_15: 7152960184901366090
+      stingray_16: 7674264399695977207
+      stingray_17: -2534223148103580896
+      stingray_18: 8521341410780857822
+      stingray_19: -7665399916490815213
+      stingray_2: 4997948135893109451
+      stingray_20: -3106220739072178372
+      stingray_21: 7686258659687554114
+      stingray_22: 4609834448796891040
+      stingray_23: 6573590148197390995
+      stingray_24: -474053849817240369
+      stingray_25: 377452713134122633
+      stingray_26: -5984158591812050153
+      stingray_27: 8492035620867934253
+      stingray_28: 1354340251253111896
+      stingray_29: 3993167529309882667
+      stingray_3: -3300849625891853703
+      stingray_30: 6649943237562920244
+      stingray_31: 7949766450374696185
+      stingray_32: -8364233952595337920
+      stingray_4: 5440974204738159817
+      stingray_5: 3365524731947122737
+      stingray_6: 8316721337064927032
+      stingray_7: 981386561169174977
+      stingray_8: 3199847551462027187
+      stingray_9: 1911916458690692516
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

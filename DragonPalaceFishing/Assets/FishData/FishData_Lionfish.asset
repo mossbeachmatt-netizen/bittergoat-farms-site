@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1104de6ee74dbc54bb5d0a8b279abe8c, type: 3}
+  m_Name: FishData_Lionfish
+  m_EditorClassIdentifier: Assembly-CSharp::FishData
+  fishType: lionfish
+  displayLabel: Lionfish
+  sprite: {fileID: 5899267059887346762, guid: 646ce8d60a224994aa8c6ba2f6476b3d, type: 3}
+  pointValue: 1000
+  hitPoints: 42
+  radius: 80
+  speed: 52
+  spawnWeight: 10
+  spriteRotationOffset: 0
+  animatorController: {fileID: 0}
+  labelColor: {r: 1, g: 1, b: 1, a: 1}

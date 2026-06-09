@@ -1,0 +1,756 @@
+fileFormatVersion: 2
+guid: 4dcc022e8047f094ab4048622330ab0e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 322424094381044149
+    second: mantaray_0
+  - first:
+      213: 5225576443832318196
+    second: mantaray_1
+  - first:
+      213: 8456487455774268264
+    second: mantaray_2
+  - first:
+      213: 694988742890897132
+    second: mantaray_3
+  - first:
+      213: 6520791099741858431
+    second: mantaray_4
+  - first:
+      213: -552307844843426467
+    second: mantaray_5
+  - first:
+      213: -699112136709781802
+    second: mantaray_6
+  - first:
+      213: -979194345257318267
+    second: mantaray_7
+  - first:
+      213: 3836346507630428748
+    second: mantaray_8
+  - first:
+      213: -1138627848193686045
+    second: mantaray_9
+  - first:
+      213: 8276991241114137102
+    second: mantaray_10
+  - first:
+      213: 8087099283519471773
+    second: mantaray_11
+  - first:
+      213: 5466544200238006778
+    second: mantaray_12
+  - first:
+      213: 2386230647118700426
+    second: mantaray_13
+  - first:
+      213: 1619065094475173846
+    second: mantaray_14
+  - first:
+      213: 2817902735596433116
+    second: mantaray_15
+  - first:
+      213: 4002680200523817946
+    second: mantaray_16
+  - first:
+      213: -9221213927290397238
+    second: mantaray_17
+  - first:
+      213: 3595268522464043325
+    second: mantaray_18
+  - first:
+      213: 5186906780182636961
+    second: mantaray_19
+  - first:
+      213: 1552148938099624761
+    second: mantaray_20
+  - first:
+      213: -5786513260995983920
+    second: mantaray_21
+  - first:
+      213: -3909181600689101916
+    second: mantaray_22
+  - first:
+      213: 6969773656465865754
+    second: mantaray_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: mantaray_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 292
+        width: 199
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b1fb9c610b797400800000000000000
+      internalID: 322424094381044149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_1
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 292
+        width: 202
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f83641e61af48840800000000000000
+      internalID: 5225576443832318196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_2
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 292
+        width: 234
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86bd8f0698a7b5570800000000000000
+      internalID: 8456487455774268264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_3
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 292
+        width: 243
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cee38e6549815a900800000000000000
+      internalID: 694988742890897132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_4
+      rect:
+        serializedVersion: 2
+        x: 1016
+        y: 292
+        width: 237
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7a64a2e4f08e7a50800000000000000
+      internalID: 6520791099741858431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_5
+      rect:
+        serializedVersion: 2
+        x: 1267
+        y: 292
+        width: 238
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5d227df0fec558f0800000000000000
+      internalID: -552307844843426467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_6
+      rect:
+        serializedVersion: 2
+        x: 1516
+        y: 292
+        width: 244
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d6cf3937314c46f0800000000000000
+      internalID: -699112136709781802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_7
+      rect:
+        serializedVersion: 2
+        x: 1773
+        y: 292
+        width: 236
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 588cdd45ee33962f0800000000000000
+      internalID: -979194345257318267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_8
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 146
+        width: 214
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c424f96a2d07d3530800000000000000
+      internalID: 3836346507630428748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_9
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 146
+        width: 200
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e54c093108c230f0800000000000000
+      internalID: -1138627848193686045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_10
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 146
+        width: 219
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e02b0af2ea7cdd270800000000000000
+      internalID: 8276991241114137102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_11
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 146
+        width: 243
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d908e7973f52b3070800000000000000
+      internalID: 8087099283519471773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_12
+      rect:
+        serializedVersion: 2
+        x: 1014
+        y: 146
+        width: 240
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af18824bcf01ddb40800000000000000
+      internalID: 5466544200238006778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_13
+      rect:
+        serializedVersion: 2
+        x: 1269
+        y: 146
+        width: 234
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8f19a971289d1120800000000000000
+      internalID: 2386230647118700426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_14
+      rect:
+        serializedVersion: 2
+        x: 1518
+        y: 146
+        width: 240
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6df4d601023187610800000000000000
+      internalID: 1619065094475173846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_15
+      rect:
+        serializedVersion: 2
+        x: 1768
+        y: 146
+        width: 244
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdea3deab933b1720800000000000000
+      internalID: 2817902735596433116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_16
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 0
+        width: 231
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad326bd6f606c8730800000000000000
+      internalID: 4002680200523817946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_17
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 0
+        width: 208
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acd98f90acaa70080800000000000000
+      internalID: -9221213927290397238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_18
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 0
+        width: 190
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d31ec913ca5f4e130800000000000000
+      internalID: 3595268522464043325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_19
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 0
+        width: 210
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a9e9d33c389bf740800000000000000
+      internalID: 5186906780182636961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_20
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 0
+        width: 239
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93b8ded4c375a8510800000000000000
+      internalID: 1552148938099624761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_21
+      rect:
+        serializedVersion: 2
+        x: 1265
+        y: 0
+        width: 242
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d54f3ee8dc22bfa0800000000000000
+      internalID: -5786513260995983920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_22
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 0
+        width: 236
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a3ee60cb0ccfb9c0800000000000000
+      internalID: -3909181600689101916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mantaray_23
+      rect:
+        serializedVersion: 2
+        x: 1769
+        y: 0
+        width: 241
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1cf58e863c99b060800000000000000
+      internalID: 6969773656465865754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: f1437757ccba8a742a57f9179005eca5
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      mantaray_0: 322424094381044149
+      mantaray_1: 5225576443832318196
+      mantaray_10: 8276991241114137102
+      mantaray_11: 8087099283519471773
+      mantaray_12: 5466544200238006778
+      mantaray_13: 2386230647118700426
+      mantaray_14: 1619065094475173846
+      mantaray_15: 2817902735596433116
+      mantaray_16: 4002680200523817946
+      mantaray_17: -9221213927290397238
+      mantaray_18: 3595268522464043325
+      mantaray_19: 5186906780182636961
+      mantaray_2: 8456487455774268264
+      mantaray_20: 1552148938099624761
+      mantaray_21: -5786513260995983920
+      mantaray_22: -3909181600689101916
+      mantaray_23: 6969773656465865754
+      mantaray_3: 694988742890897132
+      mantaray_4: 6520791099741858431
+      mantaray_5: -552307844843426467
+      mantaray_6: -699112136709781802
+      mantaray_7: -979194345257318267
+      mantaray_8: 3836346507630428748
+      mantaray_9: -1138627848193686045
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

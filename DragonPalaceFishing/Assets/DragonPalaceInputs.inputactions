@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "DragonPalaceInputs",
+    "maps": [
+        {
+            "name": "GamePlay",
+            "id": "59900359-d8e3-46d9-b039-b14afff4338f",
+            "actions": [
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "d97043a8-f8b8-40e4-8911-7ceb0124393f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "22e2e6af-2cd8-4511-bb0c-8263c60b554e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

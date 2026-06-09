@@ -1,0 +1,964 @@
+fileFormatVersion: 2
+guid: 0286cde09adcf914e920990dfa61122f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6400157260507084568
+    second: arowana_0
+  - first:
+      213: 4562171675787993710
+    second: arowana_1
+  - first:
+      213: 6295497733944439521
+    second: arowana_2
+  - first:
+      213: -6157248853830424916
+    second: arowana_3
+  - first:
+      213: 6201046017429898885
+    second: arowana_4
+  - first:
+      213: -3512307012881325193
+    second: arowana_5
+  - first:
+      213: 8814420714359723445
+    second: arowana_6
+  - first:
+      213: 2464296581670443874
+    second: arowana_7
+  - first:
+      213: 9022068714793552043
+    second: arowana_8
+  - first:
+      213: -2904313702228926753
+    second: arowana_9
+  - first:
+      213: -469163048455256573
+    second: arowana_10
+  - first:
+      213: 2552637247725892774
+    second: arowana_11
+  - first:
+      213: 7944116085127626721
+    second: arowana_12
+  - first:
+      213: -6782906643539249674
+    second: arowana_13
+  - first:
+      213: 3225237108833131689
+    second: arowana_14
+  - first:
+      213: 4948027806782183600
+    second: arowana_15
+  - first:
+      213: 4485092617322052220
+    second: arowana_16
+  - first:
+      213: 4222361496941729534
+    second: arowana_17
+  - first:
+      213: 6251403945338607669
+    second: arowana_18
+  - first:
+      213: -5054408169593291044
+    second: arowana_19
+  - first:
+      213: -8580613571631958175
+    second: arowana_20
+  - first:
+      213: 4985305353409441812
+    second: arowana_21
+  - first:
+      213: -1661335671921557004
+    second: arowana_22
+  - first:
+      213: 5566551136291486504
+    second: arowana_23
+  - first:
+      213: -2278948201083115349
+    second: arowana_24
+  - first:
+      213: 4382939425818547783
+    second: arowana_25
+  - first:
+      213: 207330485173631160
+    second: arowana_26
+  - first:
+      213: 370821735434437641
+    second: arowana_27
+  - first:
+      213: -1383141988075602840
+    second: arowana_28
+  - first:
+      213: 4068188590585326402
+    second: arowana_29
+  - first:
+      213: 703397618624961558
+    second: arowana_30
+  - first:
+      213: -7643296621562430833
+    second: arowana_31
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: arowana_0
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 493
+        width: 84
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81779237e1de1d850800000000000000
+      internalID: 6400157260507084568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_1
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 498
+        width: 84
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6221bbb7f6105f30800000000000000
+      internalID: 4562171675787993710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_2
+      rect:
+        serializedVersion: 2
+        x: 662
+        y: 498
+        width: 81
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e2f80485d91e5750800000000000000
+      internalID: 6295497733944439521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_3
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 497
+        width: 80
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca6a1c93ace0d8aa0800000000000000
+      internalID: -6157248853830424916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_4
+      rect:
+        serializedVersion: 2
+        x: 1219
+        y: 500
+        width: 85
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58682c09f7a8e0650800000000000000
+      internalID: 6201046017429898885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_5
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 502
+        width: 89
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 773681b7167c14fc0800000000000000
+      internalID: -3512307012881325193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_6
+      rect:
+        serializedVersion: 2
+        x: 1785
+        y: 502
+        width: 79
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b5914c50fc135a70800000000000000
+      internalID: 8814420714359723445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_7
+      rect:
+        serializedVersion: 2
+        x: 2069
+        y: 498
+        width: 79
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26b1da34fa0f23220800000000000000
+      internalID: 2464296581670443874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_8
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 337
+        width: 78
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba84f64f1b3d43d70800000000000000
+      internalID: 9022068714793552043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_9
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 343
+        width: 79
+        height: 131
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fde5856531ec1b7d0800000000000000
+      internalID: -2904313702228926753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_10
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 346
+        width: 75
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 306c51371b23d79f0800000000000000
+      internalID: -469163048455256573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_11
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 348
+        width: 78
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a4f1276d0acc6320800000000000000
+      internalID: 2552637247725892774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_12
+      rect:
+        serializedVersion: 2
+        x: 1218
+        y: 349
+        width: 92
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1efbf7c5d7b2f3e60800000000000000
+      internalID: 7944116085127626721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_13
+      rect:
+        serializedVersion: 2
+        x: 1499
+        y: 353
+        width: 102
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f5b43758564ed1a0800000000000000
+      internalID: -6782906643539249674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_14
+      rect:
+        serializedVersion: 2
+        x: 1779
+        y: 349
+        width: 110
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ac186cff0852cc20800000000000000
+      internalID: 3225237108833131689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_15
+      rect:
+        serializedVersion: 2
+        x: 2062
+        y: 349
+        width: 97
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b8d102131deaa440800000000000000
+      internalID: 4948027806782183600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_16
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 191
+        width: 80
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7a3530f8ff3e3e30800000000000000
+      internalID: 4485092617322052220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_17
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 186
+        width: 80
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef69f721967d89a30800000000000000
+      internalID: 4222361496941729534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_18
+      rect:
+        serializedVersion: 2
+        x: 664
+        y: 185
+        width: 80
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 538126554c271c650800000000000000
+      internalID: 6251403945338607669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_19
+      rect:
+        serializedVersion: 2
+        x: 942
+        y: 189
+        width: 79
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cde3f859c822bd9b0800000000000000
+      internalID: -5054408169593291044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_20
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 190
+        width: 80
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1673bfb2b698be880800000000000000
+      internalID: -8580613571631958175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_21
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 191
+        width: 82
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 410b2de3ecc5f2540800000000000000
+      internalID: 4985305353409441812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_22
+      rect:
+        serializedVersion: 2
+        x: 1781
+        y: 195
+        width: 86
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f14e6e2200c1f8e0800000000000000
+      internalID: -1661335671921557004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_23
+      rect:
+        serializedVersion: 2
+        x: 2066
+        y: 194
+        width: 84
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82b73bef3cc504d40800000000000000
+      internalID: 5566551136291486504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_24
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 37
+        width: 79
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba8ecec7fac8f50e0800000000000000
+      internalID: -2278948201083115349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_25
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 33
+        width: 79
+        height: 127
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74618fb9f2453dc30800000000000000
+      internalID: 4382939425818547783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_26
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 36
+        width: 78
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b832ef4af590e200800000000000000
+      internalID: 207330485173631160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_27
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 34
+        width: 81
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9044097576c652500800000000000000
+      internalID: 370821735434437641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_28
+      rect:
+        serializedVersion: 2
+        x: 1223
+        y: 34
+        width: 79
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86c73d6a0b71ecce0800000000000000
+      internalID: -1383141988075602840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_29
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 37
+        width: 81
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24ba22d08fb157830800000000000000
+      internalID: 4068188590585326402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_30
+      rect:
+        serializedVersion: 2
+        x: 1784
+        y: 37
+        width: 80
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61c1ff94868f2c900800000000000000
+      internalID: 703397618624961558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: arowana_31
+      rect:
+        serializedVersion: 2
+        x: 2067
+        y: 37
+        width: 78
+        height: 123
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8af3d6f73e8de590800000000000000
+      internalID: -7643296621562430833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 073e402e74eb9084f881465b628246fb
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      arowana_0: 6400157260507084568
+      arowana_1: 4562171675787993710
+      arowana_10: -469163048455256573
+      arowana_11: 2552637247725892774
+      arowana_12: 7944116085127626721
+      arowana_13: -6782906643539249674
+      arowana_14: 3225237108833131689
+      arowana_15: 4948027806782183600
+      arowana_16: 4485092617322052220
+      arowana_17: 4222361496941729534
+      arowana_18: 6251403945338607669
+      arowana_19: -5054408169593291044
+      arowana_2: 6295497733944439521
+      arowana_20: -8580613571631958175
+      arowana_21: 4985305353409441812
+      arowana_22: -1661335671921557004
+      arowana_23: 5566551136291486504
+      arowana_24: -2278948201083115349
+      arowana_25: 4382939425818547783
+      arowana_26: 207330485173631160
+      arowana_27: 370821735434437641
+      arowana_28: -1383141988075602840
+      arowana_29: 4068188590585326402
+      arowana_3: -6157248853830424916
+      arowana_30: 703397618624961558
+      arowana_31: -7643296621562430833
+      arowana_4: 6201046017429898885
+      arowana_5: -3512307012881325193
+      arowana_6: 8814420714359723445
+      arowana_7: 2464296581670443874
+      arowana_8: 9022068714793552043
+      arowana_9: -2904313702228926753
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

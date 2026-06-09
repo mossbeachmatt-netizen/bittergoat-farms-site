@@ -1,0 +1,1796 @@
+fileFormatVersion: 2
+guid: b7f58690b101ee14dbd02b974e7fdc8b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2866502940677049033
+    second: goldfish_0
+  - first:
+      213: 7325802768105016642
+    second: goldfish_1
+  - first:
+      213: -4127332872836881914
+    second: goldfish_2
+  - first:
+      213: 556413333652398293
+    second: goldfish_3
+  - first:
+      213: -2355176594141892187
+    second: goldfish_4
+  - first:
+      213: -5256971869470826632
+    second: goldfish_5
+  - first:
+      213: -4660937633180585468
+    second: goldfish_6
+  - first:
+      213: -8280052070881570199
+    second: goldfish_7
+  - first:
+      213: 4473785661720445909
+    second: goldfish_8
+  - first:
+      213: 7993039055108868067
+    second: goldfish_9
+  - first:
+      213: -7188278246454761524
+    second: goldfish_10
+  - first:
+      213: -1144163875377040831
+    second: goldfish_11
+  - first:
+      213: 5047547592251978123
+    second: goldfish_12
+  - first:
+      213: 7728512388054283400
+    second: goldfish_13
+  - first:
+      213: 6536232185015982582
+    second: goldfish_14
+  - first:
+      213: 6661656070108924227
+    second: goldfish_15
+  - first:
+      213: -2976440166579539060
+    second: goldfish_16
+  - first:
+      213: -2641511812683975096
+    second: goldfish_17
+  - first:
+      213: 6560434159594216597
+    second: goldfish_18
+  - first:
+      213: 5936413242942829851
+    second: goldfish_19
+  - first:
+      213: -6350815791121675845
+    second: goldfish_20
+  - first:
+      213: -1347179226706568504
+    second: goldfish_21
+  - first:
+      213: 6102250422441718216
+    second: goldfish_22
+  - first:
+      213: 5748516315807932410
+    second: goldfish_23
+  - first:
+      213: 7488561505494660353
+    second: goldfish_24
+  - first:
+      213: 2383510189620441931
+    second: goldfish_25
+  - first:
+      213: 5256682846816315757
+    second: goldfish_26
+  - first:
+      213: -8941959187270581572
+    second: goldfish_27
+  - first:
+      213: 6558905058182820692
+    second: goldfish_28
+  - first:
+      213: 6156485380193423772
+    second: goldfish_29
+  - first:
+      213: -6241734282031858786
+    second: goldfish_30
+  - first:
+      213: -4983720611226088935
+    second: goldfish_31
+  - first:
+      213: -6364563066212370086
+    second: goldfish_32
+  - first:
+      213: -6965127318828805204
+    second: goldfish_33
+  - first:
+      213: 8746966233393683190
+    second: goldfish_34
+  - first:
+      213: -8082353884493996916
+    second: goldfish_35
+  - first:
+      213: 6262148635625722747
+    second: goldfish_36
+  - first:
+      213: 6793502425361358027
+    second: goldfish_37
+  - first:
+      213: -641655397689003612
+    second: goldfish_38
+  - first:
+      213: -4048726658904010183
+    second: goldfish_39
+  - first:
+      213: 6796986786599957542
+    second: goldfish_40
+  - first:
+      213: -2236977813710335223
+    second: goldfish_41
+  - first:
+      213: 4151269518461913599
+    second: goldfish_42
+  - first:
+      213: 7621650684760614379
+    second: goldfish_43
+  - first:
+      213: 4060758609475418890
+    second: goldfish_44
+  - first:
+      213: 6953008149372525637
+    second: goldfish_45
+  - first:
+      213: -2116746380556284434
+    second: goldfish_46
+  - first:
+      213: 5888264646566085805
+    second: goldfish_47
+  - first:
+      213: 7793027897696618670
+    second: goldfish_48
+  - first:
+      213: -3306311814347460542
+    second: goldfish_49
+  - first:
+      213: 733457075523660489
+    second: goldfish_50
+  - first:
+      213: 2381282972403351660
+    second: goldfish_51
+  - first:
+      213: 3654311441441971307
+    second: goldfish_52
+  - first:
+      213: -1134878795393390737
+    second: goldfish_53
+  - first:
+      213: 1795982277884246529
+    second: goldfish_54
+  - first:
+      213: 3477902186175524652
+    second: goldfish_55
+  - first:
+      213: 5455917007949952777
+    second: goldfish_56
+  - first:
+      213: 6746325062253676824
+    second: goldfish_57
+  - first:
+      213: 654756071971218847
+    second: goldfish_58
+  - first:
+      213: 216904528631780676
+    second: goldfish_59
+  - first:
+      213: -524510431593902328
+    second: goldfish_60
+  - first:
+      213: -2260892445013873427
+    second: goldfish_61
+  - first:
+      213: -5632417885937922512
+    second: goldfish_62
+  - first:
+      213: -6763100036049236992
+    second: goldfish_63
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: goldfish_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2877
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ca0ba6bc3dd7c720800000000000000
+      internalID: 2866502940677049033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_1
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2877
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24d0977cdca7aa560800000000000000
+      internalID: 7325802768105016642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_2
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2877
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 602e3c4ae94c8b6c0800000000000000
+      internalID: -4127332872836881914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2877
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d064ac9af6c8b700800000000000000
+      internalID: 556413333652398293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_4
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2877
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a1bbdaad5bb05fd0800000000000000
+      internalID: -2355176594141892187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_5
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2877
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87f58f5ffeb7b07b0800000000000000
+      internalID: -5256971869470826632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_6
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2877
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4027506dae5015fb0800000000000000
+      internalID: -4660937633180585468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_7
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 2877
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 962dd59d288571d80800000000000000
+      internalID: -8280052070881570199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2466
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d345103b54161e30800000000000000
+      internalID: 4473785661720445909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_9
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2466
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e78693fbaafcee60800000000000000
+      internalID: 7993039055108868067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_10
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2466
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc7656d150b1e3c90800000000000000
+      internalID: -7188278246454761524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_11
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2466
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1423153740d1f10f0800000000000000
+      internalID: -1144163875377040831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_12
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2466
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b81be07cacd7c0640800000000000000
+      internalID: 5047547592251978123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_13
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2466
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8847e2cc111314b60800000000000000
+      internalID: 7728512388054283400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_14
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2466
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f95a55ba8c55ba50800000000000000
+      internalID: 6536232185015982582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_15
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 2466
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 349caaa96e4f27c50800000000000000
+      internalID: 6661656070108924227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2055
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8372d7307f81b6d0800000000000000
+      internalID: -2976440166579539060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_17
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2055
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84639fe6007775bd0800000000000000
+      internalID: -2641511812683975096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_18
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2055
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59c93f60c185b0b50800000000000000
+      internalID: 6560434159594216597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_19
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2055
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1538895460626250800000000000000
+      internalID: 5936413242942829851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_20
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2055
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb94040afae5dd7a0800000000000000
+      internalID: -6350815791121675845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_21
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2055
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ca9e5781abdd4de0800000000000000
+      internalID: -1347179226706568504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_22
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2055
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c1bd189d6c8fa450800000000000000
+      internalID: 6102250422441718216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_23
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 2055
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: affd44dd125d6cf40800000000000000
+      internalID: 5748516315807932410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1644
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1057cad5307bce760800000000000000
+      internalID: 7488561505494660353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_25
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1644
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b43b9da93ede31120800000000000000
+      internalID: 2383510189620441931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_26
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1644
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d692065b23d73f840800000000000000
+      internalID: 5256682846816315757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_27
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1644
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb242b6ee77c7e380800000000000000
+      internalID: -8941959187270581572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_28
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1644
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 453ff7c5669e50b50800000000000000
+      internalID: 6558905058182820692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_29
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1644
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c919057b5da307550800000000000000
+      internalID: 6156485380193423772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_30
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1644
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9bfc199db7e069a0800000000000000
+      internalID: -6241734282031858786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_31
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 1644
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91a831c428446dab0800000000000000
+      internalID: -4983720611226088935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1233
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5937d7bc978ca7a0800000000000000
+      internalID: -6364563066212370086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_33
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 1233
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca317d93b95e65f90800000000000000
+      internalID: -6965127318828805204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_34
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1233
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fa54c32277736970800000000000000
+      internalID: 8746966233393683190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_35
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1233
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8c9cb5d6f5b5df80800000000000000
+      internalID: -8082353884493996916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_36
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1233
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b731b2d710f97e650800000000000000
+      internalID: 6262148635625722747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_37
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1233
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcc1b6c567e574e50800000000000000
+      internalID: 6793502425361358027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_38
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1233
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a1f880c0d16817f0800000000000000
+      internalID: -641655397689003612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_39
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 1233
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9325f570e8800d7c0800000000000000
+      internalID: -4048726658904010183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 822
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 624705e687fb35e50800000000000000
+      internalID: 6796986786599957542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_41
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 822
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9039d5bc788a4f0e0800000000000000
+      internalID: -2236977813710335223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_42
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 822
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff944d6f1a54c9930800000000000000
+      internalID: 4151269518461913599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_43
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 822
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be5e443aaea85c960800000000000000
+      internalID: 7621650684760614379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_44
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 822
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0b3464c076ba5830800000000000000
+      internalID: 4060758609475418890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_45
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 822
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54cdebfb21c0e7060800000000000000
+      internalID: 6953008149372525637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_46
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 822
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eed4953c16ecf92e0800000000000000
+      internalID: -2116746380556284434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_47
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 822
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da4001aaf7157b150800000000000000
+      internalID: 5888264646566085805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 411
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea88aee6595662c60800000000000000
+      internalID: 7793027897696618670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_49
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 411
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24074252cee9d12d0800000000000000
+      internalID: -3306311814347460542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_50
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 411
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9caa59cf253cd2a00800000000000000
+      internalID: 733457075523660489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_51
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 411
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c60c9cf2f340c0120800000000000000
+      internalID: 2381282972403351660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_52
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 411
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6c5bc505e8b6b230800000000000000
+      internalID: 3654311441441971307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_53
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 411
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6724799fb91040f0800000000000000
+      internalID: -1134878795393390737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_54
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 411
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10aff20cd5c9ce810800000000000000
+      internalID: 1795982277884246529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_55
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 411
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2feb829c9df34030800000000000000
+      internalID: 3477902186175524652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9077edeac9f47bb40800000000000000
+      internalID: 5455917007949952777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_57
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81902fa86e2cf9d50800000000000000
+      internalID: 6746325062253676824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_58
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f95ef5cad29261900800000000000000
+      internalID: 654756071971218847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_59
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44555430589920300800000000000000
+      internalID: 216904528631780676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_60
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80fcbdb9a8098b8f0800000000000000
+      internalID: -524510431593902328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_61
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dec659bcc42bf90e0800000000000000
+      internalID: -2260892445013873427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_62
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03e0d1a46c1a5d1b0800000000000000
+      internalID: -5632417885937922512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goldfish_63
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 0
+        width: 256
+        height: 411
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00c8ad28954a422a0800000000000000
+      internalID: -6763100036049236992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 23d2439473a681f4b88df5bf0d83c734
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":256.0,"y":411.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      goldfish_0: 2866502940677049033
+      goldfish_1: 7325802768105016642
+      goldfish_10: -7188278246454761524
+      goldfish_11: -1144163875377040831
+      goldfish_12: 5047547592251978123
+      goldfish_13: 7728512388054283400
+      goldfish_14: 6536232185015982582
+      goldfish_15: 6661656070108924227
+      goldfish_16: -2976440166579539060
+      goldfish_17: -2641511812683975096
+      goldfish_18: 6560434159594216597
+      goldfish_19: 5936413242942829851
+      goldfish_2: -4127332872836881914
+      goldfish_20: -6350815791121675845
+      goldfish_21: -1347179226706568504
+      goldfish_22: 6102250422441718216
+      goldfish_23: 5748516315807932410
+      goldfish_24: 7488561505494660353
+      goldfish_25: 2383510189620441931
+      goldfish_26: 5256682846816315757
+      goldfish_27: -8941959187270581572
+      goldfish_28: 6558905058182820692
+      goldfish_29: 6156485380193423772
+      goldfish_3: 556413333652398293
+      goldfish_30: -6241734282031858786
+      goldfish_31: -4983720611226088935
+      goldfish_32: -6364563066212370086
+      goldfish_33: -6965127318828805204
+      goldfish_34: 8746966233393683190
+      goldfish_35: -8082353884493996916
+      goldfish_36: 6262148635625722747
+      goldfish_37: 6793502425361358027
+      goldfish_38: -641655397689003612
+      goldfish_39: -4048726658904010183
+      goldfish_4: -2355176594141892187
+      goldfish_40: 6796986786599957542
+      goldfish_41: -2236977813710335223
+      goldfish_42: 4151269518461913599
+      goldfish_43: 7621650684760614379
+      goldfish_44: 4060758609475418890
+      goldfish_45: 6953008149372525637
+      goldfish_46: -2116746380556284434
+      goldfish_47: 5888264646566085805
+      goldfish_48: 7793027897696618670
+      goldfish_49: -3306311814347460542
+      goldfish_5: -5256971869470826632
+      goldfish_50: 733457075523660489
+      goldfish_51: 2381282972403351660
+      goldfish_52: 3654311441441971307
+      goldfish_53: -1134878795393390737
+      goldfish_54: 1795982277884246529
+      goldfish_55: 3477902186175524652
+      goldfish_56: 5455917007949952777
+      goldfish_57: 6746325062253676824
+      goldfish_58: 654756071971218847
+      goldfish_59: 216904528631780676
+      goldfish_6: -4660937633180585468
+      goldfish_60: -524510431593902328
+      goldfish_61: -2260892445013873427
+      goldfish_62: -5632417885937922512
+      goldfish_63: -6763100036049236992
+      goldfish_7: -8280052070881570199
+      goldfish_8: 4473785661720445909
+      goldfish_9: 7993039055108868067
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

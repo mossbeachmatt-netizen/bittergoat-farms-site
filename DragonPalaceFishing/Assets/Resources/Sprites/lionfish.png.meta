@@ -1,0 +1,782 @@
+fileFormatVersion: 2
+guid: 646ce8d60a224994aa8c6ba2f6476b3d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5899267059887346762
+    second: lionfish_0
+  - first:
+      213: 6404915557233585251
+    second: lionfish_1
+  - first:
+      213: 5924196312877838441
+    second: lionfish_2
+  - first:
+      213: 6473007291023672982
+    second: lionfish_3
+  - first:
+      213: -8628489918477886686
+    second: lionfish_4
+  - first:
+      213: -3052361641200920526
+    second: lionfish_5
+  - first:
+      213: 775503434397738066
+    second: lionfish_6
+  - first:
+      213: 8470105048814298662
+    second: lionfish_7
+  - first:
+      213: -7501017292207414052
+    second: lionfish_8
+  - first:
+      213: 4142245967361077661
+    second: lionfish_9
+  - first:
+      213: 7501163267397662933
+    second: lionfish_10
+  - first:
+      213: 5654132859176113268
+    second: lionfish_11
+  - first:
+      213: 2041612636750877618
+    second: lionfish_12
+  - first:
+      213: -2246050986541809138
+    second: lionfish_13
+  - first:
+      213: 8876700494988802825
+    second: lionfish_14
+  - first:
+      213: 1564050135360766934
+    second: lionfish_15
+  - first:
+      213: 2324991840082471018
+    second: lionfish_16
+  - first:
+      213: 3540290103679168981
+    second: lionfish_17
+  - first:
+      213: 3782777169577955980
+    second: lionfish_18
+  - first:
+      213: 4388342383866892799
+    second: lionfish_19
+  - first:
+      213: -90582363694028207
+    second: lionfish_20
+  - first:
+      213: -6705794064598502795
+    second: lionfish_21
+  - first:
+      213: 7636994902778840929
+    second: lionfish_22
+  - first:
+      213: 7156133081937372463
+    second: lionfish_23
+  - first:
+      213: 3413846520013616901
+    second: lionfish_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: lionfish_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 905
+        width: 276
+        height: 149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a449fb3a2286ed150800000000000000
+      internalID: 5899267059887346762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_1
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 887
+        width: 274
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36ce74db3c4d2e850800000000000000
+      internalID: 6404915557233585251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_2
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 879
+        width: 270
+        height: 203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96033c8a829f63250800000000000000
+      internalID: 5924196312877838441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_3
+      rect:
+        serializedVersion: 2
+        x: 1021
+        y: 882
+        width: 268
+        height: 197
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 696caf1f5ddb4d950800000000000000
+      internalID: 6473007291023672982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_4
+      rect:
+        serializedVersion: 2
+        x: 1354
+        y: 878
+        width: 272
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22b16158222714880800000000000000
+      internalID: -8628489918477886686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_5
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 657
+        width: 278
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 238d03a6245d3a5d0800000000000000
+      internalID: -3052361641200920526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_6
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 662
+        width: 282
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2546f59c34423ca00800000000000000
+      internalID: 775503434397738066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_7
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 681
+        width: 280
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 626a1d45aabdb8570800000000000000
+      internalID: 8470105048814298662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_8
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 671
+        width: 278
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd42aebc38807e790800000000000000
+      internalID: -7501017292207414052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_9
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 658
+        width: 276
+        height: 210
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d91f9d0c2c63c7930800000000000000
+      internalID: 4142245967361077661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_10
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 443
+        width: 272
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d83273bf3c791860800000000000000
+      internalID: 7501163267397662933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_11
+      rect:
+        serializedVersion: 2
+        x: 378
+        y: 441
+        width: 273
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4745e08e0e3877e40800000000000000
+      internalID: 5654132859176113268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_12
+      rect:
+        serializedVersion: 2
+        x: 712
+        y: 460
+        width: 277
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b31c7e40e3455c10800000000000000
+      internalID: 2041612636750877618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_13
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 467
+        width: 281
+        height: 153
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0282cf178c64d0e0800000000000000
+      internalID: -2246050986541809138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_14
+      rect:
+        serializedVersion: 2
+        x: 1378
+        y: 445
+        width: 285
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90b7755c110603b70800000000000000
+      internalID: 8876700494988802825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_15
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 267
+        width: 290
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d38419bf4f94b510800000000000000
+      internalID: 1564050135360766934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_16
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 274
+        width: 291
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a682ccd92c7044020800000000000000
+      internalID: 2324991840082471018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_17
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 246
+        width: 292
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d1b0af8713a12130800000000000000
+      internalID: 3540290103679168981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_18
+      rect:
+        serializedVersion: 2
+        x: 1034
+        y: 227
+        width: 284
+        height: 194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c82d6213bcf1f7430800000000000000
+      internalID: 3782777169577955980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_19
+      rect:
+        serializedVersion: 2
+        x: 1370
+        y: 234
+        width: 281
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff15d2fc52686ec30800000000000000
+      internalID: 4388342383866892799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_20
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 6
+        width: 274
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15a2a15f1df2ebef0800000000000000
+      internalID: -90582363694028207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_21
+      rect:
+        serializedVersion: 2
+        x: 375
+        y: 10
+        width: 278
+        height: 199
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 572feaab3db30f2a0800000000000000
+      internalID: -6705794064598502795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_22
+      rect:
+        serializedVersion: 2
+        x: 703
+        y: 18
+        width: 288
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1670a9bc66e0cf960800000000000000
+      internalID: 7636994902778840929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_23
+      rect:
+        serializedVersion: 2
+        x: 1037
+        y: 13
+        width: 292
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f256c4a8f11bf4360800000000000000
+      internalID: 7156133081937372463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lionfish_24
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 21
+        width: 290
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5077d17925b606f20800000000000000
+      internalID: 3413846520013616901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 62951dc3bd601a447b5308da5e31c696
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      lionfish_0: 5899267059887346762
+      lionfish_1: 6404915557233585251
+      lionfish_10: 7501163267397662933
+      lionfish_11: 5654132859176113268
+      lionfish_12: 2041612636750877618
+      lionfish_13: -2246050986541809138
+      lionfish_14: 8876700494988802825
+      lionfish_15: 1564050135360766934
+      lionfish_16: 2324991840082471018
+      lionfish_17: 3540290103679168981
+      lionfish_18: 3782777169577955980
+      lionfish_19: 4388342383866892799
+      lionfish_2: 5924196312877838441
+      lionfish_20: -90582363694028207
+      lionfish_21: -6705794064598502795
+      lionfish_22: 7636994902778840929
+      lionfish_23: 7156133081937372463
+      lionfish_24: 3413846520013616901
+      lionfish_3: 6473007291023672982
+      lionfish_4: -8628489918477886686
+      lionfish_5: -3052361641200920526
+      lionfish_6: 775503434397738066
+      lionfish_7: 8470105048814298662
+      lionfish_8: -7501017292207414052
+      lionfish_9: 4142245967361077661
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
