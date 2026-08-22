@@ -192,6 +192,7 @@
       <span class="sg-label">Bet $</span>
       <input type="number" id="sg-bet" value="10" min="1" max="500" step="1">
       <button id="sg-btn" onclick="sgAct()">Launch</button>
+      <button id="sg-home" title="Back to Hub" style="background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.2);border-radius:8px;padding:0 12px;color:#fff;font-size:16px;cursor:pointer;">🏠</button>
     </div>
     <div class="sg-info">
       <span>Balance: $<span id="sg-bal">1000.00</span></span>
@@ -219,6 +220,30 @@
   // ── State ────────────────────────────────────────────────────
   let gs = 'IDLE', mult = 1, crashPt = 0;
   let bal = 1000, bet = 10;
+
+  // ── Bittergoat hub integration ──────────────────────────────
+  // Runs standalone (falls back to the 1000 default above) or
+  // launched from casino-hub, in which case it inherits the player's
+  // real coin balance and reports changes back. Folder layout:
+  //   public/casino-hub/js/gameBridge.js
+  //   public/games/rocket/index.html   <- this file
+  let GameBridge = null;
+  let bridgeReady = false;
+  let lastSyncedBalance = bal;
+  (async function initBridge(){
+    try {
+      GameBridge = await import('../../casino-hub/js/gameBridge.js');
+      const summary = GameBridge.getPlayerSummary();
+      bal = summary.coins;
+      lastSyncedBalance = bal;
+      uUI();
+    } catch (e) {
+      console.warn('Hub bridge unavailable, using local balance', e);
+    } finally {
+      bridgeReady = true;
+    }
+  })();
+
   let cashedOut = false, coMult = 0, coX = 0, coY = 0;
   let stars = [], parts = [], trail = [], clouds = [], lRing = 0;
   let lsx = 0, lsy = 0, ex = 0, ey = 0;
@@ -558,6 +583,8 @@
     bet = Math.max(1, Math.min(500, parseFloat(document.getElementById('sg-bet').value) || 10));
     if (bet > bal) { sSt('Insufficient balance!','#e24b4a'); return; }
     bal -= bet; uUI();
+    // Level progress on the hub is driven by cumulative gold bet.
+    if (bridgeReady && GameBridge) GameBridge.reportBet(Math.round(bet));
     crashPt = genCrash();
     mult = 1; parts = []; trail = []; lRing = 0;
     cashedOut = false; coMult = 0; coX = 0; coY = 0;
@@ -655,7 +682,16 @@
   function sPh(t) { document.getElementById('sg-phase').textContent = t; }
   function sSt(t, col) { const e=document.getElementById('sg-stat'); e.textContent=t; e.style.color=col||'#8899cc'; }
   function sW(t) { document.getElementById('sg-win').textContent = t; }
-  function uUI() { document.getElementById('sg-bal').textContent = bal.toFixed(2); }
+  function uUI() {
+    document.getElementById('sg-bal').textContent = bal.toFixed(2);
+    if (bridgeReady && GameBridge) {
+      const delta = bal - lastSyncedBalance;
+      if (Math.abs(delta) >= 0.01) {
+        GameBridge.reportCoins(Math.round(delta));
+        lastSyncedBalance = bal;
+      }
+    }
+  }
   function updCtrl() { if (cashedOut) { sBt('watch'); return; } if (gs==='FLYING'||gs==='DESCENDING') sBt('co'); }
 
   // Button styles applied via JS inline to guarantee override of any browser defaults
@@ -690,6 +726,14 @@
     if (gs === 'IDLE') startGame();
     else if ((gs === 'FLYING' || gs === 'DESCENDING') && !cashedOut) doCashout();
   };
+
+  document.getElementById('sg-home').addEventListener('click', () => {
+    if (GameBridge) {
+      GameBridge.returnToHub();
+    } else {
+      window.location.href = '../../casino-hub/';
+    }
+  });
 
   // ── Boot ─────────────────────────────────────────────────────
   initScene();

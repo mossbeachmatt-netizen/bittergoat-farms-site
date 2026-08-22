@@ -938,6 +938,7 @@
           <div class="stat-pill"><span class="stat-label">Balance</span><span class="stat-value" id="balance-val">1,000</span></div>
           <div class="stat-pill"><span class="stat-label">Last Win</span><span class="stat-value win" id="win-val">0</span></div>
           <div class="stat-pill"><span class="stat-label">Bet</span><span class="stat-value" id="bet-val">10</span></div>
+          <button id="back-to-hub-btn" title="Back to Hub" style="background:rgba(0,0,0,0.45);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:4px 10px;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;">🏠</button>
           <button id="sound-btn" title="Sound off" style="background:rgba(0,0,0,0.45);border:0.5px solid rgba(255,255,255,0.2);border-radius:20px;padding:4px 10px;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;">🔇</button>
         </div>
         <div class="ctrl-row">
@@ -1304,6 +1305,33 @@ const LINE_COLORS = [
 ];
 
 let balance=1000,betPerLine=10,activeLines=[0],spinning=false;
+
+// --- Bittergoat hub integration ---
+// This game can run standalone (falls back to the 1000 default above) or
+// launched from casino-hub, in which case it inherits the player's real
+// coin balance and reports changes back. Folder layout is:
+//   public/casino-hub/js/gameBridge.js
+//   public/games/golden-farms/index.html   <- this file
+// so from here it's two levels up to public/, then into casino-hub/js/.
+let GameBridge = null;
+let bridgeReady = false;
+let lastSyncedBalance = balance;
+(async function initBridge(){
+  try {
+    GameBridge = await import('../../casino-hub/js/gameBridge.js');
+    const summary = GameBridge.getPlayerSummary();
+    balance = summary.coins;
+    lastSyncedBalance = balance;
+    updateBalanceDisplay();
+  } catch (e) {
+    // Not running inside the hub (e.g. opened this file directly) —
+    // just play with the local default balance.
+    console.warn('Hub bridge unavailable, using local balance', e);
+  } finally {
+    bridgeReady = true;
+  }
+})();
+
 let autoPlay=false,autoTimer=null,grid=[],freeSpinsLeft=0;
 let freeSpinTotalWin=0;
 let troughBonusActive=false;
@@ -1505,7 +1533,20 @@ function buildPaylineButtons(){
 }
 
 function updateBetDisplay(){document.getElementById('bet-val').textContent=(betPerLine*activeLines.length).toLocaleString();}
-function updateBalanceDisplay(){document.getElementById('balance-val').textContent=balance.toLocaleString();}
+function updateBalanceDisplay(){
+  document.getElementById('balance-val').textContent=balance.toLocaleString();
+  // Every place in this file that changes `balance` already calls this
+  // function right after, so this is the single choke point for syncing
+  // back to the hub's shared save — no need to touch every win/bet/cheat
+  // site individually.
+  if (bridgeReady && GameBridge) {
+    const delta = balance - lastSyncedBalance;
+    if (delta !== 0) {
+      GameBridge.reportCoins(delta);
+      lastSyncedBalance = balance;
+    }
+  }
+}
 function setMsg(txt,cls=''){const el=document.getElementById('msg-bar');el.textContent=txt;el.className=cls;}
 function clearWinHighlights(){
   if(paylineCycleTimer){ clearInterval(paylineCycleTimer); paylineCycleTimer=null; }
@@ -1681,7 +1722,13 @@ function spin(){
   const cost=isFree?0:betPerLine*activeLines.length;
   if(!isFree&&balance<cost){setMsg('Insufficient balance');return;}
   spinning=true; clearWinHighlights(); updateScatterDots(0);
-  if(!isFree){balance-=cost;updateBalanceDisplay();}
+  if(!isFree){
+    balance-=cost;
+    updateBalanceDisplay();
+    // Level progress on the hub is driven by cumulative gold bet, not
+    // winnings — free spins don't count since cost is 0 for those.
+    if (bridgeReady && GameBridge) GameBridge.reportBet(cost);
+  }
   stopRollup();
   document.getElementById('win-val').textContent='0';
   document.getElementById('spin-btn').disabled=true;
@@ -2736,6 +2783,15 @@ function cheatFeedback(msg, isError=false) {
   el.style.color = isError ? '#ff6b6b' : '#7CFC00';
   setTimeout(()=>{ el.textContent = ''; }, 2000);
 }
+
+document.getElementById('back-to-hub-btn').addEventListener('click', ()=>{
+  if (GameBridge) {
+    GameBridge.returnToHub();
+  } else {
+    // Standalone fallback — go up to where casino-hub would be.
+    window.location.href = '../../casino-hub/';
+  }
+});
 
 document.getElementById('cheat-add-funds').addEventListener('click', ()=>{
   const amt = parseInt(document.getElementById('cheat-amount').value) || 0;

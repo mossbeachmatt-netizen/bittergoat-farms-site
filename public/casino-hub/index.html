@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Golden Bear Casino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Nunito+Sans:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/hub.css">
+</head>
+<body>
+
+<!-- Shown only if the device is held in portrait — this game is landscape-only -->
+<div class="orientation-lock">
+  <div class="orientation-lock__icon">&#128241;</div>
+  <p class="orientation-lock__text">Please rotate your device to landscape to play.</p>
+</div>
+
+<!-- Full-bleed animated background, fixed behind everything -->
+<video class="hero-bg" autoplay muted loop playsinline preload="auto">
+  <source src="assets/backgrounds/hero-bg.mp4" type="video/mp4">
+</video>
+<div class="hero-bg-overlay"></div>
+
+<div class="hub">
+
+  <div class="status-row">
+    <div id="level-progress" class="level-row"></div>
+    <div class="stat-pill coin-pill coin-pill--large">
+      <span class="stat-pill__icon">🪙</span>
+      <span id="coin-odometer" class="stat-pill__value"></span>
+      <button id="add-coins-btn" class="plus-btn" type="button" aria-label="Buy coins">+</button>
+    </div>
+    <div class="stat-pill gem-pill gem-pill--large">
+      <span class="stat-pill__icon">💎</span>
+      <span id="gem-odometer" class="stat-pill__value"></span>
+      <button id="add-gems-btn" class="plus-btn" type="button" aria-label="Buy gems">+</button>
+    </div>
+    <button id="music-btn" class="gear-btn" type="button" aria-label="Toggle music">&#128266;</button>
+    <button id="open-settings" class="gear-btn" type="button" aria-label="Settings">&#9881;&#65039;</button>
+  </div>
+
+  <audio id="bg-music" src="assets/audio/jade-menu.mp3" loop preload="auto"></audio>
+
+  <div class="hub-spacer"></div>
+
+  <p class="section-label">GAMES</p>
+  <div id="game-grid" class="game-strip"></div>
+
+</div>
+
+<!-- Daily wheel renders here as a dismissible first-run modal -->
+<div id="daily-modal-root"></div>
+
+<div id="modal-root"></div>
+
+<script type="module" src="js/hubScreen.js"></script>
+</body>
+</html>
