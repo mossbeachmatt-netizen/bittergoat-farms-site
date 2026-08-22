@@ -51,6 +51,20 @@ export default function BittergoatFarmsHomepage() {
       badge: "New",
       image: "/images/games/fame-fighters.jpg",
 },
+    {
+      title: "Golden Bear Casino",
+      category: "Casino",
+      description: "A social casino hub with daily rewards, leveling, and a growing lineup of games.",
+      badge: "New",
+      image: "/images/games/golden-bear-casino.jpg",
+},
+    {
+      title: "Luck Truck",
+      category: "Casino",
+      description: "A neon big-rig slot machine loaded with wild wins.",
+      badge: "New",
+      image: "/images/games/luck-truck.jpg",
+},
 
   ];
 
@@ -65,6 +79,8 @@ export default function BittergoatFarmsHomepage() {
     { title: "Horse Racing", category: "Casino" },
     { title: "Dragon Palace", category: "Arcade" },
     { title: "Fame Fighters", category: "Arcade" },
+    { title: "Golden Bear Casino", category: "Casino" },
+    { title: "Luck Truck", category: "Casino" },
   ];
 
   const gameUrl = (title) => {
@@ -85,10 +101,14 @@ export default function BittergoatFarmsHomepage() {
         return "/games/rocket/index.html";
       case "Dragon Palace":
         return "/games/dragon-palace/index.html";
-      case "Fame Fighters":
+      case "Horse Racing":
         return "/games/horse-racing/index.html";
       case "Fame Fighters":
         return "/games/fame-fighters/index.html";
+      case "Golden Bear Casino":
+        return "/casino-hub/index.html";
+      case "Luck Truck":
+        return "/games/luck-truck/index.html";
       default:
         return "#";
     }
